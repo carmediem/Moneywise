@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import UIKit
 
 extension Category {
     @discardableResult convenience init(id: UUID, name: String, type: String, context: NSManagedObjectContext = CoreDataStack.context) {
@@ -14,49 +15,31 @@ extension Category {
         self.name = name
         self.type = type
     }
+
+    
+    enum Categories: String {
+        case DiningOut = "iconDiningOut"
+        case Education = "iconEducation"
+        case Entertainment = "iconEntertainment"
+        case Fitness = "iconFitness"
+        case Gift = "iconGift"
+        case Grocery = "iconGrocery"
+        case Healthcare = "iconHealthcare"
+        case Housing = "iconHousing"
+        case Others = "iconOthers"
+        case Shopping = "iconShopping"
+        case Transportation = "iconTransportation"
+        case Utilities = "iconUtilities"
+        case Vacation = "iconVacation"
+        case Income = "iconIncome"
+        case Investment = "iconInvestment"
+        case Savings = "iconSavings"
+        
+    
+        enum ExpenseType {
+            case income
+            case expense
+            case all
+        }
 }
-
-enum Categories {
-        case DiningOut
-        case Education
-        case Entertainment
-        case Fitness
-        case Gift
-        case Grocery
-        case Healthcare
-        case Housing
-        case Others
-        case Shopping
-        case Transportation
-        case Utilities
-        case Vacation
-        case Income
-        case Investment
-        case Savings
 }
-
-enum ExpenseType {
-    case income
-    case expense
-    case all
-}
-
-
-
-
-//    DiningOut = "fork.knife"
-//     Education = "books.vertical"
-//     Entertainment = "popcorn"
-//     Fitness = "figure.run"
-//     Gift = "gift"
-//     Grocery = "cart"
-//     Healthcare = "cross.vial"
-//     Housing = "house"
-//     Others = "face.smiling"
-//     Shopping = "bag"
-//     Transportation = "car"
-//     Utilities
-//     Vacations = "wineglass"
-//     Income = "dollarsign"
-//     Investment = "bitcoinsign"
-//     Savings = "banknote"

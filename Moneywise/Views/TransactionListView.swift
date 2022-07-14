@@ -9,84 +9,102 @@ import SwiftUI
 
 struct TransactionListView: View {
     
-    @ObservedObject var viewModel = TransactionListViewModel()
+    @State var viewModel = TransactionListViewModel()
     
     var body: some View {
         NavigationView {
-            ScrollView {
-//                VStack {
-                    // MARK: Header Title
-                    Text("Recent Transactions")
-                        .bold()
-                        .offset(x: -90, y: -30)
+                VStack {
+                    //MARK: -- Search bar
                     
-                //MARK: Searchbar
-                
-                //MARK: Sort by category
-                
-                
-                
-                
+                    //MARK: -- Add button/Save button
+                    
+                    //MARK: -- Filter by data, category, or rating
                     //MARK: List of entries
                     List {
                         ForEach(viewModel.transactions) { transaction in
                             NavigationLink {
                                 //Destination
-                                TransactionDetailView(transaction: transaction, transactionViewModel: viewModel)
-                                
+                               // TransactionDetailView(transaction: transaction, transactionViewModel: viewModel)
+                                TransactionDetailView(transactionViewModel: TransactionListViewModel(), transactionDateText: Date(), transactionNameText:"Lunch on Monday", transactionCategoryText: "Food", transactionMerchantText: "DeliBoard", transactionAmountValue: "$12", transactionReoccuring: false, transactionNoteText: "Sandwich and soda")
                             } label: {
-                                TransactionRowView(transaction: transaction)
-                                    .padding()
-                                    .frame(maxHeight: 115)
+                                HStack {
+                                    Image(Category.Categories.DiningOut.rawValue)
+                                    
+                                    VStack {
+                                        Text(transaction.name ?? "Unknown")
+                                            .bold()
+                                            .font(.headline)
+                                        Text(transaction.category ?? "Unknown")
+                                            .font(.system(size: 14))
+                                        //                Text(String(transaction.date))
+                                        //                    .bold()
+                                    }
+                                    Text(String(transaction.amount))
+                                        .font(.system(size: 14))
+                                }
+                            
+                                
+//                                TransactionRowView(transaction: transaction)
+//                                    .padding()
+//                                    .frame(maxHeight: 115)
                             }
                         }
-                 //add delete from view model
-                    }
-                    
-                }
+                        //      .onDelete(perform: viewModel.removeEntry(indexSet:))
+                    }.navigationTitle("List of Transactions")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem {
+                                NavigationLink {
+                                    
+                                    //MARK:: COME BACKTO THIS
+                                    
+                                 //   TransactionDetailView()
+                                } label: {
+                                    Image(systemName: "plus")
+                                        .symbolRenderingMode(.palette)
+                                        .foregroundStyle(Color.icon)
+                                }
+                            }
+                            
+                        }
+
             }
+            
         }
     }
-//}
+}
+
+
 //MARK: -- TransactionRowView
 
 struct TransactionRowView: View {
     var transaction: Transaction
     var body: some View {
         HStack {
-            //icon
+            Image(Category.Categories.DiningOut.rawValue)
+            
             VStack {
                 Text(transaction.name ?? "Unknown")
                     .bold()
-                .font(.headline)
+                    .font(.headline)
                 Text(transaction.category ?? "Unknown")
                     .font(.system(size: 14))
-//                Text(transaction.date ?? "Unknown")
-//                    .bold()
+                //                Text(String(transaction.date))
+                //                    .bold()
             }
-//            Text(transaction.amount ?? "Unknown"))
-//                .font(.system(size: 14))
-
+            Text(String(transaction.amount))
+                .font(.system(size: 14))
         }
     }
 }
 
 
-//MARK: -- Search bar
-
-//MARK: -- Add button/Save button
-
-//MARK: -- Filter by data, category, or rating
 
 
 
 
 //MARK: -- Formatters
-let monthDateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "MMMM YYYY"
-    return formatter
-}()
+
 
 let currencyFormatter: NumberFormatter = {
     let formatter = NumberFormatter()

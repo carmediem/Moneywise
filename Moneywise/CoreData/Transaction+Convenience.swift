@@ -22,9 +22,15 @@ extension Transaction {
     self.rating = rating
     self.type = type
     }
-    
+}
     enum TransactionType: String {
         case debit = "debit"
         case credit = "credit"
     }
+
+enum ExpenseFilterTime: String {
+    case all
+    case week
+    case month
 }
+

@@ -29,9 +29,15 @@ struct MainPageView: View {
                 
                     .toolbar {
                         ToolbarItem {
+                            Image(systemName: "plus")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(Color.icon)
+                        }
+                        ToolbarItem {
                             Image(systemName: "gear")
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(Color.icon)
+                                
                         }
                         
                     }

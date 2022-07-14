@@ -9,11 +9,34 @@ import Foundation
 import SwiftUI
 
 class TransactionListViewModel: ObservableObject {
-   @Published var transactions: [Transaction] = []
+    
+   @Published var transactions: [Transaction] = [
+    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
+    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
+    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
+    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
+    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
+    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
+    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
+    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
+    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
+    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense")
+   ]
+    
     var color = Color(cgColor: .init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5))
     
-        
+
     
+    func createTransaction(_ transaction: Transaction) {
+        transactions.append(transaction)
+    }
+    
+    //func to update
+    
+    
+    func removeTransaction(indexSet: IndexSet) {
+        transactions.remove(atOffsets: indexSet)
+    }
 
 //MARK: -- CRUD FOR TRANSACTIONS
    //Add transaction
@@ -22,18 +45,21 @@ class TransactionListViewModel: ObservableObject {
     
     
     //MARK: -- Transaction Colors
-    func TransactionColor(type: ExpenseType) -> Color {
+    func TransactionColor(type: Category.Categories.ExpenseType) -> Color {
         switch type  {
-        case ExpenseType.income: return .blue
-        case ExpenseType.expense: return .red
-        case ExpenseType.all: return .black
+        case Category.Categories.ExpenseType.income: return .blue
+        case Category.Categories.ExpenseType.expense: return .red
+        case Category.Categories.ExpenseType.all: return .black
         }
     }
     
     
     
+        //MARK: -- functions for search bar
     
-        //MARK: -- Group by category or sort by category
+    
+//MARK: -- fuction for sort by category
+    
 
     }
 

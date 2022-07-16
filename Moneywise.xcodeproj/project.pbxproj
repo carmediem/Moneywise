@@ -25,6 +25,7 @@
 		28666373287D0FBF00555B76 /* TransactionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28666372287D0FBF00555B76 /* TransactionListViewModel.swift */; };
 		28AE1AE7287E358D001B6C0C /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AE1AE6287E358D001B6C0C /* Welcome.swift */; };
 		28C81D15287E460A000D231B /* TransactionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C81D14287E460A000D231B /* TransactionDetailView.swift */; };
+		28DB6F0D2881B07F00DD0DC5 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DB6F0C2881B07F00DD0DC5 /* EmptyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 		28666372287D0FBF00555B76 /* TransactionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListViewModel.swift; sourceTree = "<group>"; };
 		28AE1AE6287E358D001B6C0C /* Welcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Welcome.swift; sourceTree = "<group>"; };
 		28C81D14287E460A000D231B /* TransactionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailView.swift; sourceTree = "<group>"; };
+		28DB6F0C2881B07F00DD0DC5 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		47299622CB8C2C472029BA02 /* Pods_Moneywise.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moneywise.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D04F424E1D3EA94212345EED /* Pods-Moneywise.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moneywise.debug.xcconfig"; path = "Target Support Files/Pods-Moneywise/Pods-Moneywise.debug.xcconfig"; sourceTree = "<group>"; };
 		D68AD9AFB24300A0E16AF00D /* Pods-Moneywise.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moneywise.release.xcconfig"; path = "Target Support Files/Pods-Moneywise/Pods-Moneywise.release.xcconfig"; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				28160D41287F05F900F6BCDB /* MainPageView.swift */,
 				28666370287D0FA500555B76 /* TransactionListView.swift */,
 				28C81D14287E460A000D231B /* TransactionDetailView.swift */,
+				28DB6F0C2881B07F00DD0DC5 /* EmptyView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				2844A1D2287CB98A00FA342D /* Persistence.swift in Sources */,
 				28160D56287FAB2F00F6BCDB /* Date+Ext.swift in Sources */,
 				2844A1CB287CB98900FA342D /* ContentView2.swift in Sources */,
+				28DB6F0D2881B07F00DD0DC5 /* EmptyView.swift in Sources */,
 				28160D4C287F85FA00F6BCDB /* CoreDataStack.swift in Sources */,
 				28160D52287FA0A100F6BCDB /* DataController.swift in Sources */,
 				28C81D15287E460A000D231B /* TransactionDetailView.swift in Sources */,
@@ -428,6 +432,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Moneywise/Preview Content\"";
+				DEVELOPMENT_TEAM = CG3Y5NGC6T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -457,6 +462,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Moneywise/Preview Content\"";
+				DEVELOPMENT_TEAM = CG3Y5NGC6T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

@@ -23,6 +23,9 @@ class TransactionListViewModel: ObservableObject {
     Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense")
    ]
     
+    //For the search bar 
+    @Published var filteredTransactions = [Transaction]()
+    
     var color = Color(cgColor: .init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5))
     
 
@@ -55,11 +58,26 @@ class TransactionListViewModel: ObservableObject {
     
     
     
-        //MARK: -- functions for search bar
-    
+//MARK: -- functions for search bar
+    func search(with query: String = "") {
+        filteredTransactions = query.isEmpty ? transactions : transactions.filter { $0.name!.contains(query) }
+    }
     
 //MARK: -- fuction for sort by category
     
-
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     }
 

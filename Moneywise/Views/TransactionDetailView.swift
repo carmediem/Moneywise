@@ -12,7 +12,7 @@ struct TransactionDetailView: View {
     @ObservedObject var transactionViewModel: TransactionListViewModel
     
    var transaction = Transaction()
-    @State var transactionDateText: Date
+    @State var transactionDateText: Date = Date()
     @State var transactionNameText: String = ""
     @State var transactionCategoryText: String = ""
     @State var transactionMerchantText: String = ""
@@ -20,7 +20,7 @@ struct TransactionDetailView: View {
     @State var transactionReoccuring: Bool = false
     @State var transactionNoteText: String = ""
     
-    
+    var ifIsNew: Bool
     //    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense")
     //
 
@@ -88,19 +88,41 @@ struct TransactionDetailView: View {
                     }
                 }
             }
+        } .onAppear {
+            if ifIsNew {
+                //***************DO THIS***************
+                transactionDateText = Date()
+                //1. change date in coredata to string. Display the date as a time stamp
+                transactionNameText = "Babyshower gift"
+                 transactionCategoryText = "Gift"
+                transactionMerchantText = "Walmart"
+               transactionAmountValue = "32.01"
+                transactionReoccuring = false
+                     transactionNoteText = "shower for new baby" 
+                
+            } else {
+           //clicked plus button. if i did, this should display the empty form data
+           transactionDateText = Date()
+           transactionNameText = "Babyshower gift"
+            transactionCategoryText = "Gift"
+           transactionMerchantText = "Walmart"
+          transactionAmountValue = "32.01"
+           transactionReoccuring = false
+                transactionNoteText = "shower for new baby" }
         }
+       
     }
+       
 }
-
-
 
 
 
 struct TransactionDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            TransactionDetailView(transactionViewModel: TransactionListViewModel(), transactionDateText: Date(), transactionAmountValue: "")
+            TransactionDetailView(transactionViewModel: TransactionListViewModel(), transactionDateText: Date(), transactionAmountValue: "", ifIsNew: false)
             //   TransactionDetailView(transactionViewModel: TransactionListViewModel())
         }
     }
 }
+

@@ -11,21 +11,32 @@ import SwiftUI
 struct MoneywiseApp: App {
     
     @StateObject private var dataController = DataController()
-//let persistenceController = PersistenceController.shared
-
+    
+    let persistenceController = PersistenceController.shared
+    
     var body: some Scene {
         WindowGroup {
             TabView {
-            MainPageView()
+                MainPageView()
                     .tabItem {
-                    Label("Overview", systemImage: "gear")
+
+                        Label("Overview", systemImage: "chart.pie")
+
                     }
-            TransactionListView()
+                TransactionListView()
                     .tabItem {
-                    Label("List", systemImage: "list.bullet")
+                        Label("List", systemImage: "list.bullet")
                     }
-               .environment(\.managedObjectContext, dataController.container.viewContext)
-        }
+                CurrencyConverterView()
+                    .tabItem {
+                        Label("Converter", systemImage: "dollarsign.circle")
+
+                    }
+                
+                
+                    .environment(\.managedObjectContext, dataController.container.viewContext)
+                
+            }
         }
     }
 }

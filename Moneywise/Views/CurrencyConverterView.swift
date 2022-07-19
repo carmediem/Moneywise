@@ -7,71 +7,70 @@
 
 import SwiftUI
 
-struct CurrencyConverter: View {
+struct CurrencyConverterView: View {
     
-    @State private var itemSelected = 0
-    @State private var itemSelected2 = 1
+    // Things to do
+    // 1. Remove the "from" currency selector from the UI, always be from USD.
+    // 3. move this loading function which grabs the values of the currencies and stuff to happen when the application launches, rather than here on every select / tap. Store in local storage
+    @State private var fromCurrency = 146
+    @State private var toCurrency = 48
     @State private var amount: String = ""
-    private let currencies = ["USD", "EUR", "GBP"]
+    private let currencies = ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BIF","BOB", "BOV", "BRL", "BSD", "BTN", "BWP", "BYN", "BZD", "CAD", "CHE", "CHF", "CHW", "CLF", "CLP", "CNY", "COP", "COU", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EFP", "ERN", "ETB", "EUR", "FJD", "FKP", "GBP", "GEL", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF","IDR", "ILS", "INR", "IQD", "IRR", "ISK", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBR", "LRD", "LSL", "LYD", "MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP", "MRU", "MUR", "MVR", "MWK", "MXN", "MXV", "MXR", "MZN", "NAD", "NIO", "NOK","NPR", "NZD", "OMR", "PAB", "PEN", "PGK", "PHP", "PKR", "PLN", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SCD", "SHP", "SLL", "SOS", "SRD", "SSP", "STN", "SVC", "SVP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TWD", "TZS", "UAH", "UGX", "USD", "USN", "UYI", "UYU", "UZS", "VED", "VEF", "VND", "VUV", "WST", "XAF", "XCD", "XDR", "XOF", "XPF", "XSU", "XUA", "YER", "ZAR", "ZMW", "ZWL"]
+    
     
     func convert(_ convert: String) -> String {
-        var conversion: Double = 1.0
+        print("😶")
         let amount = Double(convert) ?? 0.0
-        let selectedCurrency = currencies[itemSelected]
-        let to = currencies[itemSelected2]
+        let selectedCurrency = currencies[toCurrency]
         
-        //create a dictionary of array for the converstion rates. Update this later with JSON data for API
+        let data = CurrencyData(currencyName: selectedCurrency.lowercased())
         
-        let eurRate = ["USD": 1.0, "EUR": 0.99, "GBP": 1.03]
-        let usdRate = ["USD": 1.0, "EUR": 0.87, "GBP": 1.25]
-        let gbpRate = ["USD": 1.37, "EUR": 1.18, "GBP": 1.03]
-        
-        switch (selectedCurrency) {
-        case "USD":
-        conversion = amount * (usdRate[to] ?? 0.0)
-        case "EUR":
-        conversion = amount * (eurRate[to] ?? 0.0)
-        case "GBP":
-        conversion = amount * (gbpRate[to] ?? 0.0)
-        default:
-            print("error in converting")
-        }
         //string with a format to 2 decimal places
-        return String(format: "%.2f", conversion)
+        return String(format: "%.2f", data.rate * amount)
     }
-    
+
     
     //use binding variables for amount and itemselected
     var body: some View {
         NavigationView {
-            Form {
-                Section(header: Text("Conver a currency")) {
-                    Picker(selection: $itemSelected, label: Text("From")) {
-                        //loop through the elements, select the current element and place it in to be selected 
-                        ForEach(0 ..< currencies.count) { index in
-                            Text(self.currencies[index]).tag(index)
-                        }
-                    }
-                    
-                    //will start at the index of 1, which is EUR in the list of countries
-                    Picker(selection: $itemSelected2, label: Text("To")) {
-                        ForEach(0 ..< currencies.count) { index in
-                            Text(self.currencies[index]).tag(index)
+            VStack {
+                Spacer()
+                Image("currencyconverter")
+                    .resizable()
+                    .frame(width: 100, height: 100, alignment: .center)
+
+                Form {
+                    Section(header: Text("")) {
+                        Picker(selection: $fromCurrency, label: Text("From")) {
+                            //loop through the elements, select the current element and place it in to be selected
+                            ForEach(0 ..< currencies.count) { index in
+                                Text(self.currencies[index]).tag("USD")
+//                            ForEach(0 ..< currencies.count) { index in
+//                                Text(self.currencies[index]).tag(index)
+                            }
                         }
                         
-                    }
-                    TextField("Enter an amount", text: $amount)
-                }
-                Section(header: Text("Conversion")) {
-                    Text("\(convert(amount)) \(currencies[itemSelected2])")
-                    
-                         }
-                         }
-                         }
-                         }
-                         }
-                         struct CurrencyConverter_Previews: PreviewProvider {
-                        static var previews: some View {
-                            CurrencyConverter()
+                        //will start at the index of 1, which is EUR in the list of countries
+                        Picker(selection: $toCurrency, label: Text("To")) {
+                            ForEach(0 ..< currencies.count) { index in
+                                Text(self.currencies[index]).tag(index)
+                            }
                         }
                     }
+                    Section(header: Text("Conversion")) {
+                        TextField("Enter an amount", text: $amount)
+                        Text("\(convert(amount)) \(currencies[toCurrency])")
+                    }
+                                            
+                }.navigationTitle("Currency Converter")
+                
+            }
+
+        }
+    }
+    struct CurrencyConverter_Previews: PreviewProvider {
+        static var previews: some View {
+            CurrencyConverterView()
+        }
+    }
+}

@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct MainPageView: View {
+   
     
     var body: some View {
-        
         NavigationView {
             //MARK: header and tab bar items
             ZStack {

@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+struct CurrencyInfo: Codable {
+    let code: String
+    let name: String
+    var rate: Double
+}
+
+struct Currencies: Codable {
+    let results: [String:CurrencyInfo]
+}

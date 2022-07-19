@@ -10,28 +10,33 @@ import SwiftUI
 
 class TransactionListViewModel: ObservableObject {
     
-   @Published var transactions: [Transaction] = [
-    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
-    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
-    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
-    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
-    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
-    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
-    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
-    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
-    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense"),
-    Transaction(name: "Groceries", amount: 20, category: "groceries", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", rating: "neutral", type: "expense")
-   ]
-    
-    //For the search bar 
     @Published var filteredTransactions = [Transaction]()
     
-    var color = Color(cgColor: .init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5))
+    
+    static let emptyMessage = "You have not listed any entries for expenses or income. Click the + in the upper right corner to start managing your money "
+
+        
+    @Published var transactions: [Transaction] = [
+        Transaction(name: "Groceries", amount: 20, category: "Dining Out", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", type: "expense"),
+        Transaction(name: "Dinner at Roam Burger", amount: 18, category: "diningOut", date: Date(), id: UUID(), isReoccuring: false, merchant: "Roam Burger", note: "none", type: "expense"),
+        Transaction(name: "Concert at the park", amount: 25, category: "entertainment", date: Date(), id: UUID(), isReoccuring: false, merchant: "Ticket Master", note: "none", type: "expense"),
+        Transaction(name: "Monthly HSA contribution", amount: 50, category: "healthcare", date: Date(), id: UUID(), isReoccuring: false, merchant: "Optum Bank", note: "none", type: "expense"),
+        Transaction(name: "Payday", amount: 1500, category: "income", date: Date(), id: UUID(), isReoccuring: false, merchant: "Employer", note: "none", type: "income"),
+        Transaction(name: "Groceries", amount: 20, category: "Dining Out", date: Date(), id: UUID(), isReoccuring: false, merchant: "TraderJoes", note: "none", type: "expense"),
+        Transaction(name: "Dinner at Roam Burger", amount: 18, category: "diningOut", date: Date(), id: UUID(), isReoccuring: false, merchant: "Roam Burger", note: "none", type: "expense"),
+        Transaction(name: "Concert at the park", amount: 25, category: "entertainment", date: Date(), id: UUID(), isReoccuring: false, merchant: "Ticket Master", note: "none", type: "expense"),
+        Transaction(name: "Monthly HSA contribution", amount: 50, category: "healthcare", date: Date(), id: UUID(), isReoccuring: false, merchant: "Optum Bank", note: "none", type: "expense"),
+        Transaction(name: "Payday", amount: 1500, category: "income", date: Date(), id: UUID(), isReoccuring: false, merchant: "Employer", note: "none", type: "income"),
+    ]
     
 
+
     
+    //MARK: -- CRUD FOR TRANSACTIONS
     func createTransaction(_ transaction: Transaction) {
         transactions.append(transaction)
+        saveToPersistentStore()
+
     }
     
     //func to update
@@ -39,45 +44,27 @@ class TransactionListViewModel: ObservableObject {
     
     func removeTransaction(indexSet: IndexSet) {
         transactions.remove(atOffsets: indexSet)
-    }
-
-//MARK: -- CRUD FOR TRANSACTIONS
-   //Add transaction
-  
-    
-    
-    
-    //MARK: -- Transaction Colors
-    func TransactionColor(type: Category.Categories.ExpenseType) -> Color {
-        switch type  {
-        case Category.Categories.ExpenseType.income: return .blue
-        case Category.Categories.ExpenseType.expense: return .red
-        case Category.Categories.ExpenseType.all: return .black
-        }
+     //   CoreDataStack.context.remove(
+        #warning("use saveContext to CoreDataStack or to persistent store?")
+     //   CoreDataStack.saveContext()
+        saveToPersistentStore()
     }
     
     
     
-//MARK: -- functions for search bar
+    
+    //MARK: -- functions for search bar
     func search(with query: String = "") {
         filteredTransactions = query.isEmpty ? transactions : transactions.filter { $0.name!.contains(query) }
     }
     
-//MARK: -- fuction for sort by category
-    
-   
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    //MARK: -- Save to Persistent Store
+    private func saveToPersistentStore() {
+      do {
+        try CoreDataStack.context.save()
+      } catch {
+        print("Error saving Managed Object Context, item not saved")
+      }
     }
+}
 

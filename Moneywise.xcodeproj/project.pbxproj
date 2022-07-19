@@ -14,8 +14,11 @@
 		28160D52287FA0A100F6BCDB /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28160D51287FA0A100F6BCDB /* DataController.swift */; };
 		28160D54287FA2DD00F6BCDB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28160D53287FA2DD00F6BCDB /* ContentView.swift */; };
 		28160D56287FAB2F00F6BCDB /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28160D55287FAB2F00F6BCDB /* Date+Ext.swift */; };
+		283FC236288241B300210795 /* CurrencyConverterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283FC235288241B300210795 /* CurrencyConverterView.swift */; };
+		283FC23828824A5D00210795 /* CurrencyConverterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283FC23728824A5D00210795 /* CurrencyConverterViewModel.swift */; };
+		283FC23B288318B200210795 /* CurrencyConversionErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283FC23A288318B200210795 /* CurrencyConversionErrors.swift */; };
+		283FC23D28831B5200210795 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283FC23C28831B5200210795 /* Currency.swift */; };
 		2844A1C9287CB98900FA342D /* MoneywiseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2844A1C8287CB98900FA342D /* MoneywiseApp.swift */; };
-		2844A1CB287CB98900FA342D /* ContentView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2844A1CA287CB98900FA342D /* ContentView2.swift */; };
 		2844A1CD287CB98A00FA342D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2844A1CC287CB98A00FA342D /* Assets.xcassets */; };
 		2844A1D0287CB98A00FA342D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2844A1CF287CB98A00FA342D /* Preview Assets.xcassets */; };
 		2844A1D2287CB98A00FA342D /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2844A1D1287CB98A00FA342D /* Persistence.swift */; };
@@ -36,9 +39,12 @@
 		28160D51287FA0A100F6BCDB /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		28160D53287FA2DD00F6BCDB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		28160D55287FAB2F00F6BCDB /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
+		283FC235288241B300210795 /* CurrencyConverterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterView.swift; sourceTree = "<group>"; };
+		283FC23728824A5D00210795 /* CurrencyConverterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterViewModel.swift; sourceTree = "<group>"; };
+		283FC23A288318B200210795 /* CurrencyConversionErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConversionErrors.swift; sourceTree = "<group>"; };
+		283FC23C28831B5200210795 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		2844A1C5287CB98900FA342D /* Moneywise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Moneywise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2844A1C8287CB98900FA342D /* MoneywiseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneywiseApp.swift; sourceTree = "<group>"; };
-		2844A1CA287CB98900FA342D /* ContentView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView2.swift; sourceTree = "<group>"; };
 		2844A1CC287CB98A00FA342D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2844A1CF287CB98A00FA342D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2844A1D1287CB98A00FA342D /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -76,6 +82,14 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		283FC2392883189E00210795 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				283FC23A288318B200210795 /* CurrencyConversionErrors.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		2844A1BC287CB98900FA342D = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +119,7 @@
 				2844A1E0287CB9F000FA342D /* Persistence */,
 				2844A1DF287CB9B500FA342D /* Resources */,
 				2844A1DE287CB9AF00FA342D /* Extensions */,
+				283FC2392883189E00210795 /* Helpers */,
 				2844A1CE287CB98A00FA342D /* Preview Content */,
 				28160D51287FA0A100F6BCDB /* DataController.swift */,
 			);
@@ -122,6 +137,7 @@
 		2844A1DB287CB99700FA342D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				283FC23C28831B5200210795 /* Currency.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -129,13 +145,13 @@
 		2844A1DC287CB99F00FA342D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2844A1CA287CB98900FA342D /* ContentView2.swift */,
 				28160D53287FA2DD00F6BCDB /* ContentView.swift */,
 				28AE1AE6287E358D001B6C0C /* Welcome.swift */,
 				28160D41287F05F900F6BCDB /* MainPageView.swift */,
 				28666370287D0FA500555B76 /* TransactionListView.swift */,
 				28C81D14287E460A000D231B /* TransactionDetailView.swift */,
 				28DB6F0C2881B07F00DD0DC5 /* EmptyView.swift */,
+				283FC235288241B300210795 /* CurrencyConverterView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -144,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				28666372287D0FBF00555B76 /* TransactionListViewModel.swift */,
+				283FC23728824A5D00210795 /* CurrencyConverterViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -292,17 +309,20 @@
 				28160D50287F867000F6BCDB /* Transaction+Convenience.swift in Sources */,
 				2844A1D2287CB98A00FA342D /* Persistence.swift in Sources */,
 				28160D56287FAB2F00F6BCDB /* Date+Ext.swift in Sources */,
-				2844A1CB287CB98900FA342D /* ContentView2.swift in Sources */,
 				28DB6F0D2881B07F00DD0DC5 /* EmptyView.swift in Sources */,
 				28160D4C287F85FA00F6BCDB /* CoreDataStack.swift in Sources */,
+				283FC236288241B300210795 /* CurrencyConverterView.swift in Sources */,
 				28160D52287FA0A100F6BCDB /* DataController.swift in Sources */,
 				28C81D15287E460A000D231B /* TransactionDetailView.swift in Sources */,
+				283FC23D28831B5200210795 /* Currency.swift in Sources */,
 				28160D4E287F865B00F6BCDB /* Category+Convenience.swift in Sources */,
 				2866636F287D034200555B76 /* Extension.swift in Sources */,
 				28160D54287FA2DD00F6BCDB /* ContentView.swift in Sources */,
+				283FC23B288318B200210795 /* CurrencyConversionErrors.swift in Sources */,
 				2844A1D5287CB98A00FA342D /* Moneywise.xcdatamodeld in Sources */,
 				2844A1C9287CB98900FA342D /* MoneywiseApp.swift in Sources */,
 				28160D42287F05F900F6BCDB /* MainPageView.swift in Sources */,
+				283FC23828824A5D00210795 /* CurrencyConverterViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +455,7 @@
 				DEVELOPMENT_TEAM = CG3Y5NGC6T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "We need to unlock your Moneywise data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -465,6 +486,7 @@
 				DEVELOPMENT_TEAM = CG3Y5NGC6T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "We need to unlock your Moneywise data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

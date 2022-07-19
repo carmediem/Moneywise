@@ -7,6 +7,8 @@
 
 import CoreData
 import UIKit
+import SwiftUI
+
 
 extension Category {
     @discardableResult convenience init(id: UUID, name: String, type: String, context: NSManagedObjectContext = CoreDataStack.context) {
@@ -36,10 +38,20 @@ extension Category {
         case Savings = "iconSavings"
         
     
-        enum ExpenseType {
+        enum ExpenseType: String {
             case income
             case expense
             case all
-        }
+        
+        
+        var color: Color {
+            switch self {
+              case .income: return .green
+              case .expense: return .red
+            case .all:
+                return .black
+            }
 }
+}
+    }
 }

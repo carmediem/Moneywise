@@ -6,24 +6,20 @@
         <attribute name="type" attributeType="String"/>
         <relationship name="ofTransaction" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Transaction" inverseName="ofCategory" inverseEntity="Transaction"/>
     </entity>
-    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-    </entity>
     <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="class">
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="category" attributeType="String"/>
         <attribute name="date" attributeType="Date" defaultDateTimeInterval="679790520" usesScalarValueType="NO"/>
-        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isReoccuring" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="merchant" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="note" attributeType="String"/>
+        <attribute name="transactionId" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="type" attributeType="String"/>
         <relationship name="ofCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="ofTransaction" inverseEntity="Category"/>
     </entity>
     <elements>
         <element name="Category" positionX="-54" positionY="-9" width="128" height="89"/>
-        <element name="Item" positionX="-18" positionY="117" width="128" height="44"/>
         <element name="Transaction" positionX="-36" positionY="9" width="128" height="179"/>
     </elements>
 </model>

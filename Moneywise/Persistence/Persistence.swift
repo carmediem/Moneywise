@@ -9,7 +9,7 @@ import CoreData
 
 struct PersistenceController {
     static let shared = PersistenceController()
-
+    
     let container: NSPersistentContainer
     
     init(inMemory: Bool = false) {
@@ -35,16 +35,5 @@ struct PersistenceController {
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
-//    
-//    func save() {
-//        let context = container.viewContext
-//
-//        if context.hasChanges {
-//            do {
-//                try context.save()
-//            } catch {
-//                // Show some error here
-//            }
-//        }
-//    }
+    
 }

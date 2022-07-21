@@ -15,14 +15,15 @@ struct CredentialsLoginView: View {
     
     var body: some View {
         VStack(spacing: 40) {
-            Title()
+            Text("Log into Moneywise")
             TextField("Username", text: $username)
             SecureField("Password", text: $password)
             PrimaryButton(showImage: false, text: "Login")
                 .onTapGesture {
                     authentificationManager.authenticateWithCredentials(username: username, password: password)
                 }
-        }.textFieldStyle(.roundedBorder)
+        }
+        .textFieldStyle(.roundedBorder)
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

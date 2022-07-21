@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct MainPageView: View {
-   
+    @EnvironmentObject var viewModel: TransactionListViewModel
+  //  var authetificationManager = AuthenticationManager()
     
     var body: some View {
+   //     if authetificationManager.isAuthenticated {
         NavigationView {
             //MARK: header and tab bar items
             ZStack {
@@ -26,42 +28,58 @@ struct MainPageView: View {
                            maxHeight: .infinity)
                     .background(Color.background)
                 
-                
+                //MARK: -- Toolbar
                     .toolbar {
                         ToolbarItem {
+                            NavigationLink {
+                                TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.00, transactionTypeText: "", ifIsNew: true)
+                            } label: {
                             Image(systemName: "plus")
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(Color.icon)
+                            }
                         }
-                        ToolbarItem {
-                            Image(systemName: "gear")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(Color.icon)
-                                
-                        }
-                        
                     }
-                //MARK: -- List of most recent transactions
-                HStack {
-                    Text("Recent Transactions")
-                        .bold()
-                    NavigationLink {
-                        TransactionListView()
-                    } label: {
-                        HStack(spacing: 4) {
-                            Text("See All")
-                            Image(systemName: "chevron.right")
-                        }
+            }
+            //MARK: -- List of most recent transactions- CHANGE TO CATEGORIES IN THIRD SPRINT
+            HStack {
+                Text("Recent Transactions")
+                    .bold()
+                NavigationLink {
+                    TransactionListView()
+                } label: {
+                    HStack(spacing: 4) {
+                        Text("See All")
+                        Image(systemName: "chevron.right")
                     }
                 }
             }
         }
+        
+        //MARK: -- Tab view to navigate across different pages
+//        TabView {
+//            MainPageView()
+//                .tabItem {
+//                    Label("Overview", systemImage: "chart.pie")
+//                }
+//            TransactionListView()
+//                .tabItem {
+//                    Label("List", systemImage: "list.bullet")
+//                }
+//            CurrencyConverterView()
+//                .tabItem {
+//                    Label("Converter", systemImage: "dollarsign.circle")
+//                }
+//                .environment(\.managedObjectContext, dataController.container.viewContext)
+//
+        }
     }
-    
-}
+//}
+
 
 struct MainPageView_Previews: PreviewProvider {
     static var previews: some View {
         MainPageView()
+
     }
 }

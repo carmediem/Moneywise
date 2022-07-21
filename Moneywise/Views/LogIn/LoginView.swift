@@ -12,7 +12,6 @@ struct LoginView: View {
 
     var body: some View {
         VStack(spacing: 40) {
-            Title()
             switch authenticationManager.biometryType {
             case .faceID:
                 PrimaryButton(image: "faceid", text: "Log in with FaceID")

@@ -11,7 +11,7 @@ import SwiftUI
 
 
 extension Category {
-    @discardableResult convenience init(id: UUID, name: String, type: String, context: NSManagedObjectContext = CoreDataStack.context) {
+    @discardableResult convenience init(id: UUID, name: String, type: String, context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
         self.init(context: context)
         self.id = id
         self.name = name

@@ -32,40 +32,43 @@ struct CurrencyConverterView: View {
     
     //use binding variables for amount and itemselected
     var body: some View {
-        NavigationView {
-            VStack {
-                Spacer()
-                Image("currencyconverter")
-                    .resizable()
-                    .frame(width: 100, height: 100, alignment: .center)
+        
+        ZStack {
+            Rectangle()
+                .foregroundColor((Color.background))
+            NavigationView {
+                VStack {
+                    Spacer()
+                    Image("currencyconverter")
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .center)
 
-                Form {
-                    Section(header: Text("")) {
-                        Picker(selection: $fromCurrency, label: Text("From")) {
-                            //loop through the elements, select the current element and place it in to be selected
-                            ForEach(0 ..< currencies.count) { index in
-                                Text(self.currencies[index]).tag("USD")
-//                            ForEach(0 ..< currencies.count) { index in
-//                                Text(self.currencies[index]).tag(index)
+                    Form {
+                        Section(header: Text("")) {
+                            Picker(selection: $fromCurrency, label: Text("From")) {
+                                //loop through the elements, select the current element and place it in to be selected
+                                ForEach(0 ..< currencies.count) { index in
+                                    Text(self.currencies[index]).tag("USD")
+    //                            ForEach(0 ..< currencies.count) { index in
+    //                                Text(self.currencies[index]).tag(index)
+                                }
+                            }
+                            
+                            //will start at the index of 1, which is EUR in the list of countries
+                            Picker(selection: $toCurrency, label: Text("To")) {
+                                ForEach(0 ..< currencies.count) { index in
+                                    Text(self.currencies[index]).tag(index)
+                                }
                             }
                         }
-                        
-                        //will start at the index of 1, which is EUR in the list of countries
-                        Picker(selection: $toCurrency, label: Text("To")) {
-                            ForEach(0 ..< currencies.count) { index in
-                                Text(self.currencies[index]).tag(index)
-                            }
+                        Section(header: Text("Conversion")) {
+                            TextField("Enter an amount", text: $amount)
+                            Text("\(convert(amount)) \(currencies[toCurrency])")
                         }
-                    }
-                    Section(header: Text("Conversion")) {
-                        TextField("Enter an amount", text: $amount)
-                        Text("\(convert(amount)) \(currencies[toCurrency])")
-                    }
-                                            
-                }.navigationTitle("Currency Converter")
-                
+                    }.navigationTitle("Currency Converter")
+                }.background(Color.background)
+
             }
-
         }
     }
     struct CurrencyConverter_Previews: PreviewProvider {

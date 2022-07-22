@@ -11,39 +11,31 @@ struct TransactionListView: View {
     @Environment(\.isSearching) var isSearching
     @EnvironmentObject var viewModel: TransactionListViewModel
     
-  //  @State var viewModel = TransactionListViewModel() .//everytime something gets uploaded to my view, it will create a retain cycle and will load forever
+    //  @State var viewModel = TransactionListViewModel() .//everytime something gets uploaded to my view, it will create a retain cycle and will load forever
     @State var searchQuery = ""
-    @State var filterTransactions = TransactionListView.self
-
+  //  @State var filterTransactions = TransactionListView.self
+    
     var transactionList: some View {
-        List(viewModel.transactions, id: \.self) { transaction in
+        List(viewModel.transactions, id: \.self) { transaction in  // list gives delete option, will also give seperator. for each does not- only lists things out, no extra functionalities
             
-                ForEach(viewModel.transactions) { transaction in
-                    NavigationLink {
-                        
-                        //Destination
-                        TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.0, transactionTypeText: "", ifIsNew: false)
-                    } label: {
-                        TransactionRowView(transaction: transaction)
-                        
-                    }
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        Button("Delete", role: .destructive) {
-                            if let id = transaction.transactionId {
-                                viewModel.removeTransaction(transaction: transaction, with: PersistenceController.shared.container.viewContext, uuid: "\(id)")
-                            }
+                NavigationLink {
+                    //Destination
+                    TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.0, ifIsNew: false)
+                } label: {
+                    TransactionRowView(transaction: transaction)
+                }
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button("Delete", role: .destructive) {
+                        if let id = transaction.transactionId {
+                            viewModel.removeTransaction(transaction: transaction, with: PersistenceController.shared.container.viewContext, uuid: "\(id)")
                         }
                     }
-                    
                 }
                 
-                //     .onDelete(perform: deleteTransaction(for: id))
-                
-                //       Text(Month)
-            
-            
+            //     .onDelete(perform: re)
         }
         .navigationTitle("List of Transactions")
+        
         //MARK: -- Search Bar
         .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always),
                     prompt: "Search your transactions")
@@ -58,12 +50,12 @@ struct TransactionListView: View {
         }
     }
 
+
+    
     var body: some View {
         NavigationView {
             VStack {
                 ScrollView {
-                    
-                    //MARK: -- Filter by date and category
                     //MARK: -- If there are no transactions
                     if viewModel.transactions.isEmpty {
                         EmptyTransactionTitle()
@@ -71,7 +63,7 @@ struct TransactionListView: View {
                             .toolbar {
                                 ToolbarItem {
                                     NavigationLink {
-                                        TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.00, transactionTypeText: "", ifIsNew: true)
+                                        TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.00,  ifIsNew: true)
                                     } label: {
                                         Image(systemName: "plus")
                                             .symbolRenderingMode(.palette)
@@ -79,21 +71,22 @@ struct TransactionListView: View {
                                 }
                             }
                     } else {
+                        //MARK: -- IF THERE ARE TRANSACTION, LIST THEM OUT, ALLOW THE USER TO SORT BY DATE AND LIST OUT BY CATEGORIES
+                        //MARK: -- Filter by date and category
+                        
                         //MARK: List of entries
                         transactionList
-                        
                         ////                        .overlay {
                         ////                            if viewModel.filteredData.isEmpty {
                         ////                                EmptyView(query: $query)
                         ////                            }
                         ////                        }
                             .frame(height: CGFloat(viewModel.transactions.count) * 100 + 25)
-                        //                        .listStyle(.plain)
                             .navigationBarTitleDisplayMode(.inline)
                             .toolbar {
                                 ToolbarItem {
                                     NavigationLink {
-                                        TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.00, transactionTypeText: "", ifIsNew: true)
+                                        TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.00, ifIsNew: true)
                                     } label: {
                                         Image(systemName: "plus")
                                             .symbolRenderingMode(.palette)
@@ -101,22 +94,23 @@ struct TransactionListView: View {
                                 }
                             }
                     }
-                }
+                }.background(Color.background)
             }.navigationTitle("List of Transactions")
         }
-        //           .onAppear {
-        //        TransactionDetailView(transactionViewModel: transactionModel, transactionTypeText: "", ifIsNew: false)
-        //    }
-    }
-    //MARK: Search for transactions list
-    //    var transactions: [Transaction] {
-    //        let listOfTransactions = self.transactions.map { $0.lowercase() }
-    //        return query == "" ? listOfTransactions : listOfTransactions.filter {Context in environment is not connected to a persistent store coordinator
-    //            $0.contains(query.lowercased()) }
-    //    }
-    //}
+        .onAppear {
     
-}
+//            TransactionDetailView(transactionViewModel: viewModel, transactionTypeText: "", ifIsNew: false)
+        }
+    }
+    
+    //    MARK: Search for transactions list
+    //        var transactions: [Transaction] {
+    //            let listOfTransactions = self.transactions.map { $0.lowercase() }
+    //            return query == "" ? listOfTransactions : listOfTransactions.filter {Context in
+    //                $0.contains(query.lowercased()) }
+           }
+
+
 //MARK: Empty TransactionTitle
 struct EmptyTransactionTitle: View {
     var body: some View {
@@ -129,7 +123,6 @@ struct EmptyTransactionTitle: View {
                     .font(.system(.caption, design: .monospaced))
             }.cornerRadius(12)
                 .frame(width: UIScreen.main.bounds.width - 40)
-            
             //add in picture or animation here to fill up the space
         }
     }
@@ -142,7 +135,7 @@ struct TransactionRowView: View {
     var transaction: Transaction
     var body: some View {
         HStack {
-            Image(Category.Categories.DiningOut.rawValue)
+            Image(transaction.imageName ?? "" )
                 .resizable()
                 .frame(width: 30, height: 40, alignment: .leading)
                 .padding(.leading, 5)
@@ -166,11 +159,15 @@ struct TransactionRowView: View {
                 .frame(width: 75, alignment: .trailing)
                 .listRowInsets(EdgeInsets())
                 .foregroundColor(Category.Categories.ExpenseType(rawValue: transaction.type ?? "all")?.color)
+        }.onAppear
+        {
+            print(transaction)
         }
+        
         .toolbar {
             ToolbarItem {
                 NavigationLink {
-                    TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.00, transactionTypeText: "", ifIsNew: true)
+                    TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.00, ifIsNew: true)
                 } label: {
                     Image(systemName: "plus")
                         .symbolRenderingMode(.palette)
@@ -189,6 +186,18 @@ let currencyFormatter: NumberFormatter = {
     formatter.numberStyle = .currency
     return formatter
 }()
+
+
+//MARK: -- SORTING DATE and Cateory
+/*
+ let month = "July"
+ fetchRequest.predicate = NSPredicate(format: "month == %@), month)
+ 
+ let category = "health"
+ fetchRequest.predicate = NSPredicate(format: "category == %@), category)
+ */
+
+
 
 struct TransactionListView_Previews: PreviewProvider {
     static var previews: some View {

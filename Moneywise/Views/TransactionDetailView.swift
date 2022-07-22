@@ -21,17 +21,14 @@ struct TransactionDetailView: View {
     //  var transaction: Transaction
     @State var transactionDateText: Date = Date()
     @State var transactionNameText: String = ""
-    @State var transactionCategoryText: String = ""
+    @State var category: Category.Categories = .Investment
     @State var transactionMerchantText: String = ""
     @State var transactionAmountValue: Double = 0.00
     @State var transactionReoccuring: Bool = false
     @State var transactionNoteText: String = ""
-    @State var transactionTypeText: String
+    @State var categoryType: Category.Categories.ExpenseType = .all
     @State private var selection = ""
-    private let Categories = ["Dining Out", "Education", "Entertainment", "Fitness", "Gift", "Grocery", "Healthcare", "Housing", "Other", "Shopping", "Transportation", "Utilites", "Vacation", "Income", "Investment", "Savings"]
     
-    
-    private let transactionType = ["Select One", "Income", "Expense"]
  
     private let reOccuringPurchase = ["Select One", "Yes", "No"]
     
@@ -41,9 +38,8 @@ struct TransactionDetailView: View {
         VStack {
             Form {
                 HStack {
-                    Text("Date of Transaction")
+                    Text("Date")
                         .bold()
-                    
                     DatePicker("", selection: $date,  displayedComponents: .date)
                         .datePickerStyle(CompactDatePickerStyle())
                         .frame(width: 150, height: 50)
@@ -51,7 +47,7 @@ struct TransactionDetailView: View {
                 }
                 
                 HStack {
-                    Text("Transaction Name:")
+                    Text("Name:")
                         .bold()
                     TextField("Placeholder", text: $transactionNameText)
                 }
@@ -60,15 +56,16 @@ struct TransactionDetailView: View {
                 HStack {
                     Text("Category:")
                         .bold()
-                    Picker(selection: $transactionCategoryText, label: Text("List of categories"))
+                    Picker(selection: $category, label: Text("List of categories"))
                     {
-                        ForEach(0 ..< Categories.count) { index in
-                            Text(self.Categories[index]).tag(index)
+                        ForEach(Category.Categories.allCases, id: \.self) { category in
+                            Text(category.rawValue)
+                                .onTapGesture {
+                                    self.category = category
+                                }
                         }
                     }.pickerStyle(.menu)
                 }.frame(width: 150, height: 50)
-                    .foregroundColor(.black)
-                
                 
                 HStack {
                     Text("Merchant:")
@@ -77,15 +74,29 @@ struct TransactionDetailView: View {
                 }
                 
                 HStack {
-                    Text("Amount:")
+                    Text("Amount:   $")
                         .bold()
-                    //         TextField("Placeholder", text: )
+             //      TextField("Placeholder", text: 0.00)
                 }
                 
                 HStack {
                     Text(transactionAmountValue, format: .currency(code: "USD"))
                         .bold()
                     //               TextField("Placeholder", text: $transactionAmountValue)
+                }
+                
+                HStack {
+                    Text("Transaction Type:")
+                        .bold()
+                    Picker("Transaction Type:", selection: $categoryType) {
+                        ForEach(Category.Categories.ExpenseType.allCases, id: \.self) { categoryType in
+                            Text(categoryType.rawValue)
+                                .onTapGesture {
+                                    self.categoryType = categoryType
+                                }
+                        }
+                    }.pickerStyle(.menu)
+                        .foregroundColor(.black)
                 }
                 
                 HStack {
@@ -97,20 +108,8 @@ struct TransactionDetailView: View {
                         }
                     }.pickerStyle(.menu)
                         .foregroundColor(.black)
-                    //  Text(selection)
                 }
-                
-                HStack {
-                    Text("Transaction Type:")
-                        .bold()
-                    Picker("Transaction Type:", selection: $selection) {
-                        ForEach(transactionType, id: \.self) {
-                            Text($0)
-                        }
-                    }.pickerStyle(.menu)
-                        .foregroundColor(.black)
-                }
-                
+      
                 HStack {
                     Text("Notes:")
                         .bold()
@@ -118,106 +117,62 @@ struct TransactionDetailView: View {
                     TextField("Placeholder", text: $transactionNoteText)
                         .lineLimit(4)
                 }
-                
-                
-                //MARK: --Save or Update Button for existing and new entries
-                VStack {
-                    Button {
-                        transactionViewModel.createTransaction(name: transactionNameText, amount: transactionAmountValue, category: transactionCategoryText, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, note: transactionNoteText, type: transactionTypeText)
-                        print(transactionViewModel.transactions.count)
-                        dismiss()
-                    } label: {
-                        Spacer()
-                        ZStack {
-                            Rectangle().fill(.ultraThinMaterial)
-                                .cornerRadius(12)
-                            Text(transaction == nil ? "Save" : "Update")
-                        }
-                    }.frame(width: UIScreen.main.bounds.width - 80, height: 40)
+                HStack {
+                    
                 }
                 
-                //                HStack {
-                //                    let date = transaction.date
-                //                    let stringDate = DateFormatter.allNumericUSA.string(from: date ?? Date())
-                //                    Text(stringDate)
-                //                    //  TextField(Date, text: $transactionDateText)
-                //                }
-                //
-                //                HStack {
-                //                    Text(transaction.name ?? "TBD")
-                //                    TextField("", text: $transactionNameText)
-                //                }
-                //
-                //                HStack {
-                //                    Text(transaction.category ?? "TBD")
-                //                    TextField("", text: $transactionCategoryText)
-                //                }
-                //
-                //                HStack {
-                //                    Text(transaction.category ?? "TBD")
-                //                        .font(.footnote)
-                //                        .lineLimit(1)
-                //                    TextField("", text: $transactionCategoryText)
-                //                }
-                //
-                //                HStack {
-                //                    Text(transaction.merchant ?? "TBD")
-                //                        .font(.caption)
-                //                        .bold()
-                //                        .lineLimit(1)
-                //                    TextField("", text: $transactionMerchantText)
-                //                }
-                //
-                //
-                //                HStack {
-                //                    Text(transaction.amount, format: .currency(code: "USD"))
-                //                        .bold()
-                //                    TextField("Enter $ amount", text: $transactionAmountValue)
-                //                }
-                //
-                //                HStack {
-                //                    Text(transaction.isReoccuring = false ?? "TBD")
-                //                    TextField("", text: $transactionReoccuring)
-                //                }
-                //
-                //                HStack {
-                //                    Text(transaction.note ?? "TBD")
-                //                    TextField("", text: $transactionNoteText)
-                //                }
+                //MARK: --Save or Update Button for existing and new entries
+//                VStack {
+//                    Button {
+//                        transactionViewModel.createTransaction(name: transactionNameText, amount: transactionAmountValue, category: transactionCategoryText, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, note: transactionNoteText, type: transactionTypeText)
+//                        print(transactionViewModel.transactions.count)
+//                        dismiss()
+//                    } label: {
+//                        Spacer()
+//                        ZStack {
+//                            Rectangle().fill(.ultraThinMaterial)
+//                                .cornerRadius(12)
+//                            Text(transaction == nil ? "Save" : "Update")
+//                        }
+//                    }.frame(width: UIScreen.main.bounds.width - 80, height: 40)
+//                }
+                
             }//end of form
             
             .navigationTitle("Transaction Details")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink {
-                        //Destination
+                    Button {
+                        transactionViewModel.createTransaction(name: transactionNameText, amount: transactionAmountValue, category: category.rawValue, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, note: transactionNoteText, type: categoryType.rawValue, imageName: category.CategoryImage)
+                       print(transactionViewModel.transactions.count)
+                        dismiss()
                     } label: {
-                        Image(systemName: "save")
+                        Text("Save")
                     }
                 }
             }
         }
         
         .onAppear {
-            if ifIsNew {  //THIS IS WORKING, DONT DELETE. THIS IS WHAT'S SHOWING UP IN THE PLACEHOLDER TEXT FIELDS
-                transactionDateText = Date()
-                transactionNameText = ""
-                transactionCategoryText = ""
-                transactionMerchantText = ""
-                transactionAmountValue = 0.00
-                transactionReoccuring = false
-                transactionNoteText = ""
-                
-                //            } else {
-                //                //THIS IS THE INFO THE PLACEHOLDER DATA IS PULLING
-                //                transactionDateText = Date()
-                //                transactionNameText = "Babyshower gift"
-                //                transactionCategoryText = "Gift"
-                //                transactionMerchantText = "Walmart"
-                //                transactionAmountValue = 0.0
-                //                transactionReoccuring = false
-                //                transactionNoteText = "shower for new baby" }
-                //        }
+//            if ifIsNew {  //THIS IS WORKING, DONT DELETE. THIS IS WHAT'S SHOWING UP IN THE PLACEHOLDER TEXT FIELDS
+//                transactionDateText = Date()
+//                transactionNameText = ""
+//                transactionCategoryText = ""
+//                transactionMerchantText = ""
+//                transactionAmountValue = 10.00
+//                transactionReoccuring = false
+//                transactionNoteText = "Test for notes"
+//
+//                            } else {
+//                                //THIS IS THE INFO THE PLACEHOLDER DATA IS PULLING
+//                                transactionDateText = Date()
+//                                transactionNameText = "Babyshower gift"
+//                                transactionCategoryText = "Gift"
+//                                transactionMerchantText = "Walmart"
+//                                transactionAmountValue = 0.0
+//                                transactionReoccuring = false
+//                                transactionNoteText = "shower for new baby" }
+                        }
             }
             
             
@@ -240,23 +195,16 @@ struct TransactionDetailView: View {
             //        CoreDataStack.saveContext()
             //
             //        dismiss()
-            //
             //        }
-            //
-            //
-            //    func prepareForUpdateTransaction() {
-            //        //get info from core data
-            //    }
-            
-        }
-    }
-}
 
-struct TransactionDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            TransactionDetailView(transactionViewModel: TransactionListViewModel(), transactionDateText: Date(), transactionAmountValue: 0.0, transactionTypeText: "", ifIsNew: false)
-        }
     }
-}
 
+
+//struct TransactionDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        NavigationView {
+//            TransactionDetailView(transactionViewModel: TransactionListViewModel(), managedObjectContext: Date(), dismiss: 0.0, transactionDateText: "", transactionNameText: false, ifIsNew: false)
+//        }
+//    }
+//}
+//

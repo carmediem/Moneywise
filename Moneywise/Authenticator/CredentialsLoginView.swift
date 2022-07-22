@@ -14,8 +14,19 @@ struct CredentialsLoginView: View {
     
     
     var body: some View {
-        VStack(spacing: 40) {
-            Text("Log into Moneywise")
+        VStack(alignment: .center) {
+            Text("Moneywise")
+                .font(.largeTitle)
+                .bold()
+                .padding(.top, 10)
+                .padding(.bottom, 20)
+            
+            Image("icon")
+                .resizable()
+                .frame(width: 220, height: 220)
+        
+        
+        VStack(spacing: 20) {
             TextField("Username", text: $username)
             SecureField("Password", text: $password)
             PrimaryButton(showImage: false, text: "Login")
@@ -26,9 +37,9 @@ struct CredentialsLoginView: View {
         .textFieldStyle(.roundedBorder)
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
+    }.background(Color.background)
 }
-
+}
 struct CredentialsLoginView_Previews: PreviewProvider {
     static var previews: some View {
         CredentialsLoginView()

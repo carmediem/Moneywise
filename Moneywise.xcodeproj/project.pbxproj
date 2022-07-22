@@ -28,7 +28,6 @@
 		28666373287D0FBF00555B76 /* TransactionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28666372287D0FBF00555B76 /* TransactionListViewModel.swift */; };
 		28AE1AE7287E358D001B6C0C /* Archive.Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AE1AE6287E358D001B6C0C /* Archive.Welcome.swift */; };
 		28B1087428871D5900A4626E /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B1087328871D5900A4626E /* PrimaryButton.swift */; };
-		28B1087628871F7600A4626E /* Archive..swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B1087528871F7600A4626E /* Archive..swift */; };
 		28B108782887219D00A4626E /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B108772887219D00A4626E /* AuthenticationManager.swift */; };
 		28B1087A288723D600A4626E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B10879288723D600A4626E /* LoginView.swift */; };
 		28B1087C28872C5900A4626E /* CredentialsLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B1087B28872C5900A4626E /* CredentialsLoginView.swift */; };
@@ -36,6 +35,9 @@
 		28DB6F0D2881B07F00DD0DC5 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DB6F0C2881B07F00DD0DC5 /* EmptyView.swift */; };
 		28DFD57D288855F2009CCC88 /* ArchiveWelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DFD57C288855F2009CCC88 /* ArchiveWelcomeViewModel.swift */; };
 		28FA68552888DBAD00887E3C /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FA68542888DBAD00887E3C /* AppFlow.swift */; };
+		28FA68572889A78B00887E3C /* Practice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FA68562889A78B00887E3C /* Practice.swift */; };
+		28FA6859288A232700887E3C /* MainPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FA6858288A232700887E3C /* MainPageViewModel.swift */; };
+		28FA6880288A521D00887E3C /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FA687F288A521D00887E3C /* ImagePickerViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,7 +63,6 @@
 		28666372287D0FBF00555B76 /* TransactionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListViewModel.swift; sourceTree = "<group>"; };
 		28AE1AE6287E358D001B6C0C /* Archive.Welcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive.Welcome.swift; sourceTree = "<group>"; };
 		28B1087328871D5900A4626E /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
-		28B1087528871F7600A4626E /* Archive..swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive..swift; sourceTree = "<group>"; };
 		28B108772887219D00A4626E /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		28B10879288723D600A4626E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		28B1087B28872C5900A4626E /* CredentialsLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsLoginView.swift; sourceTree = "<group>"; };
@@ -69,6 +70,9 @@
 		28DB6F0C2881B07F00DD0DC5 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		28DFD57C288855F2009CCC88 /* ArchiveWelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveWelcomeViewModel.swift; sourceTree = "<group>"; };
 		28FA68542888DBAD00887E3C /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
+		28FA68562889A78B00887E3C /* Practice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Practice.swift; sourceTree = "<group>"; };
+		28FA6858288A232700887E3C /* MainPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewModel.swift; sourceTree = "<group>"; };
+		28FA687F288A521D00887E3C /* ImagePickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewModel.swift; sourceTree = "<group>"; };
 		47299622CB8C2C472029BA02 /* Pods_Moneywise.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moneywise.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D04F424E1D3EA94212345EED /* Pods-Moneywise.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moneywise.debug.xcconfig"; path = "Target Support Files/Pods-Moneywise/Pods-Moneywise.debug.xcconfig"; sourceTree = "<group>"; };
 		D68AD9AFB24300A0E16AF00D /* Pods-Moneywise.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moneywise.release.xcconfig"; path = "Target Support Files/Pods-Moneywise/Pods-Moneywise.release.xcconfig"; sourceTree = "<group>"; };
@@ -92,6 +96,7 @@
 				28160D4B287F85FA00F6BCDB /* CoreDataStack.swift */,
 				28160D4D287F865B00F6BCDB /* Category+Convenience.swift */,
 				28160D4F287F867000F6BCDB /* Transaction+Convenience.swift */,
+				28160D51287FA0A100F6BCDB /* DataController.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -125,17 +130,16 @@
 		2844A1C7287CB98900FA342D /* Moneywise */ = {
 			isa = PBXGroup;
 			children = (
+				28FA68562889A78B00887E3C /* Practice.swift */,
 				28DFD57E2888DB63009CCC88 /* AppFiles */,
-				28B1087228871D4900A4626E /* Components */,
+				28B1087228871D4900A4626E /* Authenticator */,
 				28160D4A287F85D300F6BCDB /* CoreData */,
+				2844A1E0287CB9F000FA342D /* Persistence */,
 				2844A1DB287CB99700FA342D /* Models */,
 				2844A1DC287CB99F00FA342D /* Views */,
 				2844A1DD287CB9A700FA342D /* ViewModel */,
-				2844A1E0287CB9F000FA342D /* Persistence */,
 				2844A1DF287CB9B500FA342D /* Resources */,
-				283FC2392883189E00210795 /* Helpers */,
 				2844A1CE287CB98A00FA342D /* Preview Content */,
-				28160D51287FA0A100F6BCDB /* DataController.swift */,
 			);
 			path = Moneywise;
 			sourceTree = "<group>";
@@ -159,7 +163,6 @@
 		2844A1DC287CB99F00FA342D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				28B1087D28872FDB00A4626E /* LogIn */,
 				28B1087E2887300200A4626E /* SearchBar */,
 				28160D53287FA2DD00F6BCDB /* ContentView.swift */,
 				28AE1AE6287E358D001B6C0C /* Archive.Welcome.swift */,
@@ -174,9 +177,11 @@
 		2844A1DD287CB9A700FA342D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				28FA6858288A232700887E3C /* MainPageViewModel.swift */,
 				28666372287D0FBF00555B76 /* TransactionListViewModel.swift */,
 				283FC23728824A5D00210795 /* CurrencyConverterViewModel.swift */,
 				28DFD57C288855F2009CCC88 /* ArchiveWelcomeViewModel.swift */,
+				28FA687F288A521D00887E3C /* ImagePickerViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -193,7 +198,7 @@
 		2844A1DF287CB9B500FA342D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				28B108772887219D00A4626E /* AuthenticationManager.swift */,
+				283FC2392883189E00210795 /* Helpers */,
 				2844A1DE287CB9AF00FA342D /* Extensions */,
 				2844A1CC287CB98A00FA342D /* Assets.xcassets */,
 			);
@@ -208,22 +213,15 @@
 			path = Persistence;
 			sourceTree = "<group>";
 		};
-		28B1087228871D4900A4626E /* Components */ = {
+		28B1087228871D4900A4626E /* Authenticator */ = {
 			isa = PBXGroup;
 			children = (
-				28B1087328871D5900A4626E /* PrimaryButton.swift */,
-				28B1087528871F7600A4626E /* Archive..swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		28B1087D28872FDB00A4626E /* LogIn */ = {
-			isa = PBXGroup;
-			children = (
+				28B108772887219D00A4626E /* AuthenticationManager.swift */,
 				28B10879288723D600A4626E /* LoginView.swift */,
 				28B1087B28872C5900A4626E /* CredentialsLoginView.swift */,
+				28B1087328871D5900A4626E /* PrimaryButton.swift */,
 			);
-			path = LogIn;
+			path = Authenticator;
 			sourceTree = "<group>";
 		};
 		28B1087E2887300200A4626E /* SearchBar */ = {
@@ -358,7 +356,7 @@
 			files = (
 				28AE1AE7287E358D001B6C0C /* Archive.Welcome.swift in Sources */,
 				28666373287D0FBF00555B76 /* TransactionListViewModel.swift in Sources */,
-				28B1087628871F7600A4626E /* Archive..swift in Sources */,
+				28FA6859288A232700887E3C /* MainPageViewModel.swift in Sources */,
 				28666371287D0FA500555B76 /* TransactionListView.swift in Sources */,
 				28160D50287F867000F6BCDB /* Transaction+Convenience.swift in Sources */,
 				2844A1D2287CB98A00FA342D /* Persistence.swift in Sources */,
@@ -372,6 +370,7 @@
 				28C81D15287E460A000D231B /* TransactionDetailView.swift in Sources */,
 				283FC23D28831B5200210795 /* Currency.swift in Sources */,
 				28160D4E287F865B00F6BCDB /* Category+Convenience.swift in Sources */,
+				28FA68572889A78B00887E3C /* Practice.swift in Sources */,
 				2866636F287D034200555B76 /* Extension.swift in Sources */,
 				28160D54287FA2DD00F6BCDB /* ContentView.swift in Sources */,
 				283FC23B288318B200210795 /* CurrencyConversionErrors.swift in Sources */,
@@ -380,6 +379,7 @@
 				28DFD57D288855F2009CCC88 /* ArchiveWelcomeViewModel.swift in Sources */,
 				2844A1C9287CB98900FA342D /* MoneywiseApp.swift in Sources */,
 				28B1087428871D5900A4626E /* PrimaryButton.swift in Sources */,
+				28FA6880288A521D00887E3C /* ImagePickerViewModel.swift in Sources */,
 				28160D42287F05F900F6BCDB /* MainPageView.swift in Sources */,
 				28B108782887219D00A4626E /* AuthenticationManager.swift in Sources */,
 				283FC23828824A5D00210795 /* CurrencyConverterViewModel.swift in Sources */,

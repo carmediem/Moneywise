@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct CurrencyConverterView: View {
-    
-    // Things to do
-    // 1. Remove the "from" currency selector from the UI, always be from USD.
-    // 3. move this loading function which grabs the values of the currencies and stuff to happen when the application launches, rather than here on every select / tap. Store in local storage
+
     @State private var fromCurrency = 146
     @State private var toCurrency = 48
     @State private var amount: String = ""
@@ -34,8 +31,6 @@ struct CurrencyConverterView: View {
     var body: some View {
         
         ZStack {
-            Rectangle()
-                .foregroundColor((Color.background))
             NavigationView {
                 VStack {
                     Spacer()
@@ -49,8 +44,6 @@ struct CurrencyConverterView: View {
                                 //loop through the elements, select the current element and place it in to be selected
                                 ForEach(0 ..< currencies.count) { index in
                                     Text(self.currencies[index]).tag("USD")
-    //                            ForEach(0 ..< currencies.count) { index in
-    //                                Text(self.currencies[index]).tag(index)
                                 }
                             }
                             
@@ -69,11 +62,15 @@ struct CurrencyConverterView: View {
                 }.background(Color.background)
 
             }
+
         }
+
     }
     struct CurrencyConverter_Previews: PreviewProvider {
         static var previews: some View {
             CurrencyConverterView()
         }
     }
+
 }
+

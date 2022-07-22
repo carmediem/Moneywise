@@ -22,24 +22,27 @@ struct ContentView: View {
                 Text("Moneywise")
                     .font(.largeTitle)
                     .bold()
-                    .padding(.top)
-                    .padding(.bottom, 10)
+              //      .padding(.top, 20)
+                    .padding(.bottom, 40)
                 
                 Image("icon")
                     .resizable()
-                    .scaledToFit()
-                    .padding(50)
+              //      .scaledToFit()
+                    .frame(width: 220, height: 220)
+                    .padding(.bottom, 40)
                 
-                
-                Text("Get smarter about how you spend your money")
+                Text("Get smarter about how")
+                    .font(.title2)
+                    .italic()
+                 Text("you spend your money")
+                    
                     .font(.title2)
                     .italic()
                 
                 Spacer()
-                
-
-    
             
+            
+            //MARK: NEXT STEPS AFTER AUTHENTIFICATION
             VStack {
                 if authentificationManager.isAuthenticated {
                     
@@ -78,15 +81,9 @@ struct ContentView: View {
             }
             }.background(Color.background)
         }
-
     }
-    
-    
-    
-    
+ 
 }
-
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

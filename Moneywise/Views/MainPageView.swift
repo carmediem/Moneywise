@@ -14,6 +14,7 @@ struct MainPageView: View {
     var body: some View {
    //     if authetificationManager.isAuthenticated {
         NavigationView {
+            ScrollView {
             //MARK: header and tab bar items
             ZStack {
                 VStack {
@@ -26,13 +27,12 @@ struct MainPageView: View {
                 }.navigationBarTitleDisplayMode(.inline)
                     .frame(maxWidth: .infinity,
                            maxHeight: .infinity)
-                    .background(Color.background)
                 
-                //MARK: -- Toolbar
+                //MARK: -- Toolbar item to add new entry
                     .toolbar {
                         ToolbarItem {
                             NavigationLink {
-                                TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.00, transactionTypeText: "", ifIsNew: true)
+                                TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.00, ifIsNew: true)
                             } label: {
                             Image(systemName: "plus")
                                 .symbolRenderingMode(.palette)
@@ -41,6 +41,9 @@ struct MainPageView: View {
                         }
                     }
             }
+                
+            //MARK: -- GRAPH OF CATEGORIES
+
             //MARK: -- List of most recent transactions- CHANGE TO CATEGORIES IN THIRD SPRINT
             HStack {
                 Text("Recent Transactions")
@@ -54,27 +57,12 @@ struct MainPageView: View {
                     }
                 }
             }
-        }
-        
-        //MARK: -- Tab view to navigate across different pages
-//        TabView {
-//            MainPageView()
-//                .tabItem {
-//                    Label("Overview", systemImage: "chart.pie")
-//                }
-//            TransactionListView()
-//                .tabItem {
-//                    Label("List", systemImage: "list.bullet")
-//                }
-//            CurrencyConverterView()
-//                .tabItem {
-//                    Label("Converter", systemImage: "dollarsign.circle")
-//                }
-//                .environment(\.managedObjectContext, dataController.container.viewContext)
-//
+        }.background(Color.background)
+
         }
     }
-//}
+    }
+
 
 
 struct MainPageView_Previews: PreviewProvider {

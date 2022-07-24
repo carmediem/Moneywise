@@ -26,8 +26,10 @@
 		2866636F287D034200555B76 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866636E287D034200555B76 /* Extension.swift */; };
 		28666371287D0FA500555B76 /* TransactionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28666370287D0FA500555B76 /* TransactionListView.swift */; };
 		28666373287D0FBF00555B76 /* TransactionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28666372287D0FBF00555B76 /* TransactionListViewModel.swift */; };
-		289C2E84288B70570095F5B5 /* TransactionRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C2E83288B70570095F5B5 /* TransactionRowViewModel.swift */; };
-		289C2E86288B74290095F5B5 /* SortView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C2E85288B74290095F5B5 /* SortView.swift */; };
+		289C2E84288B70570095F5B5 /* TransactionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C2E83288B70570095F5B5 /* TransactionRowView.swift */; };
+		28A690F2288CF00C009A29F3 /* TransactionDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A690F1288CF00C009A29F3 /* TransactionDetailViewModel.swift */; };
+		28A690F4288CF7A8009A29F3 /* SortViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A690F3288CF7A8009A29F3 /* SortViewViewModel.swift */; };
+		28A690F6288DAA90009A29F3 /* GraphTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A690F5288DAA90009A29F3 /* GraphTest.swift */; };
 		28AE1AE7287E358D001B6C0C /* Archive.Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AE1AE6287E358D001B6C0C /* Archive.Welcome.swift */; };
 		28B1087428871D5900A4626E /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B1087328871D5900A4626E /* PrimaryButton.swift */; };
 		28B108782887219D00A4626E /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B108772887219D00A4626E /* AuthenticationManager.swift */; };
@@ -63,8 +65,10 @@
 		2866636E287D034200555B76 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		28666370287D0FA500555B76 /* TransactionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListView.swift; sourceTree = "<group>"; };
 		28666372287D0FBF00555B76 /* TransactionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListViewModel.swift; sourceTree = "<group>"; };
-		289C2E83288B70570095F5B5 /* TransactionRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRowViewModel.swift; sourceTree = "<group>"; };
-		289C2E85288B74290095F5B5 /* SortView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortView.swift; sourceTree = "<group>"; };
+		289C2E83288B70570095F5B5 /* TransactionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRowView.swift; sourceTree = "<group>"; };
+		28A690F1288CF00C009A29F3 /* TransactionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewModel.swift; sourceTree = "<group>"; };
+		28A690F3288CF7A8009A29F3 /* SortViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortViewViewModel.swift; sourceTree = "<group>"; };
+		28A690F5288DAA90009A29F3 /* GraphTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTest.swift; sourceTree = "<group>"; };
 		28AE1AE6287E358D001B6C0C /* Archive.Welcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive.Welcome.swift; sourceTree = "<group>"; };
 		28B1087328871D5900A4626E /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		28B108772887219D00A4626E /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
@@ -174,8 +178,9 @@
 				28160D41287F05F900F6BCDB /* MainPageView.swift */,
 				28666370287D0FA500555B76 /* TransactionListView.swift */,
 				28C81D14287E460A000D231B /* TransactionDetailView.swift */,
+				289C2E83288B70570095F5B5 /* TransactionRowView.swift */,
 				283FC235288241B300210795 /* CurrencyConverterView.swift */,
-				289C2E85288B74290095F5B5 /* SortView.swift */,
+				28A690F5288DAA90009A29F3 /* GraphTest.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -188,7 +193,8 @@
 				283FC23728824A5D00210795 /* CurrencyConverterViewModel.swift */,
 				28DFD57C288855F2009CCC88 /* ArchiveWelcomeViewModel.swift */,
 				28FA687F288A521D00887E3C /* ImagePickerViewModel.swift */,
-				289C2E83288B70570095F5B5 /* TransactionRowViewModel.swift */,
+				28A690F1288CF00C009A29F3 /* TransactionDetailViewModel.swift */,
+				28A690F3288CF7A8009A29F3 /* SortViewViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -360,10 +366,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28A690F2288CF00C009A29F3 /* TransactionDetailViewModel.swift in Sources */,
 				28AE1AE7287E358D001B6C0C /* Archive.Welcome.swift in Sources */,
 				28666373287D0FBF00555B76 /* TransactionListViewModel.swift in Sources */,
 				28FA6859288A232700887E3C /* MainPageViewModel.swift in Sources */,
 				28666371287D0FA500555B76 /* TransactionListView.swift in Sources */,
+				28A690F6288DAA90009A29F3 /* GraphTest.swift in Sources */,
+				28A690F4288CF7A8009A29F3 /* SortViewViewModel.swift in Sources */,
 				28160D50287F867000F6BCDB /* Transaction+Convenience.swift in Sources */,
 				2844A1D2287CB98A00FA342D /* Persistence.swift in Sources */,
 				28B1087A288723D600A4626E /* LoginView.swift in Sources */,
@@ -380,10 +389,9 @@
 				2866636F287D034200555B76 /* Extension.swift in Sources */,
 				28160D54287FA2DD00F6BCDB /* ContentView.swift in Sources */,
 				283FC23B288318B200210795 /* CurrencyConversionErrors.swift in Sources */,
-				289C2E84288B70570095F5B5 /* TransactionRowViewModel.swift in Sources */,
+				289C2E84288B70570095F5B5 /* TransactionRowView.swift in Sources */,
 				28FA68552888DBAD00887E3C /* AppFlow.swift in Sources */,
 				2844A1D5287CB98A00FA342D /* Moneywise.xcdatamodeld in Sources */,
-				289C2E86288B74290095F5B5 /* SortView.swift in Sources */,
 				28DFD57D288855F2009CCC88 /* ArchiveWelcomeViewModel.swift in Sources */,
 				2844A1C9287CB98900FA342D /* MoneywiseApp.swift in Sources */,
 				28B1087428871D5900A4626E /* PrimaryButton.swift in Sources */,
@@ -517,12 +525,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Moneywise/Preview Content\"";
 				DEVELOPMENT_TEAM = CG3Y5NGC6T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow Moneywise to access your camera and photos.";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "We need to unlock your Moneywise data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -548,12 +558,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Moneywise/Preview Content\"";
 				DEVELOPMENT_TEAM = CG3Y5NGC6T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow Moneywise to access your camera and photos.";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "We need to unlock your Moneywise data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

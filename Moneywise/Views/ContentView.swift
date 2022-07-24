@@ -28,7 +28,7 @@ struct ContentView: View {
                 Image("icon")
                     .resizable()
               //      .scaledToFit()
-                    .frame(width: 220, height: 220)
+                    .frame(width: 190, height: 190)
                     .padding(.bottom, 40)
                 
                 Text("Get smarter about how")

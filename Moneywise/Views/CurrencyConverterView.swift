@@ -11,7 +11,7 @@ struct CurrencyConverterView: View {
 
     @State private var fromCurrency = 146
     @State private var toCurrency = 48
-    @State private var amount: String = ""
+    @State private var conversionAmount: String = ""
     private let currencies = ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BIF","BOB", "BOV", "BRL", "BSD", "BTN", "BWP", "BYN", "BZD", "CAD", "CHE", "CHF", "CHW", "CLF", "CLP", "CNY", "COP", "COU", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EFP", "ERN", "ETB", "EUR", "FJD", "FKP", "GBP", "GEL", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF","IDR", "ILS", "INR", "IQD", "IRR", "ISK", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBR", "LRD", "LSL", "LYD", "MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP", "MRU", "MUR", "MVR", "MWK", "MXN", "MXV", "MXR", "MZN", "NAD", "NIO", "NOK","NPR", "NZD", "OMR", "PAB", "PEN", "PGK", "PHP", "PKR", "PLN", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SCD", "SHP", "SLL", "SOS", "SRD", "SSP", "STN", "SVC", "SVP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TWD", "TZS", "UAH", "UGX", "USD", "USN", "UYI", "UYU", "UZS", "VED", "VEF", "VND", "VUV", "WST", "XAF", "XCD", "XDR", "XOF", "XPF", "XSU", "XUA", "YER", "ZAR", "ZMW", "ZWL"]
     
     
@@ -39,7 +39,7 @@ struct CurrencyConverterView: View {
                         .frame(width: 100, height: 100, alignment: .center)
 
                     Form {
-                        Section(header: Text("")) {
+                        Section(header: Text("Currency")) {
                             Picker(selection: $fromCurrency, label: Text("From")) {
                                 //loop through the elements, select the current element and place it in to be selected
                                 ForEach(0 ..< currencies.count) { index in
@@ -55,8 +55,8 @@ struct CurrencyConverterView: View {
                             }
                         }
                         Section(header: Text("Conversion")) {
-                            TextField("Enter an amount", text: $amount)
-                            Text("\(convert(amount)) \(currencies[toCurrency])")
+                            TextField("Enter an amount", text: $conversionAmount)
+                            Text("\(convert(conversionAmount)) \(currencies[toCurrency])")
                         }
                     }.navigationTitle("Currency Converter")
                 }.background(Color.background)

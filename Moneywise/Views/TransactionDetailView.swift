@@ -18,21 +18,29 @@ struct TransactionDetailView: View {
     @State private var date = Date()
     
     //This is what my form for a new transaction should look like
-    //  var transaction: Transaction
+    var transaction: Transaction?
+    
+    //For uploading image
+    @State var uploadTransactionPhoto = false
+    @State var openCameraRoll = false
+    @State var imageSelected = UIImage()
+    
     @State var transactionDateText: Date = Date()
     @State var transactionNameText: String = ""
-    @State var category: Category.Categories = .Investment
+    @State var category: Category.Categories = .SelectOne
     @State var transactionMerchantText: String = ""
-    @State var transactionAmountValue: Double = 0.00
+    @State var transactionAmountValue: String = ""
     @State var transactionReoccuring: Bool = false
     @State var transactionNoteText: String = ""
-    @State var categoryType: Category.Categories.ExpenseType = .all
+    @State var categoryType: Category.Categories.ExpenseType = .Selection
     @State private var selection = ""
+    var transactionValue: Double {
+        Double(transactionAmountValue) ?? 0.00
+    }
+    var ifIsNew: Bool
     
- 
     private let reOccuringPurchase = ["Select One", "Yes", "No"]
     
-    var ifIsNew: Bool
     
     var body: some View {
         VStack {
@@ -65,7 +73,7 @@ struct TransactionDetailView: View {
                                 }
                         }
                     }.pickerStyle(.menu)
-                }.frame(width: 150, height: 50)
+                }.frame(height: 30)
                 
                 HStack {
                     Text("Merchant:")
@@ -76,14 +84,9 @@ struct TransactionDetailView: View {
                 HStack {
                     Text("Amount:   $")
                         .bold()
-             //      TextField("Placeholder", text: 0.00)
+                    TextField("Placeholder", text: $transactionAmountValue)
                 }
                 
-                HStack {
-                    Text(transactionAmountValue, format: .currency(code: "USD"))
-                        .bold()
-                    //               TextField("Placeholder", text: $transactionAmountValue)
-                }
                 
                 HStack {
                     Text("Transaction Type:")
@@ -109,7 +112,7 @@ struct TransactionDetailView: View {
                     }.pickerStyle(.menu)
                         .foregroundColor(.black)
                 }
-      
+                
                 HStack {
                     Text("Notes:")
                         .bold()
@@ -117,87 +120,108 @@ struct TransactionDetailView: View {
                     TextField("Placeholder", text: $transactionNoteText)
                         .lineLimit(4)
                 }
-                HStack {
+                VStack (alignment: .leading) {
+                    Text("Upload Photo")
+                        .bold()
+                        
+                    Button(action: {
+                        uploadTransactionPhoto = true
+                        openCameraRoll = true
+                        print("Upload photo of transaction")
+                    }, label: {
+                       // Text("")
+                        if uploadTransactionPhoto {
+                            Image(uiImage: imageSelected)
+                                .resizable()
+                                .frame(width: 120, height: 120)
+                        } else {
+                            Image("receipt")
+                                .resizable()
+                                .frame(width: 120, height: 120)
+                        }
+                        
+                    })   .buttonStyle(.bordered)
+//                        .onTapGesture {
+//                        //    <#code#>
+//                        }
+                }.sheet(isPresented: $openCameraRoll) {
+                    ImagePicker(selectedImage: $imageSelected, sourceType: .photoLibrary)
+                    
+//                    ZStack(alignment: .bottomTrailing) {
+//                        Button(action: {
+//                            uploadTransactionPhoto = true
+//                            openCameraRoll = true
+//
+//                        }, label: {
+//                            if uploadTransactionPhoto {
+//                                Image(uiImage: imageSelected)
+//                                    .pictureSize()
+//                            } else {
+//                                Image("AppIcon")
+//                                    .pictureSize()
+//                            }
+//                    })
+//
+//                    }.sheet(isPresented: $openCameraRoll) {
+//                        ImagePicker(selectedImage: $imageSelected, sourceType: .camera)
+                    
+                    
                     
                 }
-                
-                //MARK: --Save or Update Button for existing and new entries
-//                VStack {
-//                    Button {
-//                        transactionViewModel.createTransaction(name: transactionNameText, amount: transactionAmountValue, category: transactionCategoryText, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, note: transactionNoteText, type: transactionTypeText)
-//                        print(transactionViewModel.transactions.count)
-//                        dismiss()
-//                    } label: {
-//                        Spacer()
-//                        ZStack {
-//                            Rectangle().fill(.ultraThinMaterial)
-//                                .cornerRadius(12)
-//                            Text(transaction == nil ? "Save" : "Update")
-//                        }
-//                    }.frame(width: UIScreen.main.bounds.width - 80, height: 40)
-//                }
-                
-            }//end of form
+                //Button("Upload photo", action: UIImagePickerController)
+            }
             
-            .navigationTitle("Transaction Details")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        transactionViewModel.createTransaction(name: transactionNameText, amount: transactionAmountValue, category: category.rawValue, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, note: transactionNoteText, type: categoryType.rawValue, imageName: category.CategoryImage)
-                       print(transactionViewModel.transactions.count)
-                        dismiss()
-                    } label: {
-                        Text("Save")
-                    }
+            
+        }
+        //end of form
+        
+        .navigationTitle("Transaction Details")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    transactionViewModel.createTransaction(name: transactionNameText, amount: transactionValue, category: category.rawValue, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, note: transactionNoteText, type: categoryType.rawValue, imageName: category.CategoryImage)
+                    print(transactionViewModel.transactions.count)
+                    dismiss()
+                } label: {
+                    Text("Save")
                 }
             }
         }
-        
-        .onAppear {
+    }
+    
+    //   .onAppear {
+    //                        if let transaction = transaction {
+    //                            transactionDateText = transaction.date ?? date
+    //                            transactionNameText =  transaction.name!
+    //                            category = transaction.category!
+    //                            transactionMerchantText = transaction.transactionMerchantText!
+    //                            transactionAmountValue = transaction.transactionAmountValue!
+    //                            transactionReoccuring = transaction.transactionReoccuring!
+    //                            transactionNoteText = transaction.transactionNoteText!
+    //                        categoryType: Category.Categories.ExpenseType = transaction.categoryType!
+    //                            var transactionValue: Double {
+    //                                Double(transactionAmountValue) ?? 0.00
+}
+//    }
 //            if ifIsNew {  //THIS IS WORKING, DONT DELETE. THIS IS WHAT'S SHOWING UP IN THE PLACEHOLDER TEXT FIELDS
 //                transactionDateText = Date()
 //                transactionNameText = ""
-//                transactionCategoryText = ""
+//         //       Category.Categories = ""
 //                transactionMerchantText = ""
-//                transactionAmountValue = 10.00
+//        //        transactionAmountValue = 10.00
 //                transactionReoccuring = false
 //                transactionNoteText = "Test for notes"
-//
+
 //                            } else {
 //                                //THIS IS THE INFO THE PLACEHOLDER DATA IS PULLING
 //                                transactionDateText = Date()
 //                                transactionNameText = "Babyshower gift"
-//                                transactionCategoryText = "Gift"
+//             //                   Category.Categories = "Gift"
 //                                transactionMerchantText = "Walmart"
-//                                transactionAmountValue = 0.0
-//                                transactionReoccuring = false
+//               //                 transactionAmountValue = 0.0                   transactionReoccuring = false
 //                                transactionNoteText = "shower for new baby" }
-                        }
-            }
-            
-            
-            //    func prepareForCreateEntry() {
-            //        let transaction = Transaction(context: managedObjectContext)
-            //        transaction.date = transactionDateText
-            //        transaction.name = transactionNameText
-            //        transaction.category = transactionCategoryText
-            //        transaction.merchant = transactionMerchantText
-            //        transaction.amount = transactionAmountValue
-            //        transactionReoccuring = transactionReoccuring
-            //        transaction.note = transactionNoteText
-            //
-            //        do {
-            //            try managedObjectContext.save()
-            //            transactionViewModel.transactions.append(transaction)
-            //        } catch {
-            //            // handle the Core Data error
-            //        }
-            //        CoreDataStack.saveContext()
-            //
-            //        dismiss()
-            //        }
 
-    }
+// }
 
 
 //struct TransactionDetailView_Previews: PreviewProvider {

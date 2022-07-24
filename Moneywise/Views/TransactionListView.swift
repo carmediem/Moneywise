@@ -11,29 +11,31 @@ struct TransactionListView: View {
     @Environment(\.isSearching) var isSearching
     @EnvironmentObject var viewModel: TransactionListViewModel
     
-    //  @State var viewModel = TransactionListViewModel() .//everytime something gets uploaded to my view, it will create a retain cycle and will load forever
     @State var searchQuery = ""
-  //  @State var filterTransactions = TransactionListView.self
+    
     
     var transactionList: some View {
-        List(viewModel.transactions, id: \.self) { transaction in  // list gives delete option, will also give seperator. for each does not- only lists things out, no extra functionalities
-            
-                NavigationLink {
-                    //Destination
-                    TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.0, ifIsNew: false)
-                } label: {
-                    TransactionRowView(transaction: transaction)
-                }
-                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                    Button("Delete", role: .destructive) {
-                        if let id = transaction.transactionId {
-                            viewModel.removeTransaction(transaction: transaction, with: PersistenceController.shared.container.viewContext, uuid: "\(id)")
+        Section(header: SortView()) {
+            List {
+                ForEach(viewModel.transactions, id: \.self) { transaction in
+                    NavigationLink {
+                        TransactionDetailView(transactionViewModel: viewModel, ifIsNew: false)
+                    } label: {
+                        TransactionRowView(transaction: transaction)
+                    }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button("Delete", role: .destructive) {
+                            if let id = transaction.transactionId {
+                                viewModel.removeTransaction(transaction: transaction, with: PersistenceController.shared.container.viewContext, uuid: "\(id)")
+                            }
                         }
                     }
                 }
-                
-            //     .onDelete(perform: re)
+            }
         }
+        .listStyle(.plain)
+        //        List(viewModel.transactions, id: \.self) { transaction in  // list gives delete option, will also give seperator. for each does not- only lists things out, no extra functionalities
+        
         .navigationTitle("List of Transactions")
         
         //MARK: -- Search Bar
@@ -49,8 +51,7 @@ struct TransactionListView: View {
             viewModel.search()
         }
     }
-
-
+    
     
     var body: some View {
         NavigationView {
@@ -63,7 +64,7 @@ struct TransactionListView: View {
                             .toolbar {
                                 ToolbarItem {
                                     NavigationLink {
-                                        TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.00,  ifIsNew: true)
+                                        TransactionDetailView(transactionViewModel: viewModel, ifIsNew: true)
                                     } label: {
                                         Image(systemName: "plus")
                                             .symbolRenderingMode(.palette)
@@ -76,17 +77,17 @@ struct TransactionListView: View {
                         
                         //MARK: List of entries
                         transactionList
-                        ////                        .overlay {
-                        ////                            if viewModel.filteredData.isEmpty {
-                        ////                                EmptyView(query: $query)
-                        ////                            }
-                        ////                        }
+//                            .overlay {
+//                                if viewModel.filteredData.isEmpty {
+//                                    EmptyView(query: $searchQuery)
+//                                }
+//                            }
                             .frame(height: CGFloat(viewModel.transactions.count) * 100 + 25)
                             .navigationBarTitleDisplayMode(.inline)
                             .toolbar {
                                 ToolbarItem {
                                     NavigationLink {
-                                        TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.00, ifIsNew: true)
+                                        TransactionDetailView(transactionViewModel: viewModel, ifIsNew: true)
                                     } label: {
                                         Image(systemName: "plus")
                                             .symbolRenderingMode(.palette)
@@ -98,17 +99,11 @@ struct TransactionListView: View {
             }.navigationTitle("List of Transactions")
         }
         .onAppear {
-    
-//            TransactionDetailView(transactionViewModel: viewModel, transactionTypeText: "", ifIsNew: false)
+            
+            //            TransactionDetailView(transactionViewModel: viewModel, transactionTypeText: "", ifIsNew: false)
         }
     }
-    
-    //    MARK: Search for transactions list
-    //        var transactions: [Transaction] {
-    //            let listOfTransactions = self.transactions.map { $0.lowercase() }
-    //            return query == "" ? listOfTransactions : listOfTransactions.filter {Context in
-    //                $0.contains(query.lowercased()) }
-           }
+}
 
 
 //MARK: Empty TransactionTitle
@@ -128,74 +123,12 @@ struct EmptyTransactionTitle: View {
     }
 }
 
-
-//MARK: -- TransactionRowView
-struct TransactionRowView: View {
-    @EnvironmentObject var viewModel: TransactionListViewModel
-    var transaction: Transaction
-    var body: some View {
-        HStack {
-            Image(transaction.imageName ?? "" )
-                .resizable()
-                .frame(width: 30, height: 40, alignment: .leading)
-                .padding(.leading, 5)
-            
-            
-            VStack (alignment: .leading) {
-                Text(transaction.name ?? "Unknown")
-                    .bold()
-                    .font(.headline)
-                Text(transaction.category ?? "Unknown")
-                    .font(.system(size: 14))
-                let date = transaction.date
-                let stringDate = DateFormatter.allNumericUSA.string(from: date ?? Date())
-                Text(stringDate)
-                    .font(.system(size: 14))
-                    .padding(.horizontal, 30)
-            }  .padding(.leading, 15)
-            
-            Text(String(transaction.amount))
-                .font(.system(size: 18))
-                .frame(width: 75, alignment: .trailing)
-                .listRowInsets(EdgeInsets())
-                .foregroundColor(Category.Categories.ExpenseType(rawValue: transaction.type ?? "all")?.color)
-        }.onAppear
-        {
-            print(transaction)
-        }
-        
-        .toolbar {
-            ToolbarItem {
-                NavigationLink {
-                    TransactionDetailView(transactionViewModel: viewModel, transactionAmountValue: 0.00, ifIsNew: true)
-                } label: {
-                    Image(systemName: "plus")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(Color.icon)
-                }
-            }
-        }
-        .frame(height: 50)
-    }
-}
-
-
 //MARK: -- Formatters
 let currencyFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
     formatter.numberStyle = .currency
     return formatter
 }()
-
-
-//MARK: -- SORTING DATE and Cateory
-/*
- let month = "July"
- fetchRequest.predicate = NSPredicate(format: "month == %@), month)
- 
- let category = "health"
- fetchRequest.predicate = NSPredicate(format: "category == %@), category)
- */
 
 
 

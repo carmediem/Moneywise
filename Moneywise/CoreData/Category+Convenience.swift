@@ -56,6 +56,7 @@ extension Category {
         case Income
         case Investment
         case Savings
+        case SelectOne
         
         var CategoryImage: String {
             switch self {
@@ -91,6 +92,8 @@ extension Category {
                 return "iconInvestment"
             case .Savings:
                 return "iconSavings"
+            case .SelectOne:
+                return "iconOthers"
             }
         }
 //        extension Category {
@@ -119,12 +122,14 @@ extension Category {
             case income = "Income"
             case expense = "Expense"
             case all = "All"
+            case Selection = "Select One"
             
             
             var color: Color {
                 switch self {
                 case .income: return .green
                 case .expense: return .red
+                case .Selection: return .black
                 case .all:
                     return .black
                 }

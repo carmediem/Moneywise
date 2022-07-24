@@ -10,28 +10,16 @@ import SwiftUI
 import CoreData
 
 class TransactionListViewModel: ObservableObject {
-    //NSObject, NSFetchedResultsControllerDelegate
-    //private let transactionEntries: CoreDataTransactionEntriesProtocol
-    //private let fetchedResultsController: NSFetchedResulsController<Transaction>
-    //this will be responsible to everything regarding the Transaction
     
     @Published var filteredTransactions = [Transaction]()
     
     var selectedTransaction: String = ""
-    
-    //    var transactions: [Transaction] = []
-    
+        
     init() {
         load()
         print(transactions.count)
     }
-    
-    
-    //init(context: NSManagedObjectContext) {
-    //let request = NSFetchRequest<Transaction>(entityName: "Transaction)
-    //request.sortDescriptors = [
-    //NSSortDescriptor(keyPath: \Transcation.section, ascending: true)
-    
+
     static let emptyMessage = "You have not listed any entries for expenses or income. Click the + in the upper right corner to start managing your money "
     
     
@@ -79,17 +67,7 @@ class TransactionListViewModel: ObservableObject {
         } catch {
             print(error)
         }
-        //
-        //MARK: -- COME BACK TO THIS. rememeber to save
-        //    CoreDataStack.saveContext()
-        //    } else {
-        //        print("eric rocks")
-        //    }
-        //    do {
-        //        try PersistenceController.shared.container.viewContext.save()
-        //    } catch {
-        //        print(error)
-        //    }
+
     }
     
     func removeTransaction(transaction: Transaction, with context: NSManagedObjectContext, uuid: String) {
@@ -103,7 +81,7 @@ class TransactionListViewModel: ObservableObject {
             }
             context.delete(transactionsToDelete)
         } else {
-            print("eric rocks")
+            print("😀")
         }
         do {
             try PersistenceController.shared.container.viewContext.save()
@@ -114,33 +92,13 @@ class TransactionListViewModel: ObservableObject {
     
     
 
-    //MARK: -- functions for search bar
+    //MARK: -- function for search bar
     func search(with query: String = "") {
-        filteredTransactions = query.isEmpty ? transactions : transactions.filter { $0.name!.contains(query) }
-        
+        guard !query.isEmpty else {
+          load()
+          return
+        }
+        transactions = transactions.filter { $0.name!.contains(query) }
     }
-    
-    //    func prepareForCreateEntry() { DELETE THIS
-    //        let transaction = Transaction(context: managedObjectContext)
-    //        transaction.date = transactionDateText
-    //        transaction.name = transactionNameText
-    //        transaction.category = transactionCategoryText
-    //        transaction.merchant = transactionMerchantText
-    //        transaction.amount = transactionAmountValue
-    //        transactionReoccuring = transactionReoccuring
-    //        transaction.note = transactionNoteText
-    //
-    //        do {
-    //            try managedObjectContext.save()
-    //            transactionViewModel.transactions.append(transaction)
-    //        } catch {
-    //            // handle the Core Data error
-    //        }
-    //        CoreDataStack.saveContext()
-    //
-    //        dismiss()
-    //
-    //        }
-    
 }
 

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainPageViewModel: View {
-    private var transactions: FetchedResults<Transaction>
+     var transactions: FetchedResults<Transaction>
     
     @State private var currentMonth = 0
     @State private var month = Calendar.current.date(byAdding: .month, value: 0, to: Date())
@@ -19,31 +19,31 @@ struct MainPageViewModel: View {
     
     var body: some View {
         Section {
-            HStack() {
-                Button {
-                    let currentMonth = currentMonth - 1
-                } label: {
-                    Label("Previous Month", systemImage: "chevron.left")
-                        .labelStyle(.iconOnly)
-                }
-                .buttonStyle(PlainButtonStyle())
-                .foregroundColor(.blue)
-                .onChange(of: currentMonth) { newValue in
-                    month = Calendar.current.date(byAdding: .month, value: newValue, to: Date())
-                }
-                Spacer()
-                Text(month!, formatter: monthDateFormatter)
-                Spacer()
-                Button {
-                    let currentMonth = currentMonth + 1
-                } label: {
-                    Label("Next Month", systemImage: "chevron.right")
-                        .labelStyle(.iconOnly)
-                }
-                .buttonStyle(PlainButtonStyle())
-                .foregroundColor(.blue)
-            }
-            .padding(.horizontal)
+//            HStack() {
+//                Button {
+//                    let currentMonth = currentMonth - 1
+//                } label: {
+//                    Label("Previous Month", systemImage: "chevron.left")
+//                        .labelStyle(.iconOnly)
+//                }
+//                .buttonStyle(PlainButtonStyle())
+//                .foregroundColor(.blue)
+//                .onChange(of: currentMonth) { newValue in
+//                    month = Calendar.current.date(byAdding: .month, value: newValue, to: Date())
+//                }
+//                Spacer()
+//                Text(month!, formatter: monthDateFormatter)
+//                Spacer()
+//                Button {
+//                    let currentMonth = currentMonth + 1
+//                } label: {
+//                    Label("Next Month", systemImage: "chevron.right")
+//                        .labelStyle(.iconOnly)
+//                }
+//                .buttonStyle(PlainButtonStyle())
+//                .foregroundColor(.blue)
+//            }
+            //.padding(.horizontal)
             
         }
     }
@@ -56,10 +56,10 @@ let monthDateFormatter: DateFormatter = {
 }()
 
 
-
+//
 //
 //struct MainPageViewModel_Previews: PreviewProvider {
 //    static var previews: some View {
-//        MainPageViewModel(transactions: FetchedResults<Transaction>)
+//        MainPageViewModel()
 //    }
 //}

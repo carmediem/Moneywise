@@ -11,7 +11,7 @@ import LocalAuthentication
 
 struct ContentView: View {
     
-    @StateObject var authentificationManager = AuthenticationManager()
+    @EnvironmentObject var authentificationManager: AuthenticationManager
     
     //not actually using this..
    var transaction: Transaction?
@@ -50,21 +50,19 @@ struct ContentView: View {
                     VStack(spacing: 40) {
                         ZStack{
                             Spacer()
-                            Rectangle().fill(.ultraThinMaterial)
-                                .padding()
-                                .padding(.horizontal)
-                                .background(.white)
-                                .cornerRadius(30)
-                                .shadow(radius: 10)
+//                            Rectangle().fill(.ultraThinMaterial)
+//                                .padding()
+//                                .padding(.horizontal)
+//                                .background(.white)
+//                                .cornerRadius(30)
+//                                .shadow(radius: 10)
                             NavigationLink(destination: MainPageView()) {
                                 HStack {
-                                Text("BLANK")
 
                                 }
                             }
                         }.frame(width: UIScreen.main.bounds.width - 40, height: 55)
                         Text("")
-                        //MARK:  MOVE THE LOGOUT BUTTON TO THE UPPER LEFT HAND CORNER
                 
                         PrimaryButton(showImage: false, text: "Logout")
                             .onTapGesture {

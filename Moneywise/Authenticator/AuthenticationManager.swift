@@ -8,6 +8,7 @@
 import Foundation
 import LocalAuthentication
 
+@MainActor
 class AuthenticationManager: ObservableObject {
     private(set) var context = LAContext()
     @Published private(set) var biometryType: LABiometryType = .none
@@ -39,6 +40,7 @@ class AuthenticationManager: ObservableObject {
                 if success {
                     DispatchQueue.main.async {     //need to use dispatchQueue bc it is no the man thread
                         self.isAuthenticated = true
+        
                         print("isAuthenticated", self.isAuthenticated) //need to reference self bc we're in a closure
                     }
                 }

@@ -11,6 +11,8 @@ struct TransactionListView: View {
     @Environment(\.isSearching) var isSearching
     @EnvironmentObject var viewModel: TransactionListViewModel
     
+    @Environment(\.managedObjectContext) var managedObjectContext
+    
     @State var searchQuery = ""
     //
     //    @FetchRequest(sortDescriptors: [
@@ -38,7 +40,7 @@ struct TransactionListView: View {
             }
         }
         .listStyle(.plain)
-        //        List(viewModel.transactions, id: \.self) { transaction in  // list gives delete option, will also give seperator. for each does not- only lists things out, no extra functionalities
+        //List(viewModel.transactions, id: \.self) { transaction in  // list gives delete option, will also give seperator. for each does not- only lists things out, no extra functionalities
         
         .navigationTitle("List of Transactions")
         
@@ -54,6 +56,11 @@ struct TransactionListView: View {
         .onAppear {  //with EmptyView
             viewModel.search()
         }
+//          .overlay {
+//       if viewModel.filteredData.isEmpty {
+//          EmptyView(query: $searchQuery)
+//        }
+//     }
     }
     
     
@@ -79,11 +86,11 @@ struct TransactionListView: View {
                         
                         //MARK: List of entries
                         transactionList
-                        //                            .overlay {
-                        //                                if viewModel.filteredData.isEmpty {
-                        //                                    EmptyView(query: $searchQuery)
-                        //                                }
-                        //                            }
+//                            .overlay {
+//                                if viewModel.filteredData.isEmpty {
+//                                    EmptyView(query: $searchQuery)
+//                                }
+//                            }
                             .frame(height: CGFloat(viewModel.transactions.count) * 100 + 25)
                             .navigationBarTitleDisplayMode(.inline)
                             .toolbar {

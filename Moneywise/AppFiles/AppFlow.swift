@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct AppFlow: View {
+    
     var body: some View {
         TabView {
             ContentView()
@@ -33,3 +34,6 @@ struct AppFlow: View {
         }.background(Color.background)
     }
 }
+
+//opacity for tab button view, alp
+

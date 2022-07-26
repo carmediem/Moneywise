@@ -48,7 +48,7 @@ class TransactionListViewModel: ObservableObject {
     //MARK: -- CRUD FOR TRANSACTIONS
     func createTransaction(name: String, amount: Double, category: String, date: Date, isReoccuring: Bool, merchant: String, note: String, type: String, imageName: String) {
         let context = PersistenceController.shared.container.viewContext
-        let transaction = Transaction(name: name, amount: amount, category: category, transactionId: UUID(), isReoccuring: isReoccuring, merchant: merchant, note: note, type: type, imageName: imageName, context: context)
+        let transaction = Transaction(name: name, amount: amount, category: category, date: date, transactionId: UUID(), isReoccuring: isReoccuring, merchant: merchant, note: note, type: type, imageName: imageName, context: context)
         transactions.append(transaction)
         print(transaction.transactionId)
         do {

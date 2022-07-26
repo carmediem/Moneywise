@@ -50,7 +50,10 @@ struct SortView_Previews: PreviewProvider {
 
 
 
-
+//func group(_ result: FetchedResults<TransactionListView>) -> [[Transaction]] {
+//    return Dictionary(grouping: result) { $0.category! .sorted() }
+//        .map {$0.value}
+//}
 
 
 //func initializeFetchedResultsController() {

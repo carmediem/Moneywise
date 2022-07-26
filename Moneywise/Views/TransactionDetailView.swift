@@ -15,20 +15,14 @@ struct TransactionDetailView: View {
     
     @Environment(\.dismiss) var dismiss: DismissAction
     
-    @State private var date = Date()
-    
-//    var transaction: Transaction? {
-//        didSet {
-//            setUpViews()
-//        }
-//    }
+   // @State private var date = Date()
     
     var transaction: Transaction?
     
     
     func setUpViews() {
         guard let transaction = transaction else { return }
-        transactionDateText = transaction.date ?? date
+        transactionDateText = transaction.date ?? transactionDateText
         transactionNameText = transaction.name ?? ""
         category = Category.Categories(rawValue: transaction.category ?? "" ) ?? .Vacation
         transactionMerchantText = transaction.merchant ?? ""
@@ -54,7 +48,6 @@ struct TransactionDetailView: View {
     var transactionValue: Double {
         Double(transactionAmountValue) ?? 0.00
     }
-    //   var ifIsNew: Bool
     
     private let reOccuringPurchase = ["Select One", "Yes", "No"]
     
@@ -64,7 +57,7 @@ struct TransactionDetailView: View {
                 HStack {
                     Text("Date")
                         .bold()
-                    DatePicker("", selection: $date,  displayedComponents: .date)
+                    DatePicker("", selection: $transactionDateText,  displayedComponents: .date)
                         .datePickerStyle(CompactDatePickerStyle())
                         .frame(width: 150, height: 50)
                         .frame(alignment: .trailing)

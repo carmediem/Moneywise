@@ -10,7 +10,7 @@ import CoreData
 
 struct MainPageView: View {
     @EnvironmentObject var viewModel: TransactionListViewModel
-    //  var authetificationManager = AuthenticationManager()
+   //   var authetificationManager = AuthenticationManager()
     
     var body: some View {
         //     if authetificationManager.isAuthenticated {
@@ -86,7 +86,11 @@ struct MainPageView: View {
                                         Spacer(minLength: 0)
                                         Rectangle()
                                             .fill(category.color)
-                                            .frame(width: self.getWidth(width: g.frame(in: .global).width-50, value: category.percent), height: 5)
+                                            .frame(width: self.getWidth(width: g.frame(in: .global).width, value: category.percent), height: 5)
+                                        
+                                        //deleted -50 from above.
+                                       //     .frame(width: self.getWidth(width: g.frame(in: .global).width-50, value: category.percent), height: 5)
+                                        
                                         
                                         Text(String(format: "%.2f", category.percent))
                                             .fontWeight(.bold)
@@ -195,6 +199,7 @@ func loadTransactionData() -> [Pie] {
 
 
 var data = loadTransactionData()
+//need this to update the information from the listView on the .appear. Reload it here.
 
 
 struct MainPageView_Previews: PreviewProvider {
@@ -203,3 +208,6 @@ struct MainPageView_Previews: PreviewProvider {
         
     }
 }
+
+
+//alphabetized color with category

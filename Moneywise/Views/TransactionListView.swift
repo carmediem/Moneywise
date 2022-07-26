@@ -18,6 +18,7 @@ struct TransactionListView: View {
         Section(header: SortView()) {
             List {
                 ForEach(viewModel.transactions, id: \.self) { transaction in
+                    //Section header to group the entries by month
                     NavigationLink {
                         TransactionDetailView(transactionViewModel: viewModel, ifIsNew: false)
                     } label: {
@@ -99,8 +100,7 @@ struct TransactionListView: View {
             }.navigationTitle("List of Transactions")
         }
         .onAppear {
-            
-            //            TransactionDetailView(transactionViewModel: viewModel, transactionTypeText: "", ifIsNew: false)
+            TransactionDetailView(transactionViewModel: viewModel, ifIsNew: true)
         }
     }
 }
@@ -139,3 +139,21 @@ struct TransactionListView_Previews: PreviewProvider {
             .preferredColorScheme(.dark)
     }
 }
+
+
+
+////MARK: Adding Sections
+//func initializeFetchedResultsController() {
+//    let request = NSFetchRequest(entityName: "Transaction")
+//    let categorySort = NSSortDescriptor(key: "category.name", ascending: true)
+//    let dateSort = NSSortDescriptor(key: "date", ascending: true)
+//    request.sortDescriptors = [categorySort, dateSort]
+//    let moc = dataController.managedObjectContext
+//    //setting the same key as above because they keys need to match in order to break into multiple sections
+//    fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: "category.name", cacheName: nil)
+//    fetchedResultsController.delegate = self
+//    do {
+//        try fetchedResultsController.performFetch()
+//    } catch {
+//        fatalError("Failed to initialize FetchedResultsController: \(error)")
+//    }

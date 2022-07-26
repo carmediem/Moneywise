@@ -29,8 +29,10 @@ struct CurrencyConverterView: View {
     
     //use binding variables for amount and itemselected
     var body: some View {
-        
+      //  Color("Background").edgesIgnoringSafeArea(.all)
+
         ZStack {
+         //   Color("Background").edgesIgnoringSafeArea(.all)
             NavigationView {
                 VStack {
                     Spacer()
@@ -59,6 +61,7 @@ struct CurrencyConverterView: View {
                             Text("\(convert(conversionAmount)) \(currencies[toCurrency])")
                         }
                     }.navigationTitle("Currency Converter")
+                        
                 }.background(Color.background)
 
             }

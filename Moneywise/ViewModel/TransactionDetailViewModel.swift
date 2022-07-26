@@ -10,7 +10,7 @@ import SwiftUI
 
 func compressImage(image: UIImage) -> UIImage {
         let resizedImage = image.aspectFittedToHeight(200)
-        resizedImage.jpegData(compressionQuality: 0.2) // Add this line
+    resizedImage.jpegData(compressionQuality: 1.0) 
 
         return resizedImage
 }

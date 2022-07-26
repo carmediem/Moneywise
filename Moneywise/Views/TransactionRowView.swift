@@ -31,14 +31,14 @@ struct TransactionRowView: View {
                 let stringDate = DateFormatter.allNumericUSA.string(from: date ?? Date())
                 Text(stringDate)
                     .font(.system(size: 14))
-                    .padding(.horizontal, 30)
-            }  .padding(.leading, 15)
+            }  .padding(.leading, 25)
+                .padding(.trailing, 80)
+         
             
-            
-            Text(String(transaction.amount))  //format: "%.2f"
+            Text(String(format: "%.2f", transaction.amount))
                 .font(.system(size: 18))
-                .frame(width: 75, alignment: .trailing)
-                .listRowInsets(EdgeInsets())
+               .frame(width: 60, alignment: .trailing)
+               .listRowInsets(EdgeInsets())
                 .foregroundColor(Category.Categories.ExpenseType(rawValue: transaction.type ?? "all")?.color)
         }
         .onAppear

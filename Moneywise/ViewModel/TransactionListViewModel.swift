@@ -28,6 +28,12 @@ class TransactionListViewModel: ObservableObject {
     func load() {
         let request = NSFetchRequest<Transaction>(entityName: "Transaction")
         request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.name), ascending: false)]
+        
+        #warning("adding this is test saving image to Core Data")
+//        let image = NSManagedObject(entity: "Transaction", insertInto: managedContext)
+//        image.setValue(jpegData, forKeyPath: "receiptPhoto")
+        #warning("end of image for coredata")
+        
         do {
          let transactions = try? PersistenceController.shared.container.viewContext.fetch(request)
             print(transactions?.count)

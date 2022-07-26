@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct MainPageView: View {
     @EnvironmentObject var viewModel: TransactionListViewModel
@@ -17,12 +18,12 @@ struct MainPageView: View {
             ScrollView {
                 //MARK: header and tab bar items
                 VStack {
+//                    Color("background").edgesIgnoringSafeArea(.all)
                     ZStack {
                         VStack {
                             Text("Overview")
                                 .font(.title2)
                                 .bold()
-                          
                             Text("Total Expenses")
                                 .font(.title2)
                             Spacer()
@@ -46,69 +47,72 @@ struct MainPageView: View {
                         }
                     }
 
+                    //MARK: -- Pie CHart
                     GeometryReader {g in
                         ZStack {
                             ForEach(0..<data.count) {i in
-                                
                                 DrawShape(center: CGPoint(x: g.frame(in: .global).width / 2, y: g.frame(in: .global).height / 2), index: i)
                             }
                         }
                     }
-                    .frame(height: 360)
+                    .frame(height: 290)
                     .padding(.top, 20)
                     .clipShape(Circle())
-                    .shadow(radius: 8)
-                                        
+
+
+                    //MARK: -- Categories and percentages
                     VStack {
-                        ForEach(data) {i in
+                        ForEach(data) {category in
                             HStack {
-                                Text(i.name)
+                                Text(category.name)
                                     .frame(width: 150)
 
                                 GeometryReader{g in
                                     HStack {
                                         Spacer(minLength: 0)
                                         Rectangle()
-                                            .fill(i.color)
-                                            .frame(width: self.getWidth(width: g.frame(in: .global).width, value: i.percent), height: 10)
-                                        
-                                        Text(String(format: "\(i.percent)", "%.0f"))
+                                            .fill(category.color)
+                                            .frame(width: self.getWidth(width: g.frame(in: .global).width-50, value: category.percent), height: 5)
+
+                                        Text(String(format: "%.2f", category.percent))
                                             .fontWeight(.bold)
                                             .padding(.leading, 10)
+                                            .padding(.trailing, 30)
                                     }
                                 }
                             }
-                            .padding(.top, 18)
+                            .padding(.top, 10)
                         }
                     }//end of vstack
                 }
-            }.background(Color.background)
+            }
+            .background(Color.background).ignoresSafeArea(.all)
         }
     }
-    
+
     func getWidth(width: CGFloat, value: CGFloat) -> CGFloat {
-        
         let temp = value / 100
         return temp * width
     }
 }//end of struct
 
 
+// MARK: -- Struct for build out of the pie chart
 struct DrawShape: View {
-    
+
     var center: CGPoint
     var index: Int
-    
+
     var body: some View {
-        
+
         Path{path in
-            
+            //Path is the outline of the 2D shape
             path.move(to: self.center)
             path.addArc(center: self.center, radius: 180, startAngle: .init(degrees: self.from()), endAngle: .init(degrees: self.to()), clockwise: false)
         }
         .fill(data[index].color)
     }
-    
+
     //since an angle is continuous, we'll need to calculate the angles before and add with the current to get the exact angle
     func from() -> Double {
         if index == 0 {
@@ -122,7 +126,7 @@ struct DrawShape: View {
             return temp
         }
     }
-    
+
     func to() -> Double {   //convert percent to an angle
         var temp: Double = 0
         //need the current degree
@@ -133,72 +137,54 @@ struct DrawShape: View {
     }
 }
 
-
 struct Pie: Identifiable {
     var id: Int
     var percent: CGFloat
     var name: String
     var color: Color
 }
-//Placeholder data
-//iterate over the rows in the list of transactions to get the total for the month. Format it as the following
-var data = [
-    Pie(id: 0, percent: 6, name: "Dining", color: Color("Blue")),
-    Pie(id: 1, percent: 0, name: "Education", color: Color("BrightPink")),
-    Pie(id: 2, percent: 3, name: "Entertainment", color: Color("Yellow")),
-    Pie(id: 3, percent: 2, name: "Fitness", color: Color("Orange")),
-    Pie(id: 4, percent: 3, name: "Gift", color: Color("Green")),
-    Pie(id: 5, percent: 8, name: "Grocery", color: Color("Peach")),
-    Pie(id: 6, percent: 2, name: "Healthcare", color: Color("Pink")),
-    Pie(id: 7, percent: 38, name: "Housing", color: Color("Purple")),
-    Pie(id: 8, percent: 7, name: "Others", color: Color("Red")),
-    Pie(id: 9, percent: 4, name: "Shopping", color: Color("Red2")),
-    Pie(id: 10, percent: 5, name: "Transportation", color: Color("RoyalBlue")),
-    Pie(id: 11, percent: 4, name: "Utilities", color: Color("Teal")),
-    Pie(id: 12, percent: 20, name: "Vacation", color: Color("Green")),
-]
 
 
+func loadTransactionData() -> [Pie] {
+    let request = NSFetchRequest<Transaction>(entityName: "Transaction")
+    request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.name), ascending: false)]
+
+    do {
+        let transactions = try? PersistenceController.shared.container.viewContext.fetch(request)
+        var total = 0.0;
+        var categories: [String : Double] = [:]
+        let ignoredCategories = ["Income", "Savings", "Investment"]
+        transactions?.forEach{transaction in
+            if(!ignoredCategories.contains(transaction.category ?? "Other")){
+                total += transaction.amount
+                if (categories[transaction.category ?? "Other"] == nil){
+                    categories[transaction.category ?? "Other"] = transaction.amount
+                }else{
+                    categories[transaction.category ?? "Other"]! += transaction.amount
+                }
+            }
+        }
+        var pies: [Pie] = []
+        var id = 0
+        let colors = ["Blue", "BrightPink", "Yellow", "Orange", "Red", "Peach", "Pink", "Purple", "Red", "RoyalBlue", "Teal", "Green", "Mustard", "Green2"]
+        categories.forEach { category in
+            let percent = (category.value / total)
+            pies.append(Pie(id: id, percent: CGFloat(percent*100), name: category.key, color: Color(colors[id] )))
+            id += 1
+        }
+        return pies
+    } catch {
+        print(error)
+    }
+}
 
 
+var data = loadTransactionData()
 
 
+struct MainPageView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainPageView()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//struct MainPageView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainPageView()
-//
-//    }
-//}
-
-
-
-//MARK: -- List of most recent transactions- CHANGE TO CATEGORIES IN THIRD SPRINT
-//                HStack {
-//                    Text("Recent Transactions")
-//                        .bold()
-//                    NavigationLink {
-//                        TransactionListView()
-//                    } label: {
-//                        HStack(spacing: 4) {
-//                            Text("See All")
-//                            Image(systemName: "chevron.right")
+    }
+}

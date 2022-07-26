@@ -17,7 +17,6 @@ struct TransactionDetailView: View {
     
     @State private var date = Date()
     
-    //This is what my form for a new transaction should look like
     var transaction: Transaction?
     
     //For uploading image
@@ -40,7 +39,6 @@ struct TransactionDetailView: View {
     var ifIsNew: Bool
     
     private let reOccuringPurchase = ["Select One", "Yes", "No"]
-    
     
     var body: some View {
         VStack {
@@ -120,16 +118,17 @@ struct TransactionDetailView: View {
                     TextField("Placeholder", text: $transactionNoteText)
                         .lineLimit(4)
                 }
+                
                 VStack (alignment: .leading) {
                     Text("Upload Photo")
                         .bold()
-                        
+                    
                     Button(action: {
                         uploadTransactionPhoto = true
                         openCameraRoll = true
                         print("Upload photo of transaction")
                     }, label: {
-                       // Text("")
+                        // Text("")
                         if uploadTransactionPhoto {
                             Image(uiImage: imageSelected)
                                 .resizable()
@@ -137,41 +136,18 @@ struct TransactionDetailView: View {
                         } else {
                             Image("receipt")
                                 .resizable()
-                                .frame(width: 120, height: 120)
+                                .frame(width: 140, height: 140, alignment: .center)
                         }
                         
                     })   .buttonStyle(.bordered)
-//                        .onTapGesture {
-//                        //    <#code#>
-//                        }
+                        .frame(alignment: .center)
+                    
                 }.sheet(isPresented: $openCameraRoll) {
                     ImagePicker(selectedImage: $imageSelected, sourceType: .photoLibrary)
                     
-//                    ZStack(alignment: .bottomTrailing) {
-//                        Button(action: {
-//                            uploadTransactionPhoto = true
-//                            openCameraRoll = true
-//
-//                        }, label: {
-//                            if uploadTransactionPhoto {
-//                                Image(uiImage: imageSelected)
-//                                    .pictureSize()
-//                            } else {
-//                                Image("AppIcon")
-//                                    .pictureSize()
-//                            }
-//                    })
-//
-//                    }.sheet(isPresented: $openCameraRoll) {
-//                        ImagePicker(selectedImage: $imageSelected, sourceType: .camera)
-                    
-                    
-                    
                 }
-                //Button("Upload photo", action: UIImagePickerController)
+                
             }
-            
-            
         }
         //end of form
         
@@ -188,21 +164,22 @@ struct TransactionDetailView: View {
             }
         }
     }
-    
-    //   .onAppear {
-    //                        if let transaction = transaction {
-    //                            transactionDateText = transaction.date ?? date
-    //                            transactionNameText =  transaction.name!
-    //                            category = transaction.category!
-    //                            transactionMerchantText = transaction.transactionMerchantText!
-    //                            transactionAmountValue = transaction.transactionAmountValue!
-    //                            transactionReoccuring = transaction.transactionReoccuring!
-    //                            transactionNoteText = transaction.transactionNoteText!
-    //                        categoryType: Category.Categories.ExpenseType = transaction.categoryType!
-    //                            var transactionValue: Double {
-    //                                Double(transactionAmountValue) ?? 0.00
+//        .onAppear {
+//            if let transaction = transaction {
+//                transactionDateText = transaction.date ?? date
+//                transactionNameText =  transaction.name
+//                category = transaction.category
+//                transactionMerchantText = transaction.transactionMerchantText
+//                transactionAmountValue = transaction.transactionAmountValue
+//                transactionReoccuring = transaction.isReoccurring
+//                transactionNoteText = transaction.note
+//            categoryType: Category.Categories.ExpenseType = transaction.categoryType
+//                var transactionValue: Double {
+//                    Double(transactionAmountValue) ?? 0.00
+//                }
+//            }
+//        }
 }
-//    }
 //            if ifIsNew {  //THIS IS WORKING, DONT DELETE. THIS IS WHAT'S SHOWING UP IN THE PLACEHOLDER TEXT FIELDS
 //                transactionDateText = Date()
 //                transactionNameText = ""
@@ -231,4 +208,4 @@ struct TransactionDetailView: View {
 //        }
 //    }
 //}
-//
+

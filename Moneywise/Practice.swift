@@ -130,7 +130,7 @@
 //
 ////MARK: Adding Sections
 //func initializeFetchedResultsController() {
-//    let request = NSFetchRequest(entityName: "Transacftion")
+//    let request = NSFetchRequest(entityName: "Transaction")
 //    let categorySort = NSSortDescriptor(key: "category.name", ascending: true)
 //    let dateSort = NSSortDescriptor(key: "date", ascending: true)
 //    request.sortDescriptors = [categorySort, dateSort]

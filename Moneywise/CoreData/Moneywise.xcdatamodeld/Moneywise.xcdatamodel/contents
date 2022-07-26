@@ -11,17 +11,16 @@
         <attribute name="category" attributeType="String"/>
         <attribute name="date" attributeType="Date" defaultDateTimeInterval="679790520" usesScalarValueType="NO"/>
         <attribute name="imageName" optional="YES" attributeType="String"/>
-        <attribute name="isReoccuring" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="merchant" attributeType="String"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="note" attributeType="String"/>
-        <attribute name="receiptPhoto" optional="YES" attributeType="Binary"/>
+        <attribute name="receiptPhoto" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="transactionId" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="type" attributeType="String"/>
         <relationship name="ofCategory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="ofTransaction" inverseEntity="Category"/>
     </entity>
     <elements>
         <element name="Category" positionX="143.1484375" positionY="242.53125" width="128" height="103"/>
-        <element name="Transaction" positionX="-99.97265625" positionY="199.23828125" width="128" height="209"/>
+        <element name="Transaction" positionX="-99.97265625" positionY="199.23828125" width="128" height="194"/>
     </elements>
 </model>

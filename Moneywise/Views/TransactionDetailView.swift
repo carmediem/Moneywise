@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TransactionDetailView: View {
     //MARK: View Model
-    @ObservedObject var transactionViewModel: TransactionListViewModel
+    @EnvironmentObject var transactionViewModel: TransactionListViewModel
     
     @Environment(\.managedObjectContext) var managedObjectContext
     
@@ -17,7 +17,25 @@ struct TransactionDetailView: View {
     
     @State private var date = Date()
     
+//    var transaction: Transaction? {
+//        didSet {
+//            setUpViews()
+//        }
+//    }
+    
     var transaction: Transaction?
+    
+    
+    func setUpViews() {
+        guard let transaction = transaction else { return }
+        transactionDateText = transaction.date ?? date
+        transactionNameText = transaction.name ?? ""
+        category = Category.Categories(rawValue: transaction.category ?? "" ) ?? .Vacation
+        transactionMerchantText = transaction.merchant ?? ""
+        transactionAmountValue = "\(transaction.amount)"
+        categoryType  = Category.Categories.ExpenseType(rawValue: transaction.type ?? "") ?? .all
+        transactionNoteText = transaction.note ?? ""
+    }
     
     //For uploading image
     @State var uploadTransactionPhoto = false
@@ -36,7 +54,7 @@ struct TransactionDetailView: View {
     var transactionValue: Double {
         Double(transactionAmountValue) ?? 0.00
     }
-    var ifIsNew: Bool
+    //   var ifIsNew: Bool
     
     private let reOccuringPurchase = ["Select One", "Yes", "No"]
     
@@ -101,17 +119,6 @@ struct TransactionDetailView: View {
                 }
                 
                 HStack {
-                    Text("Reoccuring puchase:")
-                        .bold()
-                    Picker("Transaction Type:", selection: $selection) {
-                        ForEach(reOccuringPurchase, id: \.self) {
-                            Text($0)
-                        }
-                    }.pickerStyle(.menu)
-                        .foregroundColor(.black)
-                }
-                
-                HStack {
                     Text("Notes:")
                         .bold()
                     
@@ -149,56 +156,31 @@ struct TransactionDetailView: View {
                 
             }
         }
+        .onAppear {
+            setUpViews()
+        }
         //end of form
         
         .navigationTitle("Transaction Details")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    transactionViewModel.createTransaction(name: transactionNameText, amount: transactionValue, category: category.rawValue, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, note: transactionNoteText, type: categoryType.rawValue, imageName: category.CategoryImage)
-                    print(transactionViewModel.transactions.count)
+                    if transaction == nil {
+                        transactionViewModel.createTransaction(name: transactionNameText, amount: transactionValue, category: category.rawValue, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, note: transactionNoteText, type: categoryType.rawValue, imageName: category.CategoryImage)
+                        print(transactionViewModel.transactions.count)
+                    } else {
+                        transactionViewModel.updateTransaction(transaction, name: transactionNameText, amount: transactionValue, category: category.rawValue, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, type: categoryType.rawValue, note: transactionNoteText)
+                    }
                     dismiss()
                 } label: {
                     Text("Save")
                 }
             }
         }
+        
     }
-//        .onAppear {
-//            if let transaction = transaction {
-//                transactionDateText = transaction.date ?? date
-//                transactionNameText =  transaction.name
-//                category = transaction.category
-//                transactionMerchantText = transaction.transactionMerchantText
-//                transactionAmountValue = transaction.transactionAmountValue
-//                transactionReoccuring = transaction.isReoccurring
-//                transactionNoteText = transaction.note
-//            categoryType: Category.Categories.ExpenseType = transaction.categoryType
-//                var transactionValue: Double {
-//                    Double(transactionAmountValue) ?? 0.00
-//                }
-//            }
-//        }
 }
-//            if ifIsNew {  //THIS IS WORKING, DONT DELETE. THIS IS WHAT'S SHOWING UP IN THE PLACEHOLDER TEXT FIELDS
-//                transactionDateText = Date()
-//                transactionNameText = ""
-//         //       Category.Categories = ""
-//                transactionMerchantText = ""
-//        //        transactionAmountValue = 10.00
-//                transactionReoccuring = false
-//                transactionNoteText = "Test for notes"
 
-//                            } else {
-//                                //THIS IS THE INFO THE PLACEHOLDER DATA IS PULLING
-//                                transactionDateText = Date()
-//                                transactionNameText = "Babyshower gift"
-//             //                   Category.Categories = "Gift"
-//                                transactionMerchantText = "Walmart"
-//               //                 transactionAmountValue = 0.0                   transactionReoccuring = false
-//                                transactionNoteText = "shower for new baby" }
-
-// }
 
 
 //struct TransactionDetailView_Previews: PreviewProvider {

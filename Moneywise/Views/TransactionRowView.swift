@@ -25,19 +25,20 @@ struct TransactionRowView: View {
                 Text(transaction.name ?? "Unknown")
                     .bold()
                     .font(.headline)
+                    .padding(.trailing, -90)
                 Text(transaction.category ?? "Unknown")
                     .font(.system(size: 14))
                 let date = transaction.date
                 let stringDate = DateFormatter.allNumericUSA.string(from: date ?? Date())
                 Text(stringDate)
                     .font(.system(size: 14))
-            }  .padding(.leading, 25)
+            }  .padding(.leading, 30)
                 .padding(.trailing, 80)
          
             
             Text(String(format: "%.2f", transaction.amount))
                 .font(.system(size: 18))
-               .frame(width: 60, alignment: .trailing)
+               .frame(width: 90, alignment: .trailing)
                .listRowInsets(EdgeInsets())
                 .foregroundColor(Category.Categories.ExpenseType(rawValue: transaction.type ?? "all")?.color)
         }
@@ -48,7 +49,7 @@ struct TransactionRowView: View {
         .toolbar {
             ToolbarItem {
                 NavigationLink {
-                    TransactionDetailView(transactionViewModel: viewModel, ifIsNew: true)
+                    TransactionDetailView()
                 } label: {
                     Image(systemName: "plus")
                         .symbolRenderingMode(.palette)

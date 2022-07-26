@@ -13,7 +13,8 @@ struct ContentView: View {
     
     @StateObject var authentificationManager = AuthenticationManager()
     
-    var transaction: Transaction?
+    //not actually using this..
+   var transaction: Transaction?
       
     var body: some View {
         NavigationView {

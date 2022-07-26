@@ -18,35 +18,49 @@ struct MainPageView: View {
             ScrollView {
                 //MARK: header and tab bar items
                 VStack {
-//                    Color("background").edgesIgnoringSafeArea(.all)
-                    ZStack {
-                        VStack {
-                            Text("Overview")
-                                .font(.title2)
-                                .bold()
-                            Text("Total Expenses")
-                                .font(.title2)
-                            Spacer()
-                        }
+                    //    ZStack {
+                    VStack(alignment: .leading) {
+                        Text("Monthly Expenses")
+                            .font(.title2)
+                            .bold()
+                            .padding(.leading, -140)
+                    }
+                    
+                    HStack {
+                        Button(action: {
+                        }, label: {
+                            Image(systemName: "arrow.left")
+                        })
                         
-                        .navigationBarTitleDisplayMode(.inline)
-                        .frame(maxWidth: .infinity,
-                               maxHeight: .infinity)
+                        Text("July 2022")
+                            .font(.headline)
+                            .padding(.leading, -140)
                         
-                        //MARK: -- Toolbar item to add new entry
-                        .toolbar {
-                            ToolbarItem {
-                                NavigationLink {
-                                    TransactionDetailView(transactionViewModel: viewModel, ifIsNew: true)
-                                } label: {
-                                    Image(systemName: "plus")
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(Color.icon)
-                                }
+                        Button(action: {
+                        }, label: {
+                            Image(systemName: "arrow.right")
+                        })
+
+                    }
+                    
+                    .navigationBarTitleDisplayMode(.inline)
+                    .frame(maxWidth: .infinity,
+                           maxHeight: .infinity)
+                    
+                    //MARK: -- Toolbar item to add new entry
+                    .toolbar {
+                        ToolbarItem {
+                            NavigationLink {
+                                TransactionDetailView()
+                            } label: {
+                                Image(systemName: "plus")
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(Color.icon)
                             }
                         }
                     }
-
+                    //       }
+                    
                     //MARK: -- Pie CHart
                     GeometryReader {g in
                         ZStack {
@@ -58,22 +72,22 @@ struct MainPageView: View {
                     .frame(height: 290)
                     .padding(.top, 20)
                     .clipShape(Circle())
-
-
+                    
+                    
                     //MARK: -- Categories and percentages
                     VStack {
                         ForEach(data) {category in
                             HStack {
                                 Text(category.name)
                                     .frame(width: 150)
-
+                                
                                 GeometryReader{g in
                                     HStack {
                                         Spacer(minLength: 0)
                                         Rectangle()
                                             .fill(category.color)
                                             .frame(width: self.getWidth(width: g.frame(in: .global).width-50, value: category.percent), height: 5)
-
+                                        
                                         Text(String(format: "%.2f", category.percent))
                                             .fontWeight(.bold)
                                             .padding(.leading, 10)
@@ -85,11 +99,12 @@ struct MainPageView: View {
                         }
                     }//end of vstack
                 }
+                //.navigationTitle("Overview")
             }
-            .background(Color.background).ignoresSafeArea(.all)
+            .background(Color.background)
         }
     }
-
+    
     func getWidth(width: CGFloat, value: CGFloat) -> CGFloat {
         let temp = value / 100
         return temp * width
@@ -99,12 +114,12 @@ struct MainPageView: View {
 
 // MARK: -- Struct for build out of the pie chart
 struct DrawShape: View {
-
+    
     var center: CGPoint
     var index: Int
-
+    
     var body: some View {
-
+        
         Path{path in
             //Path is the outline of the 2D shape
             path.move(to: self.center)
@@ -112,7 +127,7 @@ struct DrawShape: View {
         }
         .fill(data[index].color)
     }
-
+    
     //since an angle is continuous, we'll need to calculate the angles before and add with the current to get the exact angle
     func from() -> Double {
         if index == 0 {
@@ -126,7 +141,7 @@ struct DrawShape: View {
             return temp
         }
     }
-
+    
     func to() -> Double {   //convert percent to an angle
         var temp: Double = 0
         //need the current degree
@@ -148,18 +163,18 @@ struct Pie: Identifiable {
 func loadTransactionData() -> [Pie] {
     let request = NSFetchRequest<Transaction>(entityName: "Transaction")
     request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.name), ascending: false)]
-
+    
     do {
         let transactions = try? PersistenceController.shared.container.viewContext.fetch(request)
         var total = 0.0;
         var categories: [String : Double] = [:]
-        let ignoredCategories = ["Income", "Savings", "Investment"]
+        let ignoredCategories = ["Income", "Savings", "Investment", "SelectOne"]
         transactions?.forEach{transaction in
             if(!ignoredCategories.contains(transaction.category ?? "Other")){
                 total += transaction.amount
-                if (categories[transaction.category ?? "Other"] == nil){
+                if (categories[transaction.category ?? "Other"] == nil) {
                     categories[transaction.category ?? "Other"] = transaction.amount
-                }else{
+                } else {
                     categories[transaction.category ?? "Other"]! += transaction.amount
                 }
             }
@@ -185,6 +200,6 @@ var data = loadTransactionData()
 struct MainPageView_Previews: PreviewProvider {
     static var previews: some View {
         MainPageView()
-
+        
     }
 }

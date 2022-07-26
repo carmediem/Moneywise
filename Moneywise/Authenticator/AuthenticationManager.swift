@@ -54,7 +54,7 @@ class AuthenticationManager: ObservableObject {
     }
 }
     func authenticateWithCredentials(username: String, password: String) {
-        if username.lowercased() == "carmen" && password == "walmart" {
+        if username.lowercased() == "carmen" && password == "hello" {
             isAuthenticated = true
         } else {
             errorDescription =  "Wrong login information"

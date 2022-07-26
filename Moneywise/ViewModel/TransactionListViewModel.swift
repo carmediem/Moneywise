@@ -17,6 +17,7 @@ class TransactionListViewModel: ObservableObject {
         
     init() {
         load()
+//        updateTransaction(Transaction, name: name, amount: amount, category: category, transactionId: UUID(), isReoccuring: isReoccuring, merchant: merchant, note: note, type: type, imageName: imageName, context: context)
         print(transactions.count)
     }
 
@@ -29,10 +30,10 @@ class TransactionListViewModel: ObservableObject {
         let request = NSFetchRequest<Transaction>(entityName: "Transaction")
         request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.name), ascending: false)]
         
-        #warning("adding this is test saving image to Core Data")
+//        #warning("adding this is test saving image to Core Data")
 //        let image = NSManagedObject(entity: "Transaction", insertInto: managedContext)
 //        image.setValue(jpegData, forKeyPath: "receiptPhoto")
-        #warning("end of image for coredata")
+//        #warning("end of image for coredata")
         
         do {
          let transactions = try? PersistenceController.shared.container.viewContext.fetch(request)
@@ -58,13 +59,16 @@ class TransactionListViewModel: ObservableObject {
     }
     
     
-    func updateTransaction(_ transaction: Transaction, name: String, amount: Double, category: String, date: Date, isReoccuring: Bool, merchant: String, type: String, note: String) {
+    func updateTransaction(_ transaction: Transaction?, name: String, amount: Double, category: String, date: Date, isReoccuring: Bool, merchant: String, type:
+        String, note: String) {
+        guard let transaction = transaction else {
+            return
+        }
         let context = PersistenceController.shared.container.viewContext
         transaction.name = name
         transaction.amount = amount
         transaction.category = category
         transaction.date = date
-        transaction.isReoccuring = isReoccuring
         transaction.merchant = merchant
         transaction.type = type
         transaction.note = note

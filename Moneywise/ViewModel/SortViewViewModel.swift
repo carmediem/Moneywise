@@ -9,31 +9,32 @@ import SwiftUI
 
 struct SortView: View {
     
-//    @FetchRequest (entity: Transaction.entity(), sortDescriptors: Category.Categories.id, ascending: true)
-    
+    @ObservedObject var transactionListViewModel: TransactionListViewModel
+    //want to be able to update the state object that underlies the sort view. need to access viewmodel
+ 
     var body: some View {
         HStack(alignment: .center, spacing: 20) {
             Button {
-           //     let sortedCategory = Category.Categories.sorted()
-
+                transactionListViewModel.sortByCategory()
             } label: {
             Text("Category")
             }.buttonStyle(.bordered)
+       
             
             Button {
-                //
+                transactionListViewModel.sortByMonth()
             } label: {
             Text("Month")
             }.buttonStyle(.bordered)
         
             Button {
-                let amountSort = NSSortDescriptor(key: "amount", ascending: true)
+                transactionListViewModel.sortByMax()
             } label: {
             Text("$ Max")
             }.buttonStyle(.bordered)
         
             Button {
-      //          let sortedAmountMin = Category.amount.sorted { $0 > $1 }
+                transactionListViewModel.sortByMin()
             } label: {
             Text("$ Min")
             }.buttonStyle(.bordered)
@@ -41,32 +42,3 @@ struct SortView: View {
     }
 }
 
-
-struct SortView_Previews: PreviewProvider {
-    static var previews: some View {
-        SortView()
-    }
-}
-
-
-
-//func group(_ result: FetchedResults<TransactionListView>) -> [[Transaction]] {
-//    return Dictionary(grouping: result) { $0.category! .sorted() }
-//        .map {$0.value}
-//}
-
-
-//func initializeFetchedResultsController() {
-//    let request = NSFetchRequest(entityName: "Transaction")
-//    let categorySort = NSSortDescriptor(key: "category.name", ascending: true)
-//    let dateSort = NSSortDescriptor(key: "date", ascending: true)
-//    request.sortDescriptors = [categorySort, dateSort]
-//    let moc = dataController.managedObjectContext
-//    //setting the same key as above because they keys need to match in order to break into multiple sections
-//    fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: moc, sectionNameKeyPath: "category.name", cacheName: nil)
-//    fetchedResultsController.delegate = self
-//    do {
-//        try fetchedResultsController.performFetch()
-//    } catch {
-//        fatalError("Failed to initialize FetchedResultsController: \(error)")
-//    }

@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct EmptyView: View {
-    @Binding var query: String
+    @Binding var searchQuery: String
     
     var body: some View {
-    Text("We couldn't find: \(query)")
+    Text("We couldn't find: \(searchQuery)")
     }
 }
 
 struct EmptyView_Previews: PreviewProvider {
     static var previews: some View {
-        EmptyView(query: .constant("that transaction"))
+        EmptyView(searchQuery: .constant("that transaction"))
     }
 }

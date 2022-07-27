@@ -17,7 +17,7 @@ struct CurrencyConverterView: View {
     
     func convert(_ convert: String) -> String {
         print("😶")
-        let amount = Double(convert) ?? 0.0
+        let amount = Double(convert) ?? 0.00
         let selectedCurrency = currencies[toCurrency]
         
         let data = CurrencyData(currencyName: selectedCurrency.lowercased())

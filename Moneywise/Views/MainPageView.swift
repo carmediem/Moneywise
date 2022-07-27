@@ -10,15 +10,12 @@ import CoreData
 
 struct MainPageView: View {
     @EnvironmentObject var viewModel: TransactionListViewModel
-   //   var authetificationManager = AuthenticationManager()
-    
+   
     var body: some View {
-        //     if authetificationManager.isAuthenticated {
+        
         NavigationView {
             ScrollView {
-                //MARK: header and tab bar items
                 VStack {
-                    //    ZStack {
                     VStack(alignment: .leading) {
                         Text("Monthly Expenses")
                             .font(.title2)
@@ -27,25 +24,28 @@ struct MainPageView: View {
                     }
                     
                     HStack {
-                        Button(action: {
-                        }, label: {
+                        Button {
+                        viewModel.getCurrentMonth() //keep this because we dont want this to be effected
+                          viewModel.filterByPreviousMonth()
+
+                        } label: {
                             Image(systemName: "arrow.left")
-                        })
+                        }
                         
                         Text("July 2022")
                             .font(.headline)
                             .padding(.leading, -140)
                         
-                        Button(action: {
-                        }, label: {
+                        Button {
+             //               viewModel.filterByMonth(index: 7)
+                        } label: {
                             Image(systemName: "arrow.right")
-                        })
-
+                        }
                     }
                     
                     .navigationBarTitleDisplayMode(.inline)
-                    .frame(maxWidth: .infinity,
-                           maxHeight: .infinity)
+//                    .frame(maxWidth: .infinity,
+//                           maxHeight: .infinity)
                     
                     //MARK: -- Toolbar item to add new entry
                     .toolbar {
@@ -55,13 +55,12 @@ struct MainPageView: View {
                             } label: {
                                 Image(systemName: "plus")
                                     .symbolRenderingMode(.palette)
-                                    .foregroundStyle(Color.icon)
                             }
                         }
                     }
-                    //       }
+
                     
-                    //MARK: -- Pie CHart
+                    //MARK: -- Pie Chart
                     GeometryReader {g in
                         ZStack {
                             ForEach(0..<data.count) {i in
@@ -103,9 +102,8 @@ struct MainPageView: View {
                         }
                     }//end of vstack
                 }
-                //.navigationTitle("Overview")
             }
-            .background(Color.background)
+           .background(Color.background)
         }
     }
     
@@ -166,11 +164,12 @@ struct Pie: Identifiable {
 
 func loadTransactionData() -> [Pie] {
     let request = NSFetchRequest<Transaction>(entityName: "Transaction")
-    request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.name), ascending: false)]
+    request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.name), ascending: true)]
+    //fetchRequest.sortDescriptors = [sort]
     
     do {
         let transactions = try? PersistenceController.shared.container.viewContext.fetch(request)
-        var total = 0.0;
+        var total = 0.00;
         var categories: [String : Double] = [:]
         let ignoredCategories = ["Income", "Savings", "Investment", "SelectOne"]
         transactions?.forEach{transaction in
@@ -197,10 +196,25 @@ func loadTransactionData() -> [Pie] {
     }
 }
 
+//MARK: -- Filter by month
+//func filterByMonth(index: Int) {
+//    filteredTransactions = transaction.filter {
+//        let monthIndex = Calendar.current.component(.month, from: $0.date ?? Date())
+//        return index == monthIndex
+//    }
+//}
 
 var data = loadTransactionData()
-//need this to update the information from the listView on the .appear. Reload it here.
 
+//extension Date {
+//    func getNextMonth() -> Date? {
+//        return Calendar.current.date(byAdding: .month, value: 1, to: self)
+//    }
+//
+//    func getPreviousMonth() -> Date? {
+//        return Calendar.current.date(byAdding: .month, value: -1, to: self)
+//    }
+//}
 
 struct MainPageView_Previews: PreviewProvider {
     static var previews: some View {
@@ -211,3 +225,5 @@ struct MainPageView_Previews: PreviewProvider {
 
 
 //alphabetized color with category
+
+

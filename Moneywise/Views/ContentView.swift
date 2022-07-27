@@ -46,10 +46,7 @@ struct ContentView: View {
             //MARK: NEXT STEPS AFTER AUTHENTIFICATION
             VStack {
                 if authentificationManager.isAuthenticated {
-                    
-                    VStack(spacing: 40) {
-                        ZStack{
-                            Spacer()
+                    VStack {
 //                            Rectangle().fill(.ultraThinMaterial)
 //                                .padding()
 //                                .padding(.horizontal)
@@ -57,17 +54,14 @@ struct ContentView: View {
 //                                .cornerRadius(30)
 //                                .shadow(radius: 10)
                             NavigationLink(destination: MainPageView()) {
-                                HStack {
-
-                                }
                             }
-                        }.frame(width: UIScreen.main.bounds.width - 40, height: 55)
-                        Text("")
-                
+                       .frame(width: UIScreen.main.bounds.width - 1)
+                       //Text("")
                         PrimaryButton(showImage: false, text: "Logout")
                             .onTapGesture {
                                 authentificationManager.logout()
                             }
+                            .padding(.bottom, 80)
                     }
                 } else {
                     LoginView()

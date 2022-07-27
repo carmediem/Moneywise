@@ -9,21 +9,21 @@ import SwiftUI
 
 struct TransactionListView: View {
     @Environment(\.isSearching) var isSearching
-    @EnvironmentObject var viewModel: TransactionListViewModel
+    
+    @StateObject var viewModel: TransactionListViewModel = TransactionListViewModel()
+//    @EnvironmentObject var viewModel: TransactionListViewModel
     
     @Environment(\.managedObjectContext) var managedObjectContext
     
     @State var searchQuery = ""
-    //
-    //    @FetchRequest(sortDescriptors: [
-    //        SortDescriptor(\.Category.Categories)
-    //    ])
-    //    var transactions: FetchedResults<Transaction>
+
     
     var transactionList: some View {
-        Section(header: SortView()) {
+        
+        Section(header: SortView(transactionListViewModel: viewModel)) {
+            
             List {
-                ForEach(viewModel.transactions, id: \.self) { transaction in
+                ForEach(viewModel.filteredTransactions, id: \.self) { transaction in
                     NavigationLink {
                         TransactionDetailView(transaction: transaction)
                     } label: {
@@ -50,17 +50,17 @@ struct TransactionListView: View {
         .onSubmit(of: .search) {
             viewModel.search(with: searchQuery)
         }
-        .onChange(of: searchQuery) {newQuery in   //query is not binding, just listening for changes
+        .onChange(of: searchQuery) {newQuery in   //query is not binding, just listening for changes. modifier is onChange. Whenever the value changes, we'll get a new query to make the search. listening to the changes to the State variable
             viewModel.search(with: newQuery)
         }
         .onAppear {  //with EmptyView
-            viewModel.search()
+            viewModel.search() //gives you the list of people
         }
-//          .overlay {
-//       if viewModel.filteredData.isEmpty {
-//          EmptyView(query: $searchQuery)
-//        }
-//     }
+        .overlay {
+            if viewModel.transactions.isEmpty {
+                EmptyView(searchQuery: $searchQuery)
+            }
+        }
     }
     
     
@@ -86,11 +86,6 @@ struct TransactionListView: View {
                         
                         //MARK: List of entries
                         transactionList
-//                            .overlay {
-//                                if viewModel.filteredData.isEmpty {
-//                                    EmptyView(query: $searchQuery)
-//                                }
-//                            }
                             .frame(height: CGFloat(viewModel.transactions.count) * 100 + 25)
                             .navigationBarTitleDisplayMode(.inline)
                             .toolbar {
@@ -104,9 +99,11 @@ struct TransactionListView: View {
                                 }
                             }
                     }
-                }.background(Color.background)
+                }
+                .background(Color.background)
                 
             }.navigationTitle("List of Transactions")
+            
         }
     }
 }

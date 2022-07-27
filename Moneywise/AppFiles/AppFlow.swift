@@ -31,7 +31,7 @@ struct AppFlow: View {
                 .tabItem {
                     Label("Converter", systemImage: "dollarsign.circle")
                 }
-        }.background(Color.background)
+        }
     }
 }
 

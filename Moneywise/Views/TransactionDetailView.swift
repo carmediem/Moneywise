@@ -151,7 +151,7 @@ struct TransactionDetailView: View {
         }
         .onAppear {
             setUpViews()
-        }
+        }.background(Color.background).opacity(30)
         //end of form
         
         .navigationTitle("Transaction Details")
@@ -163,7 +163,7 @@ struct TransactionDetailView: View {
                         print(transactionViewModel.transactions.count)
                     } else {
                         transactionViewModel.updateTransaction(transaction, name: transactionNameText, amount: transactionValue, category: category.rawValue, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, type: categoryType.rawValue, note: transactionNoteText)
-                    }
+                    } //.background(Color.background).opacity(30)
                     dismiss()
                 } label: {
                     Text("Save")
@@ -176,11 +176,11 @@ struct TransactionDetailView: View {
 
 
 
-//struct TransactionDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NavigationView {
-//            TransactionDetailView(transactionViewModel: TransactionListViewModel(), managedObjectContext: Date(), dismiss: 0.0, transactionDateText: "", transactionNameText: false, ifIsNew: false)
-//        }
-//    }
-//}
+struct TransactionDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            TransactionDetailView()
+        }
+    }
+}
 

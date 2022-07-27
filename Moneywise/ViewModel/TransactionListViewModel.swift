@@ -9,22 +9,26 @@ import Foundation
 import SwiftUI
 import CoreData
 
+
 class TransactionListViewModel: ObservableObject {
     
     @Published var filteredTransactions = [Transaction]()
+    
+    var currentMonthNumber = 0
+    
+    var monthNumberToDisplay = 0
     
     var selectedTransaction: String = ""
         
     init() {
         load()
-//        updateTransaction(Transaction, name: name, amount: amount, category: category, transactionId: UUID(), isReoccuring: isReoccuring, merchant: merchant, note: note, type: type, imageName: imageName, context: context)
         print(transactions.count)
     }
 
     static let emptyMessage = "You have not listed any entries for expenses or income. Click the + in the upper right corner to start managing your money "
     
     
-    @Published var transactions: [Transaction] = []
+   var transactions: [Transaction] = []
     
     func load() {
         let request = NSFetchRequest<Transaction>(entityName: "Transaction")
@@ -38,7 +42,8 @@ class TransactionListViewModel: ObservableObject {
         do {
          let transactions = try? PersistenceController.shared.container.viewContext.fetch(request)
             print(transactions?.count)
-            self.transactions = transactions ?? []
+            self.transactions = transactions ?? []  //start as unfiltered
+         self.filteredTransactions = transactions ?? []
         } catch {
             print(error)
         }
@@ -100,15 +105,70 @@ class TransactionListViewModel: ObservableObject {
         }
     }
     
-    
 
     //MARK: -- function for search bar
-    func search(with query: String = "") {
-        guard !query.isEmpty else {
+    func search(with searchQuery: String = "") {
+        guard !searchQuery.isEmpty else {
           load()
           return
         }
-        transactions = transactions.filter { $0.name!.contains(query) }
+        filteredTransactions = transactions.filter { $0.name!.contains(searchQuery) }
+    }
+
+//MARK: -- Sort by category
+    func sortByCategory() {
+        //sort vs sorted. sort requires compared. sorted returns a new array
+        filteredTransactions = transactions.sorted {
+            //always basing it on the whole list
+            return $0.category ?? "Other" < $1.category ?? "Other"
+            }
+        }
+    
+
+    func sortByMonth() {
+        filteredTransactions = transactions.sorted {
+            return $0.date ?? Date() < $1.date ?? Date()
+        }
+    }
+
+
+    func sortByMax() {
+        filteredTransactions = transactions.sorted {
+            return $0.amount  > $1.amount
+        }
+    }
+    
+    func sortByMin() {
+        filteredTransactions = transactions.sorted {
+            return $0.amount < $1.amount
+        }
+    }
+    
+    
+    //MARK: -- Filter by month for graph
+    func filterByPreviousMonth() {
+        monthNumberToDisplay -= 1
+        print("Updated Month = \(monthNumberToDisplay)")
+        filteredTransactions = transactions.filter {
+            let monthIndex = Calendar.current.component(.month, from: $0.date ?? Date())
+            return monthNumberToDisplay == monthIndex
+        }
+    }
+//
+//    func filterByNextMonth(index: Int) {
+//        filteredTransactions = transactions.filter {_ in
+//            let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: Date())
+//            return index == nextMonth
+//        }
+//    }
+
+
+    func getCurrentMonth() {
+        let date = Date()
+        let calendar = Calendar.current
+        currentMonthNumber =  calendar.component(.month, from: date)
+        monthNumberToDisplay = currentMonthNumber
+        print("current month = \(currentMonthNumber)")
+        
     }
 }
-

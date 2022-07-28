@@ -60,7 +60,7 @@ struct MainPageView: View {
                     }
 
                     
-                    //MARK: -- Pie Chart
+                    //MARK: -- Pie Chart. it only loads the first time it goes to the screen. Doesnt load again. Pies are being passed in correctly. Calculations are fine. 
                     GeometryReader {g in
                         ZStack {
                             ForEach(0..<data.count) {i in
@@ -73,7 +73,7 @@ struct MainPageView: View {
                     .clipShape(Circle())
                     
                     
-                    //MARK: -- Categories and percentages
+                    //MARK: -- Categories and percentages. THIS PART UPDATES
                     VStack {
                         ForEach(data) {category in
                             HStack {
@@ -119,7 +119,7 @@ struct DrawShape: View {
     
     var body: some View {
         
-        Path{path in
+        Path { path in
             //Path is the outline of the 2D shape
             path.move(to: self.center)
             path.addArc(center: self.center, radius: 180, startAngle: .init(degrees: self.from()), endAngle: .init(degrees: self.to()), clockwise: false)
@@ -168,7 +168,7 @@ func getTransactions() -> [Transaction] {
 
 func refreshData(transactions: [Transaction]) {
     data = loadTransactionData(transactions: transactions)
-}
+} //this assigns the data
 
 
 func loadTransactionData(transactions: [Transaction]) -> [Pie] {
@@ -186,6 +186,8 @@ func loadTransactionData(transactions: [Transaction]) -> [Pie] {
                 }
             }
         }
+        
+        //Building the pie
         var pies: [Pie] = []
         var id = 0
         let colors = ["Blue", "BrightPink", "Yellow", "Orange", "Red", "Peach", "Pink", "Purple", "Red", "RoyalBlue", "Teal", "Green", "Mustard", "Green2"]

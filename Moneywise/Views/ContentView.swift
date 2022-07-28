@@ -47,12 +47,6 @@ struct ContentView: View {
             VStack {
                 if authentificationManager.isAuthenticated {
                     VStack {
-//                            Rectangle().fill(.ultraThinMaterial)
-//                                .padding()
-//                                .padding(.horizontal)
-//                                .background(.white)
-//                                .cornerRadius(30)
-//                                .shadow(radius: 10)
                             NavigationLink(destination: MainPageView()) {
                             }
                        .frame(width: UIScreen.main.bounds.width - 1)

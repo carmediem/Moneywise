@@ -10,8 +10,8 @@ import SwiftUI
 struct TransactionListView: View {
     @Environment(\.isSearching) var isSearching
     
-    @StateObject var viewModel: TransactionListViewModel = TransactionListViewModel()
-//    @EnvironmentObject var viewModel: TransactionListViewModel
+//    @StateObject var viewModel: TransactionListViewModel = TransactionListViewModel()
+    @EnvironmentObject var viewModel: TransactionListViewModel
     
     @Environment(\.managedObjectContext) var managedObjectContext
     
@@ -21,18 +21,18 @@ struct TransactionListView: View {
     var transactionList: some View {
         
         Section(header: SortView(transactionListViewModel: viewModel)) {
-            
+            #warning("CHANGED transactions to filteredTransactions")
             List {
-                ForEach(viewModel.filteredTransactions, id: \.self) { transaction in
+                ForEach(viewModel.filteredTransactions, id: \.self) { filteredTransactions in
                     NavigationLink {
-                        TransactionDetailView(transaction: transaction)
+                        TransactionDetailView(transaction: filteredTransactions)
                     } label: {
-                        TransactionRowView(transaction: transaction)
+                        TransactionRowView(transaction: filteredTransactions)
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                         Button("Delete", role: .destructive) {
-                            if let id = transaction.transactionId {
-                                viewModel.removeTransaction(transaction: transaction, with: PersistenceController.shared.container.viewContext, uuid: "\(id)")
+                            if let id = filteredTransactions.transactionId {
+                                viewModel.removeTransaction(transaction: filteredTransactions, with: PersistenceController.shared.container.viewContext, uuid: "\(id)")
                             }
                         }
                     }
@@ -57,7 +57,7 @@ struct TransactionListView: View {
             viewModel.search() //gives you the list of people
         }
         .overlay {
-            if viewModel.transactions.isEmpty {
+            if viewModel.filteredTransactions.isEmpty {
                 EmptyView(searchQuery: $searchQuery)
             }
         }
@@ -69,7 +69,7 @@ struct TransactionListView: View {
             VStack {
                 ScrollView {
                     //MARK: -- If there are no transactions
-                    if viewModel.transactions.isEmpty {
+                    if viewModel.filteredTransactions.isEmpty {
                         EmptyTransactionTitle()
                             .padding(.top)
                             .toolbar {
@@ -86,7 +86,7 @@ struct TransactionListView: View {
                         
                         //MARK: List of entries
                         transactionList
-                            .frame(height: CGFloat(viewModel.transactions.count) * 100 + 25)
+                            .frame(height: CGFloat(viewModel.filteredTransactions.count) * 100 + 25)
                             .navigationBarTitleDisplayMode(.inline)
                             .toolbar {
                                 ToolbarItem {

@@ -128,7 +128,6 @@ struct TransactionDetailView: View {
                         openCameraRoll = true
                         print("Upload photo of transaction")
                     }, label: {
-                        // Text("")
                         if uploadTransactionPhoto {
                             Image(uiImage: imageSelected)
                                 .resizable()
@@ -160,9 +159,9 @@ struct TransactionDetailView: View {
                 Button {
                     if transaction == nil {
                         transactionViewModel.createTransaction(name: transactionNameText, amount: transactionValue, category: category.rawValue, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, note: transactionNoteText, type: categoryType.rawValue, imageName: category.CategoryImage)
-                        print(transactionViewModel.transactions.count)
+                        print(transactionViewModel.filteredTransactions.count)
                     } else {
-                        transactionViewModel.updateTransaction(transaction, name: transactionNameText, amount: transactionValue, category: category.rawValue, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, type: categoryType.rawValue, note: transactionNoteText)
+                        transactionViewModel.updateTransaction(transaction, name: transactionNameText, amount: transactionValue, category: category.rawValue, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, type: categoryType.rawValue, note: transactionNoteText, imageName: category.CategoryImage)
                     } //.background(Color.background).opacity(30)
                     dismiss()
                 } label: {

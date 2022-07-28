@@ -25,9 +25,8 @@ struct MainPageView: View {
                     
                     HStack {
                         Button {
-                        viewModel.getCurrentMonth() //keep this because we dont want this to be effected
                           viewModel.filterByPreviousMonth()
-
+                            viewModel.load()
                         } label: {
                             Image(systemName: "arrow.left")
                         }
@@ -37,7 +36,8 @@ struct MainPageView: View {
                             .padding(.leading, -140)
                         
                         Button {
-             //               viewModel.filterByMonth(index: 7)
+                            viewModel.filterByNextMonth()
+                            viewModel.load()
                         } label: {
                             Image(systemName: "arrow.right")
                         }
@@ -86,9 +86,6 @@ struct MainPageView: View {
                                         Rectangle()
                                             .fill(category.color)
                                             .frame(width: self.getWidth(width: g.frame(in: .global).width, value: category.percent), height: 5)
-                                        
-                                        //deleted -50 from above.
-                                       //     .frame(width: self.getWidth(width: g.frame(in: .global).width-50, value: category.percent), height: 5)
                                         
                                         
                                         Text(String(format: "%.2f", category.percent))
@@ -161,19 +158,26 @@ struct Pie: Identifiable {
     var color: Color
 }
 
-
-func loadTransactionData() -> [Pie] {
+func getTransactions() -> [Transaction] {
     let request = NSFetchRequest<Transaction>(entityName: "Transaction")
-    request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.name), ascending: true)]
-    //fetchRequest.sortDescriptors = [sort]
-    
+    request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.name), ascending: false)]
+    let transactions = (try? PersistenceController.shared.container.viewContext.fetch(request)) ?? []
+    return transactions
+}
+
+
+func refreshData(transactions: [Transaction]) {
+    data = loadTransactionData(transactions: transactions)
+}
+
+
+func loadTransactionData(transactions: [Transaction]) -> [Pie] {
     do {
-        let transactions = try? PersistenceController.shared.container.viewContext.fetch(request)
         var total = 0.00;
         var categories: [String : Double] = [:]
         let ignoredCategories = ["Income", "Savings", "Investment", "SelectOne"]
-        transactions?.forEach{transaction in
-            if(!ignoredCategories.contains(transaction.category ?? "Other")){
+        transactions.forEach { transaction in
+            if(!ignoredCategories.contains(transaction.category ?? "Other")) {
                 total += transaction.amount
                 if (categories[transaction.category ?? "Other"] == nil) {
                     categories[transaction.category ?? "Other"] = transaction.amount
@@ -196,25 +200,7 @@ func loadTransactionData() -> [Pie] {
     }
 }
 
-//MARK: -- Filter by month
-//func filterByMonth(index: Int) {
-//    filteredTransactions = transaction.filter {
-//        let monthIndex = Calendar.current.component(.month, from: $0.date ?? Date())
-//        return index == monthIndex
-//    }
-//}
-
-var data = loadTransactionData()
-
-//extension Date {
-//    func getNextMonth() -> Date? {
-//        return Calendar.current.date(byAdding: .month, value: 1, to: self)
-//    }
-//
-//    func getPreviousMonth() -> Date? {
-//        return Calendar.current.date(byAdding: .month, value: -1, to: self)
-//    }
-//}
+var data = loadTransactionData(transactions: getTransactions())
 
 struct MainPageView_Previews: PreviewProvider {
     static var previews: some View {
@@ -223,7 +209,5 @@ struct MainPageView_Previews: PreviewProvider {
     }
 }
 
-
-//alphabetized color with category
 
 

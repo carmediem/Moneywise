@@ -13,13 +13,14 @@ import CoreData
 class TransactionListViewModel: ObservableObject {
     
     @Published var filteredTransactions = [Transaction]()
-    
-    var currentMonthNumber = 0
-    
-    var monthNumberToDisplay = 0
+        
+    var monthFromCurrent = 0
+    var selectedMonthNumber = 0
     
     var selectedTransaction: String = ""
         
+    let currentMonthNumber = Calendar.current.component(.month, from: Date())
+    
     init() {
         load()
         print(transactions.count)
@@ -33,11 +34,6 @@ class TransactionListViewModel: ObservableObject {
     func load() {
         let request = NSFetchRequest<Transaction>(entityName: "Transaction")
         request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.name), ascending: false)]
-        
-//        #warning("adding this is test saving image to Core Data")
-//        let image = NSManagedObject(entity: "Transaction", insertInto: managedContext)
-//        image.setValue(jpegData, forKeyPath: "receiptPhoto")
-//        #warning("end of image for coredata")
         
         do {
          let transactions = try? PersistenceController.shared.container.viewContext.fetch(request)
@@ -147,28 +143,27 @@ class TransactionListViewModel: ObservableObject {
     
     //MARK: -- Filter by month for graph
     func filterByPreviousMonth() {
-        monthNumberToDisplay -= 1
-        print("Updated Month = \(monthNumberToDisplay)")
-        filteredTransactions = transactions.filter {
-            let monthIndex = Calendar.current.component(.month, from: $0.date ?? Date())
-            return monthNumberToDisplay == monthIndex
+        monthFromCurrent -= 1
+        print("Updated Month = \(monthFromCurrent)")
+        filteredTransactions = transactions.filter { (transaction) -> Bool in
+            return transaction.date!.month == currentMonthNumber + monthFromCurrent
         }
+        print(filteredTransactions)
+        refreshData(transactions: filteredTransactions)
     }
-//
-//    func filterByNextMonth(index: Int) {
-//        filteredTransactions = transactions.filter {_ in
-//            let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: Date())
-//            return index == nextMonth
-//        }
-//    }
 
+    func filterByNextMonth() {
+        monthFromCurrent += 1
+        print("Updated Month = \(monthFromCurrent)")
+        filteredTransactions = transactions.filter { (transaction) -> Bool in
+            return transaction.date!.month == currentMonthNumber + monthFromCurrent
+        }
+        refreshData(transactions: filteredTransactions)
+    }
+}
 
-    func getCurrentMonth() {
-        let date = Date()
-        let calendar = Calendar.current
-        currentMonthNumber =  calendar.component(.month, from: date)
-        monthNumberToDisplay = currentMonthNumber
-        print("current month = \(currentMonthNumber)")
-        
+extension Date {
+    var month: Int {
+        return Calendar.current.component(.month, from: self)
     }
 }

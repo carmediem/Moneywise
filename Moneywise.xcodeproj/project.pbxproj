@@ -26,7 +26,6 @@
 		2866636F287D034200555B76 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2866636E287D034200555B76 /* Extension.swift */; };
 		28666371287D0FA500555B76 /* TransactionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28666370287D0FA500555B76 /* TransactionListView.swift */; };
 		28666373287D0FBF00555B76 /* TransactionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28666372287D0FBF00555B76 /* TransactionListViewModel.swift */; };
-		2867048E2891CC5D00656F7B /* MainPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2867048D2891CC5D00656F7B /* MainPageViewModel.swift */; };
 		289C2E84288B70570095F5B5 /* TransactionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289C2E83288B70570095F5B5 /* TransactionRowView.swift */; };
 		28A690F2288CF00C009A29F3 /* TransactionDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A690F1288CF00C009A29F3 /* TransactionDetailViewModel.swift */; };
 		28A690F4288CF7A8009A29F3 /* SortViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A690F3288CF7A8009A29F3 /* SortViewViewModel.swift */; };
@@ -37,9 +36,7 @@
 		28B1087C28872C5900A4626E /* CredentialsLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B1087B28872C5900A4626E /* CredentialsLoginView.swift */; };
 		28C81D15287E460A000D231B /* TransactionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C81D14287E460A000D231B /* TransactionDetailView.swift */; };
 		28DB6F0D2881B07F00DD0DC5 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DB6F0C2881B07F00DD0DC5 /* EmptyView.swift */; };
-		28DFD57D288855F2009CCC88 /* ArchiveWelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DFD57C288855F2009CCC88 /* ArchiveWelcomeViewModel.swift */; };
 		28FA68552888DBAD00887E3C /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FA68542888DBAD00887E3C /* AppFlow.swift */; };
-		28FA68572889A78B00887E3C /* Practice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FA68562889A78B00887E3C /* Practice.swift */; };
 		28FA6880288A521D00887E3C /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28FA687F288A521D00887E3C /* ImagePickerViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,7 +61,6 @@
 		2866636E287D034200555B76 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		28666370287D0FA500555B76 /* TransactionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListView.swift; sourceTree = "<group>"; };
 		28666372287D0FBF00555B76 /* TransactionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListViewModel.swift; sourceTree = "<group>"; };
-		2867048D2891CC5D00656F7B /* MainPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewModel.swift; sourceTree = "<group>"; };
 		289C2E83288B70570095F5B5 /* TransactionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRowView.swift; sourceTree = "<group>"; };
 		28A690F1288CF00C009A29F3 /* TransactionDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewModel.swift; sourceTree = "<group>"; };
 		28A690F3288CF7A8009A29F3 /* SortViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortViewViewModel.swift; sourceTree = "<group>"; };
@@ -75,9 +71,7 @@
 		28B1087B28872C5900A4626E /* CredentialsLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsLoginView.swift; sourceTree = "<group>"; };
 		28C81D14287E460A000D231B /* TransactionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailView.swift; sourceTree = "<group>"; };
 		28DB6F0C2881B07F00DD0DC5 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
-		28DFD57C288855F2009CCC88 /* ArchiveWelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveWelcomeViewModel.swift; sourceTree = "<group>"; };
 		28FA68542888DBAD00887E3C /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
-		28FA68562889A78B00887E3C /* Practice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Practice.swift; sourceTree = "<group>"; };
 		28FA687F288A521D00887E3C /* ImagePickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewModel.swift; sourceTree = "<group>"; };
 		47299622CB8C2C472029BA02 /* Pods_Moneywise.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Moneywise.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D04F424E1D3EA94212345EED /* Pods-Moneywise.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Moneywise.debug.xcconfig"; path = "Target Support Files/Pods-Moneywise/Pods-Moneywise.debug.xcconfig"; sourceTree = "<group>"; };
@@ -136,7 +130,6 @@
 		2844A1C7287CB98900FA342D /* Moneywise */ = {
 			isa = PBXGroup;
 			children = (
-				28FA68562889A78B00887E3C /* Practice.swift */,
 				28DFD57E2888DB63009CCC88 /* AppFiles */,
 				28B1087228871D4900A4626E /* Authenticator */,
 				28160D4A287F85D300F6BCDB /* CoreData */,
@@ -185,10 +178,8 @@
 		2844A1DD287CB9A700FA342D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				2867048D2891CC5D00656F7B /* MainPageViewModel.swift */,
 				28666372287D0FBF00555B76 /* TransactionListViewModel.swift */,
 				283FC23728824A5D00210795 /* CurrencyConverterViewModel.swift */,
-				28DFD57C288855F2009CCC88 /* ArchiveWelcomeViewModel.swift */,
 				28FA687F288A521D00887E3C /* ImagePickerViewModel.swift */,
 				28A690F1288CF00C009A29F3 /* TransactionDetailViewModel.swift */,
 				28A690F3288CF7A8009A29F3 /* SortViewViewModel.swift */,
@@ -363,7 +354,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2867048E2891CC5D00656F7B /* MainPageViewModel.swift in Sources */,
 				28A690F2288CF00C009A29F3 /* TransactionDetailViewModel.swift in Sources */,
 				28AE1AE7287E358D001B6C0C /* Archive.Welcome.swift in Sources */,
 				28666373287D0FBF00555B76 /* TransactionListViewModel.swift in Sources */,
@@ -381,14 +371,12 @@
 				28C81D15287E460A000D231B /* TransactionDetailView.swift in Sources */,
 				283FC23D28831B5200210795 /* Currency.swift in Sources */,
 				28160D4E287F865B00F6BCDB /* Category+Convenience.swift in Sources */,
-				28FA68572889A78B00887E3C /* Practice.swift in Sources */,
 				2866636F287D034200555B76 /* Extension.swift in Sources */,
 				28160D54287FA2DD00F6BCDB /* ContentView.swift in Sources */,
 				283FC23B288318B200210795 /* CurrencyConversionErrors.swift in Sources */,
 				289C2E84288B70570095F5B5 /* TransactionRowView.swift in Sources */,
 				28FA68552888DBAD00887E3C /* AppFlow.swift in Sources */,
 				2844A1D5287CB98A00FA342D /* Moneywise.xcdatamodeld in Sources */,
-				28DFD57D288855F2009CCC88 /* ArchiveWelcomeViewModel.swift in Sources */,
 				2844A1C9287CB98900FA342D /* MoneywiseApp.swift in Sources */,
 				28B1087428871D5900A4626E /* PrimaryButton.swift in Sources */,
 				28FA6880288A521D00887E3C /* ImagePickerViewModel.swift in Sources */,
@@ -535,6 +523,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -568,6 +557,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

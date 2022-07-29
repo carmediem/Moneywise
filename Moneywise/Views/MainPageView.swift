@@ -31,7 +31,7 @@ struct MainPageView: View {
                             Image(systemName: "arrow.left")
                         }
                         
-                        Text("July 2022")
+                        Text(getDateStringFromCurrentMonthIndex(currentMonth: currentMonth))
                             .font(.headline)
                             .padding(.leading, -140)
                         
@@ -65,6 +65,7 @@ struct MainPageView: View {
                         ZStack {
                             ForEach(0..<data.count) {i in
                                 DrawShape(center: CGPoint(x: g.frame(in: .global).width / 2, y: g.frame(in: .global).height / 2), index: i)
+                                //need something there that indicats that it was pressed
                             }
                         }
                     }
@@ -108,6 +109,7 @@ struct MainPageView: View {
         let temp = value / 100
         return temp * width
     }
+    
 }//end of struct
 
 
@@ -202,7 +204,19 @@ func loadTransactionData(transactions: [Transaction]) -> [Pie] {
     }
 }
 
+var currentMonth = Calendar.current.component(.month, from: Date()) - 1
+
+func updateMonth(updatedMonth: Int) {
+    currentMonth = updatedMonth
+}
+
 var data = loadTransactionData(transactions: getTransactions())
+
+
+func getDateStringFromCurrentMonthIndex(currentMonth: Int) -> String {
+    var monthsArray = ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"]
+    return monthsArray[currentMonth] //when this funtion is called, want it to return the current month
+}
 
 struct MainPageView_Previews: PreviewProvider {
     static var previews: some View {

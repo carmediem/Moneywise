@@ -149,6 +149,7 @@ class TransactionListViewModel: ObservableObject {
         }
         print(filteredTransactions)
         refreshData(transactions: filteredTransactions)
+        updateMonth(updatedMonth: currentMonthNumber + monthFromCurrent)
         self.pie = data
     }
     
@@ -159,6 +160,7 @@ class TransactionListViewModel: ObservableObject {
             return transaction.date!.month == currentMonthNumber + monthFromCurrent
         }
         refreshData(transactions: filteredTransactions)
+        updateMonth(updatedMonth: currentMonthNumber + monthFromCurrent)
         self.pie = data
     }
 }

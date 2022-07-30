@@ -17,7 +17,7 @@ struct TransactionDetailView: View {
     
    // @State private var date = Date()
     
-    var transaction: Transaction?
+    @State var transaction: Transaction?
     
     
     func setUpViews() {
@@ -29,6 +29,9 @@ struct TransactionDetailView: View {
         transactionAmountValue = "\(transaction.amount)"
         categoryType  = Category.Categories.ExpenseType(rawValue: transaction.type ?? "") ?? .all
         transactionNoteText = transaction.note ?? ""
+        transactionImage = ImageStorage.shared.loadImageFromDocumentDirectory(nameOfImage: transaction.name!)
+        print("transactionImage")
+        print(transactionImage)
     }
     
     //For uploading image
@@ -44,6 +47,7 @@ struct TransactionDetailView: View {
     @State var transactionReoccuring: Bool = false
     @State var transactionNoteText: String = ""
     @State var categoryType: Category.Categories.ExpenseType = .Selection
+    @State var transactionImage: UIImage? = nil
     @State private var selection = ""
     var transactionValue: Double {
         Double(transactionAmountValue) ?? 0.00
@@ -133,19 +137,23 @@ struct TransactionDetailView: View {
                                 .resizable()
                                 .frame(width: 120, height: 120)
                         } else {
+                            if transactionImage != nil {
+                                Image(uiImage: transactionImage!)
+                                    .resizable()
+                                    .frame(width: 120, height: 120)
+                            } else {
                             Image("receipt")
                                 .resizable()
-                                .frame(width: 140, height: 140, alignment: .center)
+                                .frame(width: 140, height: 140)
                         }
-                        
+                        }
                     })   .buttonStyle(.bordered)
                         .frame(alignment: .center)
                     
                 }.sheet(isPresented: $openCameraRoll) {
-                    ImagePicker(selectedImage: $imageSelected, sourceType: .photoLibrary)
+                    ImagePicker(selectedImage: $imageSelected, sourceType: .photoLibrary, transaction: transaction!)
                     
                 }
-                
             }
         }
         .onAppear {
@@ -159,11 +167,21 @@ struct TransactionDetailView: View {
                 Button {
                     if transaction == nil {
                         transactionViewModel.createTransaction(name: transactionNameText, amount: transactionValue, category: category.rawValue, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, note: transactionNoteText, type: categoryType.rawValue, imageName: category.CategoryImage)
-                        print(transactionViewModel.filteredTransactions.count)
                     } else {
-                        transactionViewModel.updateTransaction(transaction, name: transactionNameText, amount: transactionValue, category: category.rawValue, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, type: categoryType.rawValue, note: transactionNoteText, imageName: category.CategoryImage)
-                    } //.background(Color.background).opacity(30)
+                        transactionViewModel.updateTransaction(
+                            transaction,
+                            name: transactionNameText,
+                            amount: transactionValue,
+                            category: category.rawValue,
+                            date: transactionDateText,
+                            isReoccuring: transactionReoccuring,
+                            merchant: transactionMerchantText,
+                            type: categoryType.rawValue,
+                            note: transactionNoteText,
+                            imageName: category.CategoryImage
+                        )
                     dismiss()
+                    }
                 } label: {
                     Text("Save")
                 }

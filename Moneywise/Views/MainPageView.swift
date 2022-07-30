@@ -10,18 +10,22 @@ import CoreData
 
 struct MainPageView: View {
     @EnvironmentObject var viewModel: TransactionListViewModel
+    
+    
+    @State var pieGraphData: [Pie] = []
+    
    
     var body: some View {
         
         NavigationView {
             ScrollView {
                 VStack {
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .center) {
                         Text("Monthly Expenses")
                             .font(.title2)
                             .bold()
-                            .padding(.leading, -140)
                     }
+                    .padding(.bottom, 15)
                     
                     HStack {
                         Button {
@@ -31,9 +35,9 @@ struct MainPageView: View {
                             Image(systemName: "arrow.left")
                         }
                         
-                        Text(getDateStringFromCurrentMonthIndex(currentMonth: currentMonth))
+                        Text(getDateStringFromCurrentMonthIndex(currentMonth: currentMonth)) //set the value of the textfield to be the return value of the getDateStringFromCurrentMonthIndex func so its more dynamic. triggered to update when there is a new value in the function
                             .font(.headline)
-                            .padding(.leading, -140)
+                          //  .padding(.leading, -140)
                         
                         Button {
                             viewModel.filterByNextMonth()
@@ -42,6 +46,7 @@ struct MainPageView: View {
                             Image(systemName: "arrow.right")
                         }
                     }
+                    .padding(.bottom,15)
                     
                     .navigationBarTitleDisplayMode(.inline)
 //                    .frame(maxWidth: .infinity,
@@ -63,20 +68,19 @@ struct MainPageView: View {
                     //MARK: -- Pie Chart. it only loads the first time it goes to the screen. Doesnt load again. Pies are being passed in correctly. Calculations are fine. 
                     GeometryReader {g in
                         ZStack {
-                            ForEach(0..<data.count) {i in
+                            ForEach(0..<viewModel.pie.count, id: \.self) {i in
                                 DrawShape(center: CGPoint(x: g.frame(in: .global).width / 2, y: g.frame(in: .global).height / 2), index: i)
-                                //need something there that indicats that it was pressed
                             }
                         }
                     }
                     .frame(height: 290)
                     .padding(.top, 20)
                     .clipShape(Circle())
+        
                     
-                    
-                    //MARK: -- Categories and percentages. THIS PART UPDATES
+                    //MARK: -- Categories and percentages for bar chart. THIS PART UPDATES
                     VStack {
-                        ForEach(data) {category in
+                        ForEach(viewModel.pie) {category in
                             HStack {
                                 Text(category.name)
                                     .frame(width: 150)
@@ -98,7 +102,10 @@ struct MainPageView: View {
                             }
                             .padding(.top, 10)
                         }
-                    }//end of vstack
+                    }
+                }//end of vstack
+                .onReceive(viewModel.$pie) { pie in
+                    self.pieGraphData = pie
                 }
             }
            .background(Color.background)
@@ -115,6 +122,7 @@ struct MainPageView: View {
 
 // MARK: -- Struct for build out of the pie chart
 struct DrawShape: View {
+    @EnvironmentObject var viewModel: TransactionListViewModel
     
     var center: CGPoint
     var index: Int
@@ -126,7 +134,7 @@ struct DrawShape: View {
             path.move(to: self.center)
             path.addArc(center: self.center, radius: 180, startAngle: .init(degrees: self.from()), endAngle: .init(degrees: self.to()), clockwise: false)
         }
-        .fill(data[index].color)
+        .fill(viewModel.pie[index].color)
     }
     
     //since an angle is continuous, we'll need to calculate the angles before and add with the current to get the exact angle
@@ -137,7 +145,7 @@ struct DrawShape: View {
         else {
             var temp: Double = 0
             for i in 0...index-1 {
-                temp += Double(data[i].percent / 100) * 360
+                temp += Double(viewModel.pie[i].percent / 100) * 360
             }
             return temp
         }
@@ -147,19 +155,21 @@ struct DrawShape: View {
         var temp: Double = 0
         //need the current degree
         for i in 0...index {
-            temp += Double(data[i].percent / 100) * 360
+            temp += Double(viewModel.pie[i].percent / 100) * 360
         }
         return temp
     }
 }
 
-struct Pie: Identifiable {
+struct Pie: Identifiable, Equatable {
     var id: Int
     var percent: CGFloat
     var name: String
     var color: Color
 }
 
+
+//MARK: -- Fetching the Transactions
 func getTransactions() -> [Transaction] {
     let request = NSFetchRequest<Transaction>(entityName: "Transaction")
     request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.name), ascending: false)]
@@ -168,54 +178,24 @@ func getTransactions() -> [Transaction] {
 }
 
 
-func refreshData(transactions: [Transaction]) {
-    data = loadTransactionData(transactions: transactions)
-} //this assigns the data
 
+//MARK: -- loading the transaction data.
 
-func loadTransactionData(transactions: [Transaction]) -> [Pie] {
-    do {
-        var total = 0.00;
-        var categories: [String : Double] = [:]
-        let ignoredCategories = ["Income", "Savings", "Investment", "SelectOne"]
-        transactions.forEach { transaction in
-            if(!ignoredCategories.contains(transaction.category ?? "Other")) {
-                total += transaction.amount
-                if (categories[transaction.category ?? "Other"] == nil) {
-                    categories[transaction.category ?? "Other"] = transaction.amount
-                } else {
-                    categories[transaction.category ?? "Other"]! += transaction.amount
-                }
-            }
-        }
-        
-        //Building the pie
-        var pies: [Pie] = []
-        var id = 0
-        let colors = ["Blue", "BrightPink", "Yellow", "Orange", "Red", "Peach", "Pink", "Purple", "Red", "RoyalBlue", "Teal", "Green", "Mustard", "Green2"]
-        categories.forEach { category in
-            let percent = (category.value / total)
-            pies.append(Pie(id: id, percent: CGFloat(percent*100), name: category.key, color: Color(colors[id] )))
-            id += 1
-        }
-        return pies
-    } catch {
-        print(error)
-    }
-}
 
 var currentMonth = Calendar.current.component(.month, from: Date()) - 1
+//set current month variable using info from currentMonthNumber. Is an Int so need to make it a string using the getDateStringFromCurrentMonthIndex
 
 func updateMonth(updatedMonth: Int) {
     currentMonth = updatedMonth
+    
 }
 
-var data = loadTransactionData(transactions: getTransactions())
+//var data = loadTransactionData(transactions: getTransactions())
 
 
 func getDateStringFromCurrentMonthIndex(currentMonth: Int) -> String {
-    var monthsArray = ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"]
-    return monthsArray[currentMonth] //when this funtion is called, want it to return the current month
+    let monthsArray = ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"]
+    return monthsArray[currentMonth] //when this funtion is called, want it to return the current month index, which is 7 which is August
 }
 
 struct MainPageView_Previews: PreviewProvider {
@@ -227,3 +207,4 @@ struct MainPageView_Previews: PreviewProvider {
 
 
 
+//data var and the loading method..

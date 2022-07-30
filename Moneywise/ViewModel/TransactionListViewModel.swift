@@ -15,8 +15,10 @@ class TransactionListViewModel: ObservableObject {
     @Published var filteredTransactions = [Transaction]()
     @Published var pie: [Pie] = []
     
+    
     var monthFromCurrent = 0
     var selectedMonthNumber = 0
+    //how far from t-0 , current time
     
     var selectedTransaction: String = ""
     
@@ -149,8 +151,9 @@ class TransactionListViewModel: ObservableObject {
         }
         print(filteredTransactions)
         refreshData(transactions: filteredTransactions)
-        updateMonth(updatedMonth: currentMonthNumber + monthFromCurrent)
-        self.pie = data
+        updateMonth(updatedMonth: currentMonthNumber + monthFromCurrent - 1)
+        //using the func updateMonth so the month displayed updates. subtracts 1 from the current month. reading the variable to the currentmonth. which triggers the update on the getDateStringFromCurrentMonthIndex func
+        self.pie = loadTransactionData(transactions: self.filteredTransactions)
     }
     
     func filterByNextMonth() {
@@ -160,9 +163,49 @@ class TransactionListViewModel: ObservableObject {
             return transaction.date!.month == currentMonthNumber + monthFromCurrent
         }
         refreshData(transactions: filteredTransactions)
-        updateMonth(updatedMonth: currentMonthNumber + monthFromCurrent)
-        self.pie = data
+        updateMonth(updatedMonth: currentMonthNumber + monthFromCurrent - 1)
+        // -1 because we want it to start back at [0
+        self.pie = loadTransactionData(transactions: self.filteredTransactions)
+        
     }
+    
+    //MARK: -- LOAD TRANSACTION FOR GRAPH AND CHART
+    func loadTransactionData(transactions: [Transaction]) -> [Pie] {
+        do {
+            var total = 0.00;
+            var categories: [String : Double] = [:]
+            let ignoredCategories = ["Income", "Savings", "Investment", "SelectOne"]
+            transactions.forEach { transaction in
+                if(!ignoredCategories.contains(transaction.category ?? "Other")) {
+                    total += transaction.amount
+                    if (categories[transaction.category ?? "Other"] == nil) {
+                        categories[transaction.category ?? "Other"] = transaction.amount
+                    } else {
+                        categories[transaction.category ?? "Other"]! += transaction.amount
+                    }
+                }
+            }
+            
+            //Building the pie. Using percentages to build out the pie
+            var pies: [Pie] = []
+            var id = 0
+            let colors = ["Blue", "BrightPink", "Yellow", "Orange", "Red", "Peach", "Pink", "Purple", "Red", "RoyalBlue", "Teal", "Green", "Mustard", "Green2"]
+            categories.forEach { category in
+                let percent = (category.value / total)
+                pies.append(Pie(id: id, percent: CGFloat(percent * 100), name: category.key, color: Color(colors[id] )))
+                id += 1
+            }
+            return pies
+        } catch {
+            print(error)
+        }
+    }
+    
+    func refreshData(transactions: [Transaction]) {
+        self.pie = loadTransactionData(transactions: transactions)
+    } //this assigns the data
+
+    
 }
 
 extension Date {

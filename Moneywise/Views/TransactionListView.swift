@@ -10,7 +10,6 @@ import SwiftUI
 struct TransactionListView: View {
     @Environment(\.isSearching) var isSearching
     
-//    @StateObject var viewModel: TransactionListViewModel = TransactionListViewModel()
     @EnvironmentObject var viewModel: TransactionListViewModel
     
     @Environment(\.managedObjectContext) var managedObjectContext
@@ -21,7 +20,6 @@ struct TransactionListView: View {
     var transactionList: some View {
         
         Section(header: SortView(transactionListViewModel: viewModel)) {
-            #warning("CHANGED transactions to filteredTransactions")
             List {
                 ForEach(viewModel.filteredTransactions, id: \.self) { filteredTransactions in
                     NavigationLink {
@@ -50,17 +48,17 @@ struct TransactionListView: View {
         .onSubmit(of: .search) {
             viewModel.search(with: searchQuery)
         }
-        .onChange(of: searchQuery) {newQuery in   //query is not binding, just listening for changes. modifier is onChange. Whenever the value changes, we'll get a new query to make the search. listening to the changes to the State variable
+        .onChange(of: searchQuery) { newQuery in   //query is not binding, just listening for changes. modifier is onChange. Whenever the value changes, we'll get a new query to make the search. listening to the changes to the State variable
             viewModel.search(with: newQuery)
         }
         .onAppear {  //with EmptyView
-            viewModel.search() //gives you the list of people
+            viewModel.search() //gives you the list of transactions
         }
-        .overlay {
-            if viewModel.filteredTransactions.isEmpty {
-                EmptyView(searchQuery: $searchQuery)
-            }
-        }
+//        .overlay {
+//            if viewModel.filteredTransactions.isEmpty {
+//                EmptyView(searchQuery: $searchQuery)
+//            }
+//        }
     }
     
     

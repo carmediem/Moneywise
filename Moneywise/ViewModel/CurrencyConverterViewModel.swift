@@ -27,9 +27,9 @@ class CurrencyData {
                 do {
                     let currencyInfos = try currency.get()
                     let currencyInfo = currencyInfos[currencyName]
-                    self.code = currencyInfo!.code
-                    self.name = currencyInfo!.name
-                    self.rate = currencyInfo!.rate
+                    self.code = currencyInfo?.code ?? "USD"
+                    self.name = currencyInfo?.name ?? "USD"
+                    self.rate = currencyInfo?.rate ?? 0.0
                     print(currency)
                     semaphore.signal()
                     

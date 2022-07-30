@@ -25,22 +25,25 @@ class TransactionListViewModel: ObservableObject {
     let currentMonthNumber = Calendar.current.component(.month, from: Date())
     
     init() {
-        load()
-        print(filteredTransactions.count)
+        load(completion: { transactions in
+            self.pie = self.loadTransactionData(transactions: transactions)
+        })
     }
     
     static let emptyMessage = "You have not listed any entries for expenses or income. Click the + in the upper right corner to start managing your money "
     
     
-    func load() {
+    func load(completion: @escaping([Transaction]) -> Void) {
         let request = NSFetchRequest<Transaction>(entityName: "Transaction")
         request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.name), ascending: false)]
         
+        
         do {
-            let transactions = try? PersistenceController.shared.container.viewContext.fetch(request)
-            print(filteredTransactions.count)
-            self.filteredTransactions = transactions ?? []  //start as unfiltered
-         //   self.filteredTransactions = transactions ?? []
+            let transactions = try PersistenceController.shared.container.viewContext.fetch(request)
+            self.filteredTransactions = transactions //start as unfiltered
+         // self.filteredTransactions = transactions ?? []
+          //  self.pie = loadTransactionData(transactions: transactions ?? [])
+            completion(transactions)
         } catch {
             print(error)
         }
@@ -52,7 +55,7 @@ class TransactionListViewModel: ObservableObject {
         let context = PersistenceController.shared.container.viewContext
         let transaction = Transaction(name: name, amount: amount, category: category, date: date, transactionId: UUID(), isReoccuring: isReoccuring, merchant: merchant, note: note, type: type, imageName: imageName, context: context)
         
-        //  filteredTransactions.append(filteredTransactions)
+      //   filteredTransactions.append(filteredTransactions)
         
         print(transaction.transactionId)
         do {
@@ -108,7 +111,7 @@ class TransactionListViewModel: ObservableObject {
     //MARK: -- function for search bar
     func search(with searchQuery: String = "") {
         guard !searchQuery.isEmpty else {
-            load()
+            load(completion: { _ in }) // _ is the unnamed thing thats not being use. there is no completion. Not doing anything here yet but if i do, open it up
             return
         }
         filteredTransactions = filteredTransactions.filter { $0.name!.contains(searchQuery) }
@@ -143,30 +146,38 @@ class TransactionListViewModel: ObservableObject {
     
     
     //MARK: -- Filter by month for graph
+    //when inside a completion block, the complier needs to know the difference between the class im in and the function im in
     func filterByPreviousMonth() {
-        monthFromCurrent -= 1
-        print("Updated Month = \(monthFromCurrent)")
-        filteredTransactions = filteredTransactions.filter { (transaction) -> Bool in
-            return transaction.date!.month == currentMonthNumber + monthFromCurrent
+        self.load(completion: { transactions in
+            self.monthFromCurrent -= 1
+            print("Updated Month = \(self.monthFromCurrent)")
+            self.filteredTransactions = transactions.filter { (transaction) -> Bool in
+                return transaction.date!.month == self.currentMonthNumber + self.monthFromCurrent
         }
-        print(filteredTransactions)
-        refreshData(transactions: filteredTransactions)
-        updateMonth(updatedMonth: currentMonthNumber + monthFromCurrent - 1)
+            print("Transaction Count: \(self.filteredTransactions.count)")
+            self.refreshData(transactions: transactions)
+            updateMonth(updatedMonth: self.currentMonthNumber + self.monthFromCurrent - 1)
         //using the func updateMonth so the month displayed updates. subtracts 1 from the current month. reading the variable to the currentmonth. which triggers the update on the getDateStringFromCurrentMonthIndex func
-        self.pie = loadTransactionData(transactions: self.filteredTransactions)
+            let newPie = self.loadTransactionData(transactions: self.filteredTransactions)
+            self.pie = newPie
+            print("Pie Transcation count: \(newPie.count)")
+        })
     }
     
     func filterByNextMonth() {
-        monthFromCurrent += 1
-        print("Updated Month = \(monthFromCurrent)")
-        filteredTransactions = filteredTransactions.filter { (transaction) -> Bool in
-            return transaction.date!.month == currentMonthNumber + monthFromCurrent
+        self.load(completion: { transactions in
+            self.monthFromCurrent += 1
+            print("Updated Month = \(self.monthFromCurrent)")
+            self.filteredTransactions = transactions.filter { (transaction) -> Bool in
+                return transaction.date!.month == self.currentMonthNumber + self.monthFromCurrent
         }
-        refreshData(transactions: filteredTransactions)
-        updateMonth(updatedMonth: currentMonthNumber + monthFromCurrent - 1)
-        // -1 because we want it to start back at [0
-        self.pie = loadTransactionData(transactions: self.filteredTransactions)
-        
+            print("Transaction Count: \(self.filteredTransactions.count)")
+            self.refreshData(transactions: transactions)
+            updateMonth(updatedMonth: self.currentMonthNumber + self.monthFromCurrent - 1)
+            let newPie = self.loadTransactionData(transactions: self.filteredTransactions)
+            self.pie = newPie
+            print("Pie Transcation count: \(newPie.count)")
+        })
     }
     
     //MARK: -- LOAD TRANSACTION FOR GRAPH AND CHART
@@ -196,8 +207,6 @@ class TransactionListViewModel: ObservableObject {
                 id += 1
             }
             return pies
-        } catch {
-            print(error)
         }
     }
     

@@ -14,7 +14,7 @@ struct MainPageView: View {
     
     @State var pieGraphData: [Pie] = []
     
-   
+    
     var body: some View {
         
         NavigationView {
@@ -29,19 +29,18 @@ struct MainPageView: View {
                     
                     HStack {
                         Button {
-                          viewModel.filterByPreviousMonth()
-                            viewModel.load()
+                            viewModel.filterByPreviousMonth()
                         } label: {
                             Image(systemName: "arrow.left")
                         }
                         
                         Text(getDateStringFromCurrentMonthIndex(currentMonth: currentMonth)) //set the value of the textfield to be the return value of the getDateStringFromCurrentMonthIndex func so its more dynamic. triggered to update when there is a new value in the function
                             .font(.headline)
-                          //  .padding(.leading, -140)
+                        //  .padding(.leading, -140)
                         
                         Button {
                             viewModel.filterByNextMonth()
-                            viewModel.load()
+                            //   viewModel.load() - removing this because we're now loading it from the filter function
                         } label: {
                             Image(systemName: "arrow.right")
                         }
@@ -49,8 +48,8 @@ struct MainPageView: View {
                     .padding(.bottom,15)
                     
                     .navigationBarTitleDisplayMode(.inline)
-//                    .frame(maxWidth: .infinity,
-//                           maxHeight: .infinity)
+                    //                    .frame(maxWidth: .infinity,
+                    //                           maxHeight: .infinity)
                     
                     //MARK: -- Toolbar item to add new entry
                     .toolbar {
@@ -63,9 +62,9 @@ struct MainPageView: View {
                             }
                         }
                     }
-
                     
-                    //MARK: -- Pie Chart. it only loads the first time it goes to the screen. Doesnt load again. Pies are being passed in correctly. Calculations are fine. 
+                    
+                    //MARK: -- Pie Chart. it only loads the first time it goes to the screen. Doesnt load again. Pies are being passed in correctly. Calculations are fine.
                     GeometryReader {g in
                         ZStack {
                             ForEach(0..<viewModel.pie.count, id: \.self) {i in
@@ -76,7 +75,7 @@ struct MainPageView: View {
                     .frame(height: 290)
                     .padding(.top, 20)
                     .clipShape(Circle())
-        
+                    
                     
                     //MARK: -- Categories and percentages for bar chart. THIS PART UPDATES
                     VStack {
@@ -105,10 +104,12 @@ struct MainPageView: View {
                     }
                 }//end of vstack
                 .onReceive(viewModel.$pie) { pie in
-                    self.pieGraphData = pie
+                    //   self.pieGraphData = pie
+                    print("Pie data: \(pie.count)")
+                    
                 }
             }
-           .background(Color.background)
+            .background(Color.background)
         }
     }
     
@@ -134,18 +135,25 @@ struct DrawShape: View {
             path.move(to: self.center)
             path.addArc(center: self.center, radius: 180, startAngle: .init(degrees: self.from()), endAngle: .init(degrees: self.to()), clockwise: false)
         }
-        .fill(viewModel.pie[index].color)
+        .fill(index >= viewModel.pie.count ? Color.clear : viewModel.pie[index].color)
+        
     }
     
     //since an angle is continuous, we'll need to calculate the angles before and add with the current to get the exact angle
     func from() -> Double {
         if index == 0 {
             return 0
-        }
-        else {
+            
+        } else {
             var temp: Double = 0
-            for i in 0...index-1 {
-                temp += Double(viewModel.pie[i].percent / 100) * 360
+            for i in 0..<index {  //up to but not including index
+                if viewModel.pie.isEmpty {
+                    temp += 0
+                } else {
+                    if index < viewModel.pie.count {
+                        temp += Double(viewModel.pie[i].percent / 100) * 360
+                    }
+                }
             }
             return temp
         }
@@ -155,7 +163,17 @@ struct DrawShape: View {
         var temp: Double = 0
         //need the current degree
         for i in 0...index {
-            temp += Double(viewModel.pie[i].percent / 100) * 360
+            if viewModel.pie.isEmpty {
+                temp += 0
+            } else {
+                print("Index: \(index)")
+                print("PieCount: \(viewModel.pie.count)")
+                print("Array index: \(i)")
+                
+                if index < viewModel.pie.count {
+                    temp += Double(viewModel.pie[i].percent / 100) * 360
+                }
+            }
         }
         return temp
     }

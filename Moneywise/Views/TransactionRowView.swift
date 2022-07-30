@@ -42,10 +42,10 @@ struct TransactionRowView: View {
                .listRowInsets(EdgeInsets())
                 .foregroundColor(Category.Categories.ExpenseType(rawValue: transaction.type ?? "all")?.color)
         }
-        .onAppear
-        {
-            print(transaction)
-        }
+//        .onAppear
+//        {
+//            print(transaction)
+//        }
         .toolbar {
             ToolbarItem {
                 NavigationLink {

@@ -180,8 +180,9 @@ struct TransactionDetailView: View {
                             note: transactionNoteText,
                             imageName: category.CategoryImage
                         )
-                    dismiss()
+
                     }
+                    dismiss()
                 } label: {
                     Text("Save")
                 }

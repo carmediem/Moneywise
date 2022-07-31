@@ -151,7 +151,7 @@ struct TransactionDetailView: View {
                         .frame(alignment: .center)
                     
                 }.sheet(isPresented: $openCameraRoll) {
-                    ImagePicker(selectedImage: $imageSelected, sourceType: .photoLibrary, transaction: transaction!)
+                    ImagePicker(selectedImage: $imageSelected, sourceType: .photoLibrary, transactionNameText: transactionNameText)
                     
                 }
             }

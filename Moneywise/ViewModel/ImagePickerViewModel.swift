@@ -15,7 +15,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage
     @Environment(\.presentationMode) private var presentationMode
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
-    var transaction: Transaction
+    var transactionNameText: String
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
         let imagePicker = UIImagePickerController()
@@ -30,10 +30,10 @@ struct ImagePicker: UIViewControllerRepresentable {
     
     final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         var parent: ImagePicker
-        var transaction: Transaction
-        init(_ parent: ImagePicker, transaction: Transaction) {
+        var transactionNameText: String
+        init(_ parent: ImagePicker, transactionNameText: String) {
             self.parent = parent
-            self.transaction = transaction
+            self.transactionNameText = transactionNameText
         }
         
     
@@ -41,8 +41,9 @@ struct ImagePicker: UIViewControllerRepresentable {
             if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 
                 print("Saving")
+                print(transactionNameText)
                 
-                ImageStorage.shared.saveImageToDocumentDirectory(image: image, name: transaction.name ?? "Transaction Photo")
+                ImageStorage.shared.saveImageToDocumentDirectory(image: image, name: transactionNameText)
                 parent.selectedImage = image
             }
             parent.presentationMode.wrappedValue.dismiss()
@@ -51,6 +52,6 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(self, transaction: transaction)
+        Coordinator(self, transactionNameText: transactionNameText)
     }
 }

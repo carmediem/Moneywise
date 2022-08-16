@@ -21,9 +21,9 @@ When users consistently track their spending, they know where their money goes a
 - Pie Graph - Geometry Reader
 - Currency Data API 
 
-
 <br>
 <img width="150" alt="Screen Shot 2022-08-16 at 12 54 42 PM" src="https://user-images.githubusercontent.com/98146281/184977002-a1267b69-0ab9-4484-8436-8657fe7de01c.png">
+
 **User Authentification**
 <br>
 Finances tend to be personal and private so when the user first logs into the app, the user will authenticate by using the default method of FaceID or TouchID depending on the model of the phone, or by authenticating with their login credentials. 

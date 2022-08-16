@@ -1,4 +1,5 @@
-![ezgif com-gif-maker](https://user-images.githubusercontent.com/98146281/184979536-1c0ca1a4-e7bf-4c28-8e0e-ec16879bc45e.gif)>
+
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/98146281/184979536-1c0ca1a4-e7bf-4c28-8e0e-ec16879bc45e.gif)
 
 
 Moneywise is a personal finance manager that enables users to meet their financial objectives by understanding their spending habits through expense management. In Moneywise, users are able to view and filter their expenses and incomes by category, month, and dollar amount.  For the frequent traveler, there is an in- app currency converter API that updates daily with over 160 exchange rates. 

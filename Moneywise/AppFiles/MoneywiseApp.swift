@@ -18,7 +18,7 @@ struct Moneywise: App {
     
     var body: some Scene {
         WindowGroup {
-            if !authenticationManager.isAuthenticated {
+            if authenticationManager.isAuthenticated {
                 
 AppFlow()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext) //this applies to everywhere in the app. The app flow is a view i defined that. like Initial view controller. Entry point to the app. Every view is using this environment because its in the appflow

@@ -65,7 +65,7 @@ struct MainPageView: View {
                     
                     
                     //MARK: -- Pie Chart. it only loads the first time it goes to the screen. Doesnt load again. Pies are being passed in correctly. Calculations are fine.
-                    GeometryReader {g in
+                    GeometryReader { g in
                         ZStack {
                             ForEach(0..<viewModel.pie.count, id: \.self) {i in
                                 DrawShape(center: CGPoint(x: g.frame(in: .global).width / 2, y: g.frame(in: .global).height / 2), index: i)
@@ -84,7 +84,7 @@ struct MainPageView: View {
                                 Text(category.name)
                                     .frame(width: 150)
                                 
-                                GeometryReader{g in
+                                GeometryReader { g in
                                     HStack {
                                         Spacer(minLength: 0)
                                         Rectangle()

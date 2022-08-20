@@ -35,5 +35,4 @@ struct AppFlow: View {
     }
 }
 
-//opacity for tab button view, alp
 

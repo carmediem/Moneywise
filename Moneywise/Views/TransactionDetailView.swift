@@ -8,15 +8,12 @@
 import SwiftUI
 
 struct TransactionDetailView: View {
-    //MARK: View Model
     @EnvironmentObject var transactionViewModel: TransactionListViewModel
     
     @Environment(\.managedObjectContext) var managedObjectContext
     
     @Environment(\.dismiss) var dismiss: DismissAction
-    
-   // @State private var date = Date()
-    
+        
     @State var transaction: Transaction?
     
     
@@ -31,7 +28,7 @@ struct TransactionDetailView: View {
         transactionNoteText = transaction.note ?? ""
         transactionImage = ImageStorage.shared.loadImageFromDocumentDirectory(nameOfImage: transaction.name!)
         print("transactionImage")
-        print(transactionImage)
+     //   print(transactionImage)
     }
     
     //For uploading image
@@ -39,6 +36,7 @@ struct TransactionDetailView: View {
     @State var openCameraRoll = false
     @State var imageSelected = UIImage()
     
+    //For transaction details
     @State var transactionDateText: Date = Date()
     @State var transactionNameText: String = ""
     @State var category: Category.Categories = .SelectOne
@@ -77,8 +75,7 @@ struct TransactionDetailView: View {
                 HStack {
                     Text("Category:")
                         .bold()
-                    Picker(selection: $category, label: Text("List of categories"))
-                    {
+                    Picker(selection: $category, label: Text("List of categories")) {
                         ForEach(Category.Categories.allCases, id: \.self) { category in
                             Text(category.rawValue)
                                 .onTapGesture {
@@ -100,7 +97,6 @@ struct TransactionDetailView: View {
                     TextField("Placeholder", text: $transactionAmountValue)
                 }
                 
-                
                 HStack {
                     Text("Transaction Type:")
                         .bold()
@@ -118,7 +114,6 @@ struct TransactionDetailView: View {
                 HStack {
                     Text("Notes:")
                         .bold()
-                    
                     TextField("Placeholder", text: $transactionNoteText)
                         .lineLimit(4)
                 }
@@ -132,16 +127,19 @@ struct TransactionDetailView: View {
                         openCameraRoll = true
                         print("Upload photo of transaction")
                     }, label: {
+                        //new photo
                         if uploadTransactionPhoto {
                             Image(uiImage: imageSelected)
                                 .resizable()
                                 .frame(width: 120, height: 120)
                         } else {
+                            //updating a photo
                             if transactionImage != nil {
                                 Image(uiImage: transactionImage!)
                                     .resizable()
                                     .frame(width: 120, height: 120)
                             } else {
+                                //no photo or default
                             Image("receipt")
                                 .resizable()
                                 .frame(width: 140, height: 140)
@@ -152,22 +150,22 @@ struct TransactionDetailView: View {
                     
                 }.sheet(isPresented: $openCameraRoll) {
                     ImagePicker(selectedImage: $imageSelected, sourceType: .photoLibrary, transactionNameText: transactionNameText)
-                    
                 }
             }
         }
         .onAppear {
             setUpViews()
         }.background(Color.background).opacity(30)
-        //end of form
-        
+  
         .navigationTitle("Transaction Details")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     if transaction == nil {
+                        //create transaction
                         transactionViewModel.createTransaction(name: transactionNameText, amount: transactionValue, category: category.rawValue, date: transactionDateText, isReoccuring: transactionReoccuring, merchant: transactionMerchantText, note: transactionNoteText, type: categoryType.rawValue, imageName: category.CategoryImage)
                     } else {
+                        //update transaction
                         transactionViewModel.updateTransaction(
                             transaction,
                             name: transactionNameText,
@@ -180,7 +178,6 @@ struct TransactionDetailView: View {
                             note: transactionNoteText,
                             imageName: category.CategoryImage
                         )
-
                     }
                     dismiss()
                 } label: {

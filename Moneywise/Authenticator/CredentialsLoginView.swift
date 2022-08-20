@@ -24,21 +24,21 @@ struct CredentialsLoginView: View {
             Image("icon")
                 .resizable()
                 .frame(width: 220, height: 220)
-        
-        
-        VStack(spacing: 20) {
-            TextField("Username", text: $username)
-            SecureField("Password", text: $password)
-            PrimaryButton(showImage: false, text: "Login")
-                .onTapGesture {
-                    authentificationManager.authenticateWithCredentials(username: username, password: password)
-                }
-        }
-        .textFieldStyle(.roundedBorder)
+            
+            
+            VStack(spacing: 20) {
+                TextField("Username", text: $username)
+                SecureField("Password", text: $password)
+                PrimaryButton(showImage: false, text: "Login")
+                    .onTapGesture {
+                        authentificationManager.authenticateWithCredentials(username: username, password: password)
+                    }
+            }
+            .textFieldStyle(.roundedBorder)
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }.background(Color.background)
-}
+        }.background(Color.background)
+    }
 }
 struct CredentialsLoginView_Previews: PreviewProvider {
     static var previews: some View {

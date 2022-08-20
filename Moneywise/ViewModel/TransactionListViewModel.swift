@@ -37,12 +37,9 @@ class TransactionListViewModel: ObservableObject {
         let request = NSFetchRequest<Transaction>(entityName: "Transaction")
         request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Transaction.name), ascending: false)]
         
-        
         do {
             let transactions = try PersistenceController.shared.container.viewContext.fetch(request)
             self.filteredTransactions = transactions //start as unfiltered
-         // self.filteredTransactions = transactions ?? []
-          //  self.pie = loadTransactionData(transactions: transactions ?? [])
             completion(transactions)
         } catch {
             print(error)
@@ -52,11 +49,11 @@ class TransactionListViewModel: ObservableObject {
     
     //MARK: -- CRUD FOR TRANSACTIONS
     func createTransaction(name: String, amount: Double, category: String, date: Date, isReoccuring: Bool, merchant: String, note: String, type: String, imageName: String) {
+       
         let context = PersistenceController.shared.container.viewContext
+        
         let transaction = Transaction(name: name, amount: amount, category: category, date: date, transactionId: UUID(), isReoccuring: isReoccuring, merchant: merchant, note: note, type: type, imageName: imageName, context: context)
-        
-      //   filteredTransactions.append(filteredTransactions)
-        
+                
         print(transaction.transactionId)
         do {
             try context.save()//want to make sure we're creating and saving the transaction on the same context.
@@ -84,13 +81,12 @@ class TransactionListViewModel: ObservableObject {
         } catch {
             print(error)
         }
-        
     }
     
     func removeTransaction(transaction: Transaction, with context: NSManagedObjectContext, uuid: String) {
         let transactionsToDeleteRequest: NSFetchRequest<Transaction> = Transaction.fetchRequest()
         let uuidQuery = NSUUID(uuidString: uuid)
-        transactionsToDeleteRequest.predicate = NSPredicate(format: "transactionId = %@", uuidQuery! as CVarArg) //set the predicate for the delete request. It is telling it to look for the uuid that is equal to the argument. Need the key to equal to the value. transactionId needs to be a property in my entity
+        transactionsToDeleteRequest.predicate = NSPredicate(format: "transactionId = %@", uuidQuery! as CVarArg) //set the predicate for the delete request. It is telling it to look for the uuid that is equal to the argument. Need the key to equal to the value.
         if let transactionsToDelete = try? context.fetch(transactionsToDeleteRequest).first {
             print(transactionsToDelete.name)
             filteredTransactions.removeAll { transaction in
@@ -146,7 +142,7 @@ class TransactionListViewModel: ObservableObject {
     
     
     //MARK: -- Filter by month for graph
-    //when inside a completion block, the complier needs to know the difference between the class im in and the function im in
+
     func filterByPreviousMonth() {
         self.load(completion: { transactions in
             self.monthFromCurrent -= 1
@@ -157,7 +153,8 @@ class TransactionListViewModel: ObservableObject {
             print("Transaction Count: \(self.filteredTransactions.count)")
             self.refreshData(transactions: transactions)
             updateMonth(updatedMonth: self.currentMonthNumber + self.monthFromCurrent - 1)
-        //using the func updateMonth so the month displayed updates. subtracts 1 from the current month. reading the variable to the currentmonth. which triggers the update on the getDateStringFromCurrentMonthIndex func
+            //using the func updateMonth so the month displayed updates. subtracts 1 from the current month. reading the variable to the currentmonth which triggers the update on the getDateStringFromCurrentMonthIndex func
+            //redraw the pie and load the updated transaction data
             let newPie = self.loadTransactionData(transactions: self.filteredTransactions)
             self.pie = newPie
             print("Pie Transcation count: \(newPie.count)")
@@ -213,8 +210,6 @@ class TransactionListViewModel: ObservableObject {
     func refreshData(transactions: [Transaction]) {
         self.pie = loadTransactionData(transactions: transactions)
     } //this assigns the data
-
-    
 }
 
 extension Date {

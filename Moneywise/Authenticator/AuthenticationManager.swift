@@ -9,6 +9,8 @@ import Foundation
 import LocalAuthentication
 
 @MainActor
+//MainActor attribute automatically dispatches UI Updates to the main queue
+
 class AuthenticationManager: ObservableObject {
     private(set) var context = LAContext()
     @Published private(set) var biometryType: LABiometryType = .none
@@ -38,7 +40,7 @@ class AuthenticationManager: ObservableObject {
                 let success = try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason)
                 
                 if success {
-                    DispatchQueue.main.async {     //need to use dispatchQueue bc it is no the man thread
+                    DispatchQueue.main.async {     //need to use dispatchQueue bc it is no the main thread
                         self.isAuthenticated = true
         
                         print("isAuthenticated", self.isAuthenticated) //need to reference self bc we're in a closure

@@ -26,8 +26,10 @@ struct TransactionRowView: View {
                     .bold()
                     .font(.headline)
                     .padding(.trailing, -90)
+               
                 Text(transaction.category ?? "Unknown")
                     .font(.system(size: 14))
+              
                 let date = transaction.date
                 let stringDate = DateFormatter.allNumericUSA.string(from: date ?? Date())
                 Text(stringDate)
@@ -40,12 +42,9 @@ struct TransactionRowView: View {
                 .font(.system(size: 18))
                .frame(width: 90, alignment: .trailing)
                .listRowInsets(EdgeInsets())
+                    // set the income or expense colors from switch case
                 .foregroundColor(Category.Categories.ExpenseType(rawValue: transaction.type ?? "all")?.color)
         }
-//        .onAppear
-//        {
-//            print(transaction)
-//        }
         .toolbar {
             ToolbarItem {
                 NavigationLink {

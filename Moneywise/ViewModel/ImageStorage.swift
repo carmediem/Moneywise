@@ -14,7 +14,7 @@ class ImageStorage {
     
     func saveImageToDocumentDirectory(image: UIImage, name: String) {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let fileName = name // name of the image to be saved
+        let fileName = name
         let fileURL = documentsDirectory.appendingPathComponent(fileName)
         if let data = image.jpegData(compressionQuality: 0.2), !FileManager.default.fileExists(atPath: fileURL.path)
         {

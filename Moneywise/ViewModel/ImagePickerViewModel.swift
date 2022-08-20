@@ -13,8 +13,11 @@ import SwiftUI
 
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage
+    
     @Environment(\.presentationMode) private var presentationMode
+    
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
+    
     var transactionNameText: String
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
@@ -39,7 +42,6 @@ struct ImagePicker: UIViewControllerRepresentable {
     
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-                
                 print("Saving")
                 print(transactionNameText)
                 

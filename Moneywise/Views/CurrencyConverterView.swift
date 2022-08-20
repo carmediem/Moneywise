@@ -29,10 +29,7 @@ struct CurrencyConverterView: View {
     
     //use binding variables for amount and itemselected
     var body: some View {
-      //  Color("Background").edgesIgnoringSafeArea(.all)
-
         ZStack {
-         //   Color("Background").edgesIgnoringSafeArea(.all)
             NavigationView {
                 VStack {
                     Spacer()
@@ -49,13 +46,13 @@ struct CurrencyConverterView: View {
                                 }
                             }
                             
-                            //will start at the index of 1, which is EUR in the list of countries
                             Picker(selection: $toCurrency, label: Text("To")) {
                                 ForEach(0 ..< currencies.count) { index in
                                     Text(self.currencies[index]).tag(index)
                                 }
                             }
                         }
+                        
                         Section(header: Text("Conversion")) {
                             TextField("Enter an amount", text: $conversionAmount)
                             Text("\(convert(conversionAmount)) \(currencies[toCurrency])")

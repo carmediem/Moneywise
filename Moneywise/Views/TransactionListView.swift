@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TransactionListView: View {
+    
     @Environment(\.isSearching) var isSearching
     
     @EnvironmentObject var viewModel: TransactionListViewModel
@@ -16,6 +17,10 @@ struct TransactionListView: View {
     
     @State var searchQuery = ""
 
+    @FetchRequest(entity: Transaction.entity(), sortDescriptors: [NSSortDescriptor(key: #keyPath(Transaction.name), ascending: false)])
+        //added this in to fix the search which was only searching filteredtransactions. FetchRequest to get fetchedresults for allTransaction
+    
+    var allTransactions: FetchedResults<Transaction>
     
     var transactionList: some View {
         
@@ -38,8 +43,7 @@ struct TransactionListView: View {
             }
         }
         .listStyle(.plain)
-        //List(viewModel.transactions, id: \.self) { transaction in  // list gives delete option, will also give seperator. for each does not- only lists things out, no extra functionalities
-        
+
         .navigationTitle("List of Transactions")
         
         //MARK: -- Search Bar
@@ -51,14 +55,9 @@ struct TransactionListView: View {
         .onChange(of: searchQuery) { newQuery in   //query is not binding, just listening for changes. modifier is onChange. Whenever the value changes, we'll get a new query to make the search. listening to the changes to the State variable
             viewModel.search(with: newQuery)
         }
-        .onAppear {  //with EmptyView
+        .onAppear {
             viewModel.search() //gives you the list of transactions
         }
-//        .overlay {
-//            if viewModel.filteredTransactions.isEmpty {
-//                EmptyView(searchQuery: $searchQuery)
-//            }
-//        }
     }
     
     
@@ -67,7 +66,7 @@ struct TransactionListView: View {
             VStack {
                 ScrollView {
                     //MARK: -- If there are no transactions
-                    if viewModel.filteredTransactions.isEmpty {
+                    if allTransactions.isEmpty {
                         EmptyTransactionTitle()
                             .padding(.top)
                             .toolbar {
@@ -119,7 +118,6 @@ struct EmptyTransactionTitle: View {
                     .font(.system(.caption, design: .monospaced))
             }.cornerRadius(12)
                 .frame(width: UIScreen.main.bounds.width - 40)
-            //add in picture or animation here to fill up the space
         }
     }
 }
